@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.excel-inspection-solutions.co.uk/sitemaps/sitemap-index.xml

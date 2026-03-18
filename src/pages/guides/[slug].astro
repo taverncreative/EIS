@@ -1,0 +1,75 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from "../../layouts/Layout.astro";
+import Hero from "../../components/Hero.astro";
+import ContentSection from "../../components/ContentSection.astro";
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guides');
+
+  return guides.map((guide) => ({
+    params: { slug: guide.data.slug || guide.id },
+    props: { guide }
+  }));
+}
+
+const { guide } = Astro.props;
+const { Content } = await render(guide);
+---
+
+<Layout title={guide.data.title} description={guide.data.description}>
+  <Hero title={guide.data.title} subtitle="UK LOLER & PUWER Compliance Guide" />
+
+  <ContentSection>
+    <article class="max-w-3xl mx-auto prose prose-lg max-w-none prose-slate">
+
+      <!-- Breadcrumbs -->
+      <nav class="text-sm mb-4 not-prose">
+        <a href="/">Home</a> →
+        <a href="/guides/">Guides</a> →
+        <span>{guide.data.title}</span>
+      </nav>
+
+      <!-- Last updated -->
+      <p class="text-sm text-slate-500">
+        Last updated: {guide.data.updated || guide.data.date}
+      </p>
+
+      <!-- Intro -->
+      <p class="lead">{guide.data.description}</p>
+
+      <!-- Content -->
+      <Content />
+
+      <!-- Service links -->
+      <section class="mt-12 not-prose">
+        <h2 class="text-xl font-semibold mb-4">Related inspections and services</h2>
+        <ul class="grid md:grid-cols-2 gap-3">
+          <li><a href="/loler/lifting-equipment/">Lifting equipment inspections</a></li>
+          <li><a href="/loler/crane-inspections/">Crane inspections</a></li>
+          <li><a href="/loler/passenger-and-goods-lifts-inspections/">Passenger & goods lift inspections</a></li>
+          <li><a href="/loler/work-at-height-equipment-inspections/">MEWP inspections</a></li>
+        </ul>
+      </section>
+
+      <!-- Location signal -->
+      <section class="mt-10 not-prose">
+        <p class="text-slate-600">
+          These regulations apply across the UK including Kent, London and Essex where LOLER compliance is essential.
+        </p>
+      </section>
+
+      <!-- CTA -->
+      <section class="mt-12 bg-brand-navy text-white rounded-2xl p-8 not-prose">
+        <h2 class="text-2xl font-semibold mb-2">Need a LOLER inspection?</h2>
+        <p class="mb-4">
+          We provide certified inspections across lifting equipment, cranes and workplace systems.
+        </p>
+        <a href="/#contact" class="inline-block bg-white text-brand-navy px-6 py-3 rounded-lg font-medium">
+          Request a quote
+        </a>
+      </section>
+
+    </article>
+  </ContentSection>
+</Layout>

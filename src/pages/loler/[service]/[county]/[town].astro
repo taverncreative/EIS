@@ -1,0 +1,185 @@
+---
+// src/pages/loler/[service]/[county]/[town].astro
+
+import CountyPageLayout from '../../../../layouts/CountyPageLayout.astro';
+import CTA from '../../../../components/CTA.astro';
+import { locations, formatLocationName } from '../../../../data/locations';
+
+export async function getStaticPaths() {
+  const services = [
+    "lifting-equipment",
+    "crane-inspections",
+    "mobile-plant-inspection",
+    "work-at-height-equipment-inspections",
+    "garage-equipment-inspections",
+    "passenger-and-goods-lifts-inspections",
+    "firefighting-and-evacuation-lift-inspections"
+  ];
+
+  const counties = ["kent", "london", "essex"];
+  
+  // NOTE: getStaticPaths executes identically in static mode using hoisted imports gracefully!
+  const { locations } = await import('../../../../data/locations.js');
+
+  const paths = [];
+
+  for (const service of services) {
+    for (const county of counties) {
+      const towns = locations[county as keyof typeof locations] || [];
+
+      for (const town of towns) {
+        paths.push({
+          params: { service, county, town }
+        });
+      }
+    }
+  }
+
+  return paths;
+}
+
+const { service, county, town } = Astro.params;
+
+// Map service name cleanly
+const serviceMap: Record<string, string> = {
+  "lifting-equipment": "Lifting Equipment Inspections",
+  "crane-inspections": "Crane Inspections",
+  "mobile-plant-inspection": "Mobile Plant Inspections",
+  "work-at-height-equipment-inspections": "Access Equipment Inspections",
+  "garage-equipment-inspections": "Garage Equipment Inspections",
+  "passenger-and-goods-lifts-inspections": "Passenger and Goods Lift Inspections",
+  "firefighting-and-evacuation-lift-inspections": "Firefighting and Evacuation Lift Inspections"
+};
+
+const serviceName = serviceMap[service as string] || "Inspection Services";
+const towns = locations[county as keyof typeof locations] || [];
+const nearbyTowns = towns.filter((t: string) => t !== town).slice(0, 5);
+
+const formattedTown = formatLocationName(town as string);
+const formattedCounty = formatLocationName(county as string);
+
+const seoTitle = `${serviceName} in ${formattedTown} | LOLER & PUWER Compliance`;
+const seoDescription = `Independent ${serviceName.toLowerCase()} in ${formattedTown}. Fully compliant LOLER and PUWER thorough examinations for businesses and organisations.`;
+
+const schema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": `${serviceName} in ${formattedTown}`,
+  "areaServed": {
+    "@type": "Place",
+    "name": formattedTown
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "Excel Inspection Solutions"
+  }
+});
+---
+
+<CountyPageLayout 
+  title={seoTitle}
+  description={seoDescription}
+  serviceName={serviceName}
+  serviceSlug={service}
+  county={`${formattedCounty} / ${formattedTown}`}
+>
+  <script type="application/ld+json" set:html={schema} slot="head" />
+
+  <p class="lead text-lg text-slate-600 mb-8">
+    We provide fully compliant {serviceName.toLowerCase()} in {formattedTown}, supporting businesses with independent Thorough Examinations in line with LOLER and PUWER regulations. Our inspections ensure equipment remains safe, legally certified, and suitable for continued use.
+  </p>
+
+  <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">What Our Inspections Cover</h2>
+  <p class="mb-4 text-slate-700">
+    We carry out Thorough Examinations on a wide range of equipment used across workplaces in {formattedTown}. This includes lifting systems, mechanical handling equipment, and safety-critical components requiring statutory inspection.
+  </p>
+
+  <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">Sectors We Support</h2>
+  <p class="mb-4 text-slate-700">
+    Our inspection services support businesses across construction, logistics, warehousing, manufacturing, facilities management, and public sector environments throughout {formattedTown}.
+  </p>
+
+  <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">Inspection Services in {formattedTown}</h2>
+  <p class="mb-4 text-slate-700">
+    We operate across {formattedTown} and surrounding areas, helping duty holders maintain compliance and reduce risk. Whether equipment is used daily or intermittently, regular inspection is essential for safe operation.
+  </p>
+
+  <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">Meeting Legal Compliance</h2>
+  <p class="mb-4 text-slate-700">
+    Duty holders are legally required to ensure lifting equipment is inspected at defined intervals. Our independent inspections help businesses in {formattedTown} meet their obligations under LOLER and PUWER.
+  </p>
+  <p class="mb-4 text-slate-700">
+    Businesses requiring 
+    <a href={`/loler/${service}/${county}/`}>
+      {serviceName.toLowerCase()} in {formatLocationName(county as string)}
+    </a> 
+    can also access coverage across nearby locations including 
+    {nearbyTowns.slice(0,2).map((t: string, i: number) => (
+      <>
+        <a href={`/loler/${service}/${county}/${t}/`}>
+          {formatLocationName(t)}
+        </a>{i === 0 ? ', ' : ''}
+      </>
+    ))}.
+  </p>
+
+  <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">Independent Competent Inspections</h2>
+  <p class="mb-4 text-slate-700">
+    All inspections are carried out by qualified Engineer Surveyors, ensuring unbiased reporting and full compliance.
+  </p>
+
+  <hr class="my-12 border-slate-200" />
+
+  <section class="mt-16 border-t pt-10">
+    <div class="mt-12 pt-8 border-t border-slate-200">
+      <h3 class="text-xl font-semibold text-slate-900 mt-8 mb-3">{serviceName} in {formattedCounty}</h3>
+      <ul class="grid md:grid-cols-2 gap-3">
+        <li>
+          <a href={`/loler/${service}/${county}/`} class="font-medium text-slate-800 hover:text-brand-orange transition flex items-center gap-2">
+             <span class="w-1.5 h-1.5 rounded-full bg-brand-orange"></span>
+            {serviceName} in {formattedCounty}
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="mt-12 pt-8 border-t border-slate-200">
+      <h3 class="text-xl font-semibold text-slate-900 mt-8 mb-3">All {serviceName}</h3>
+      <ul class="grid md:grid-cols-2 gap-3">
+        <li>
+          <a href={service === 'lifting-equipment' ? `/${service}-inspections` : `/${service}`} class="font-medium text-slate-800 hover:text-brand-orange transition flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-brand-orange"></span>
+            View all {serviceName.toLowerCase()} across the UK
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="mt-12 pt-8 border-t border-slate-200">
+      <h3 class="text-xl font-semibold text-slate-900 mt-8 mb-3">Nearby {serviceName} Areas</h3>
+      <ul class="grid sm:grid-cols-2 gap-3">
+        {nearbyTowns.map((t: string) => (
+          <li>
+            <a href={`/loler/${service}/${county}/${t}/`} class="font-medium text-slate-800 hover:text-brand-orange transition flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-orange"></span>
+              {serviceName} in {formatLocationName(t)}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <section class="mt-8 mb-6 p-6 bg-slate-50 border border-slate-200 rounded-xl not-prose">
+    <p class="m-0 text-slate-600 font-medium leading-relaxed">
+      This page forms part of our inspection coverage across {formattedCounty}, connecting local service delivery with regional compliance requirements.
+    </p>
+  </section>
+
+  <p class="text-[1.05rem] text-slate-700 mb-10 leading-relaxed">
+    Inspection schedules may vary depending on equipment type, usage, and environment. We can advise on appropriate intervals and ensure full compliance for businesses operating in {formattedTown}.
+  </p>
+
+  <CTA town={formattedTown} />
+
+</CountyPageLayout>

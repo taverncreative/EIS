@@ -1,0 +1,14 @@
+
+> excel-inspection-solutions@0.0.1 dev
+> astro dev
+
+[vite] connected.
+18:40:32 [types] Generated 1ms
+[vite] connected.
+18:40:32 [content] Syncing content
+18:40:32 [content] Synced content
+18:40:32 [vite] Port 4321 is in use, trying another one...
+ astro  v6.0.5 ready in 1572 ms
+┃ Local    http://localhost:4322/
+┃ Network  use --host to expose
+18:40:32 watching for file changes...

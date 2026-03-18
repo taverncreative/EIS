@@ -1,0 +1,47 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --color-brand-navy: #0e1628;
+  --color-brand-form: #1b263b;
+  --color-brand-orange: #f28b03;
+  --color-brand-footer: #0a1120;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-brand-navy);
+    color: white;
+  }
+}
+
+@layer utilities {
+  .lift-shaft-zoom {
+    object-position: 70% center;
+    transform-origin: 70% 25%;
+    animation: slowAscend 20s ease-in-out infinite alternate;
+  }
+
+  @keyframes slowAscend {
+    0% { transform: scale(1.05); }
+    100% { transform: scale(1.35); }
+  }
+
+  .hero-bg-pan {
+    animation: parallaxBg 35s ease-in-out infinite alternate;
+  }
+
+  .hero-fg-pan {
+    animation: parallaxFg 35s ease-in-out infinite alternate;
+  }
+
+  @keyframes parallaxBg {
+    0% { transform: scale(1.15) translateX(2%); }
+    100% { transform: scale(1.15) translateX(-2%); }
+  }
+
+  @keyframes parallaxFg {
+    0% { transform: scale(1.15) translateX(6%); }
+    100% { transform: scale(1.15) translateX(-6%); }
+  }
+}

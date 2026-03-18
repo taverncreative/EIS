@@ -1,0 +1,159 @@
+---
+import ServicePageLayout from '../layouts/ServicePageLayout.astro';
+
+const equipmentList = [
+  "Operation of hydraulic lifting mechanisms",
+  "Condition of platform integrity and guardrails",
+  "Functionality of emergency descent controls",
+  "Signs of wear across chassis and outrigger stability",
+  "Integrity of safety harness anchor points"
+];
+---
+
+<ServicePageLayout 
+  title="Work at Height Equipment Inspections"
+  intro="Secure compliance and protect operators with independent examinations of MEWPs, scaffolding hoists, and fall arrest systems."
+  regulation="LOLER 1998 and WAHR 2005"
+  equipmentList={equipmentList}
+>
+  <p class="mb-4">
+    Work at height equipment inspections are a strict legal requirement. Under the Lifting Operations and Lifting Equipment Regulations 1998 (LOLER) and Work at Height Regulations 2005 (WAHR), duty holders must ensure that all elevating equipment is safe, correctly maintained, and subject to regular independent Thorough Examinations.
+  </p>
+  <p class="mb-4">
+    Responsibility for compliance sits with the duty holder. This typically includes employers, facility managers, and site supervisors. Inspections must be carried out by a competent and independent person at defined intervals.
+  </p>
+  <p class="mb-4">
+    Failure to meet these obligations can result in enforcement action by the Health and Safety Executive (HSE), invalidated insurance policies, and increased risk of equipment failure. Regular inspection ensures both legal compliance and the continued safety of users.
+  </p>
+  <p class="mb-10 text-slate-600 font-medium">
+    We provide work at height equipment inspections across Kent, London, Essex and throughout the UK through our network of qualified Engineer Surveyors.
+  </p>
+
+  <!-- TOPICAL HUB SIGNAL -->
+  <section class="bg-slate-50 border border-slate-200 p-6 rounded-xl mb-10">
+    <p class="text-sm text-slate-700">
+      This page forms part of our wider inspection services covering lifting equipment, cranes, access equipment and plant machinery. Explore related inspection services and compliance guidance throughout our site.
+    </p>
+  </section>
+  
+  <h2 class="text-2xl font-bold text-slate-900 mb-4 tracking-tight mt-12">Executed by Certified Competent Persons</h2>
+  <div class="bg-slate-50 border border-slate-200 p-8 rounded-2xl mb-10 shadow-sm relative overflow-hidden">
+    <div class="absolute right-0 top-0 w-32 h-32 bg-brand-orange/5 rounded-bl-[4rem] pointer-events-none"></div>
+    <p class="mb-4 text-slate-700 relative z-10">
+      The Health and Safety Executive (HSE) requires that Thorough Examinations are carried out by a competent person with the necessary technical knowledge and experience to identify defects and assess their significance.
+    </p>
+    <p class="mb-4 text-slate-700 relative z-10">
+      The competent person must also be independent and impartial. In practice, this means inspection should be carried out separately from routine maintenance to avoid conflicts of interest.
+    </p>
+    <p class="mb-0 text-slate-700 font-medium relative z-10">
+      Our inspections are delivered by qualified Engineer Surveyors operating independently of maintenance providers, ensuring objective reporting and clear compliance outcomes.
+    </p>
+  </div>
+
+  <h2 class="text-2xl font-bold text-slate-900 mb-4 tracking-tight mt-12">What Constitutes Work at Height Equipment?</h2>
+  <p class="mb-4">
+    This category includes equipment specifically designed to elevate personnel securely to physically work at height. This spans Mobile Elevating Work Platforms (MEWPs), cherry pickers, scissor lifts, suspended cradles, and personnel harnesses.
+  </p>
+  <p class="mb-10">
+    Because the primary function of these machines involves the suspension of human life, they are subject to the strictest tier of regulatory scrutiny and inspection intervals under UK law.
+  </p>
+
+  <h2 class="text-2xl font-bold text-slate-900 mb-6 tracking-tight mt-12">The Regulatory Framework</h2>
+  
+  <h3 class="text-xl font-bold text-brand-navy mb-2 mt-6">LOLER 1998</h3>
+  <p class="mb-6">
+    The Lifting Operations and Lifting Equipment Regulations 1998 dictate the strict structural inspection requirements for all lifting platforms and their associated safety harnesses or descent features.
+  </p>
+
+  <h3 class="text-xl font-bold text-brand-navy mb-2 mt-6">WAHR 2005</h3>
+  <p class="mb-10">
+    The Work at Height Regulations 2005 specifically govern the overarching task of working safely at an elevation. It mandates that equipment selected must be suitable, correctly maintained, and formally inspected.
+  </p>
+
+  <h2 class="text-2xl font-bold text-slate-900 mb-4 tracking-tight mt-12">Statutory Inspection Intervals</h2>
+  <p class="mb-4">
+    Under LOLER, the frequency of a Thorough Examination is legally predetermined:
+  </p>
+  <ul class="list-disc pl-6 space-y-2 marker:text-brand-orange mb-6 text-slate-700">
+    <li><strong>Every 6 months:</strong> Mandatory for MEWPs, scissor lifts, and all platforms lifting personnel.</li>
+    <li><strong>Every 6 months:</strong> Mandatory for associated lifting accessories including fall arrest harnesses and lanyards.</li>
+  </ul>
+  <p class="mb-10">
+    Equipment deployed in harsh environments (e.g., highly corrosive industrial plants) may require even more frequent examination schemes.
+  </p>
+
+  <h2 class="text-2xl font-bold text-slate-900 mb-4 tracking-tight mt-12">What is a Thorough Examination?</h2>
+  <p class="mb-4">
+    A Thorough Examination is a systematic, detailed inspection of equipment and safety-critical parts. It is far more rigorous than routine maintenance checks.
+  </p>
+  <p class="mb-4">
+    While maintenance prevents operational breakdown, a Thorough Examination specifically targets hidden structural degradation and safety mechanism functionality. Because it acts as an audit of the equipment's primary safety, it must be conducted entirely independently from routine servicing providers.
+  </p>
+  <p class="mb-10">
+    Following the examination, it is a legal requirement that a detailed statutory report is generated and retained by the duty holder.
+  </p>
+
+  
+
+  <h2 class="text-2xl font-bold text-slate-900 mb-4 tracking-tight mt-12">Related Inspection Services</h2>
+  <p class="mb-4">We carry out Thorough Examinations across a wide range of commercial and industrial equipment. Explore our specific inspection services below:</p>
+  <ul class="flex flex-col gap-3 pl-0 mb-10 font-medium text-slate-700">
+    <li>• <a href="/lifting-equipment-inspections" class="hover:text-brand-orange underline decoration-slate-200 underline-offset-4 transition">Lifting Equipment Inspections</a></li>
+    <li>• <a href="/mobile-plant-inspection" class="hover:text-brand-orange underline decoration-slate-200 underline-offset-4 transition">Mobile Plant Inspections</a></li>
+    <li>• <a href="/passenger-and-goods-lifts-inspections" class="hover:text-brand-orange underline decoration-slate-200 underline-offset-4 transition">Passenger and Goods Lift Inspections</a></li>
+  </ul>
+
+  <!-- DOWNWARD PSEO HUB LINKS -->
+  <section class="mt-12 mb-12">
+    <h3 class="text-xl font-bold text-slate-900 mb-3">
+      Inspection Services by Location
+    </h3>
+    <p class="text-slate-600 mb-4">
+      We deliver inspection services across the UK. View availability in your area:
+    </p>
+    <ul class="space-y-2 text-sm">
+      <li><a href="/loler/work-at-height-equipment-inspections/kent/" class="text-brand-orange underline hover:text-[#e68305] transition">Kent Work at Height Equipment Inspections</a></li>
+      <li><a href="/loler/work-at-height-equipment-inspections/london/" class="text-brand-orange underline hover:text-[#e68305] transition">London Work at Height Equipment Inspections</a></li>
+      <li><a href="/loler/work-at-height-equipment-inspections/essex/" class="text-brand-orange underline hover:text-[#e68305] transition">Essex Work at Height Equipment Inspections</a></li>
+    </ul>
+  </section>
+
+  <h2 class="text-2xl font-bold text-slate-900 mb-4 tracking-tight mt-12">Why Independent Inspections Matter</h2>
+  <p class="mb-10">
+    Regular independent inspections support compliance with UK legislation, reduce the risk of equipment failure, and help duty holders meet their legal responsibilities. They also form an essential part of insurance and audit requirements, ensuring that equipment remains safe for continued use.
+  </p>
+
+  <h2 class="text-2xl font-bold text-slate-900 mb-4 tracking-tight mt-12">Defect Reporting and Certification</h2>
+  <p class="mb-10">
+    Following inspection, a detailed digital report is issued outlining the condition of the equipment, any defects identified, and the next due inspection date. Where serious defects are found, guidance is provided on necessary corrective actions in line with statutory requirements.
+  </p>
+
+  <h2 class="text-3xl font-bold text-slate-900 mb-8 tracking-tight mt-16 border-b border-slate-200 pb-4">Frequently Asked Questions</h2>
+  
+  <div class="space-y-6 mb-12">
+    <div class="bg-slate-50 p-6 rounded-xl border border-slate-100">
+      <h3 class="text-lg font-bold text-brand-navy mb-2">Are MEWP inspections a legal requirement?</h3>
+      <p class="text-slate-600">Yes. Under LOLER 1998, MEWPs and related elevating platforms used at work must undergo regular Thorough Examination.</p>
+    </div>
+    
+    <div class="bg-slate-50 p-6 rounded-xl border border-slate-100">
+      <h3 class="text-lg font-bold text-brand-navy mb-2">How often does a scissor lift need to be inspected?</h3>
+      <p class="text-slate-600">Because they elevate personnel, scissor lifts must be inspected strictly every 6 months under LOLER regulations.</p>
+    </div>
+    
+    <div class="bg-slate-50 p-6 rounded-xl border border-slate-100">
+      <h3 class="text-lg font-bold text-brand-navy mb-2">Who is responsible for arranging platform inspections?</h3>
+      <p class="text-slate-600">The duty holder, which is typically the employer, site contractor, or organisation leasing and using the equipment.</p>
+    </div>
+    
+    <div class="bg-slate-50 p-6 rounded-xl border border-slate-100">
+      <h3 class="text-lg font-bold text-brand-navy mb-2">Do fall arrest harnesses need inspection?</h3>
+      <p class="text-slate-600">Yes. As critical lifting accessories, safety harnesses, lanyards, and anchor points must undergo documented inspection every 6 months.</p>
+    </div>
+    
+    <div class="bg-slate-50 p-6 rounded-xl border border-slate-100">
+      <h3 class="text-lg font-bold text-brand-navy mb-2">What happens if MEWP inspections are missed?</h3>
+      <p class="text-slate-600">Non-compliance compromises worker safety, can lead to HSE prohibition notices, and fully invalidates active liability insurance.</p>
+    </div>
+  </div>
+</ServicePageLayout>

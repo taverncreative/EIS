@@ -1,0 +1,66 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const faqs = [
+  { q: "What does Excel Inspection Solutions do?", a: "We carry out statutory inspections across the UK under LOLER, PUWER, and PSSR — including lifts, cranes, pressure systems, garage equipment, and more." },
+  { q: "What are statutory inspections?", a: "They are legally required checks on certain types of equipment to ensure they are safe to use. This includes lifting equipment, pressure vessels, and work equipment." },
+  { q: "What industries do you work with?", a: "We work with property managers, care homes, FM providers, councils, garages, hospitals, construction companies, and private homeowners." },
+  { q: "What areas do you cover?", a: "We operate nationwide, with surveyors covering Kent, London, Essex, Surrey, Sussex, and beyond — including Gibraltar." },
+  { q: "Are your surveyors qualified?", a: "Yes. All our engineer surveyors are fully qualified and experienced in LOLER, PUWER, and PSSR inspections." },
+  { q: "Do you provide reports and certificates?", a: "Yes. You’ll receive a digital PDF report for every inspection, including photographic evidence and clear notes on compliance or defects." },
+  { q: "What happens if equipment fails the inspection?", a: "If something is unsafe or non-compliant, we’ll advise it be removed from service and explain what remedial action is needed." },
+  { q: "Do you carry out repairs or maintenance?", a: "No. We’re an independent inspection provider. We do not repair or maintain equipment, but we provide clear reports for your contractor to act on." },
+  { q: "How often should equipment be inspected?", a: "That depends on the equipment. For example, lifts for people usually require 6-monthly inspections under LOLER, while pressure systems vary based on their WSE." },
+  { q: "Do you create Written Schemes of Examination (WSE)?", a: "Yes. We can create or review your WSE for pressure systems as part of a PSSR inspection." },
+  { q: "Can you inspect equipment across multiple sites?", a: "Absolutely. We support clients with equipment spread across multiple locations and offer centralised reporting and scheduling." },
+  { q: "What types of lifts do you inspect?", a: "We inspect passenger lifts, home lifts, platform lifts, dumbwaiters, firefighting lifts, and evacuation lifts." },
+  { q: "Do you inspect MEWPs and mobile plant?", a: "Yes. We inspect cherry pickers, scissor lifts, lorry loaders, mobile cranes, and vehicle-mounted platforms." },
+  { q: "Can you inspect my garage or MOT bay equipment?", a: "We do. We inspect vehicle lifts, axle stands, jacks, engine cranes and air receivers in line with LOLER, PUWER and PSSR." },
+  { q: "Do you inspect work-at-height equipment?", a: "Yes. We inspect ladders, harnesses, fall arrest kits, walkways, anchor points and roof safety systems." },
+  { q: "Do you inspect equipment in residential buildings?", a: "Yes. We support block managers, housing associations and landlords with lift inspections, condition surveys and Regulation 7 checks." },
+  { q: "Do you inspect pressure systems like air receivers and boilers?", a: "Yes. We carry out PSSR inspections and provide WSE support for air receivers, café boilers, steam systems and more." },
+  { q: "Do you offer condition surveys or audits?", a: "Yes. We offer condition surveys for lifts and audits of maintenance providers to support compliance and long-term planning." },
+  { q: "Can I view a sample report?", a: "Yes — we’re happy to send an example LOLER, PUWER or PSSR report so you know what to expect." },
+  { q: "How do I book an inspection?", a: "Email enquiries@eis-uk.com or call 01634 907073. We’ll arrange a convenient appointment and guide you through the process." }
+];
+---
+
+<Layout title="Excel Inspection Solutions | FAQ">
+  
+  <!-- HERO SECTION -->
+  <section class="max-w-7xl mx-auto px-6 pt-24 pb-12 relative overflow-visible text-center">
+    <h1 class="text-5xl md:text-[4.5rem] lg:text-[5.5rem] font-bold text-white leading-[1.1] tracking-tight">
+      Frequently Asked<br/>
+      <span class="text-white">Questions</span>
+    </h1>
+  </section>
+
+  <!-- CONTENT SECTION -->
+  <section class="bg-white text-slate-900 pt-32 pb-48 rounded-t-[3rem] mt-12 shadow-2xl relative z-20 min-h-screen">
+    
+    <!-- Intro Paragraph -->
+    <div class="max-w-[900px] mx-auto px-6 text-center mb-28">
+      <p class="text-slate-800 font-medium leading-[2] text-[1.1rem]">
+        At Excel Inspection Solutions, we specialise in statutory inspections to help you stay compliant with UK safety regulations. Whether you're responsible for lifting equipment, pressure systems, or workplace machinery, we're here to make things straightforward. Below you'll find answers to some of the most common questions our clients ask. If you need anything more specific, get in touch — we're happy to help.
+      </p>
+    </div>
+
+    <!-- FAQ List -->
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="border-t border-slate-300">
+        {faqs.map(faq => (
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-16 py-10 border-b border-slate-300 items-start">
+            <div class="md:col-span-5 pt-1">
+              <h3 class="text-brand-orange text-[1.35rem] font-normal leading-snug tracking-wide">{faq.q}</h3>
+            </div>
+            <div class="md:col-span-7">
+              <p class="text-slate-800 text-[1.05rem] leading-loose font-medium">{faq.a}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+  </section>
+
+</Layout>

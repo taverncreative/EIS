@@ -1,0 +1,36 @@
+---
+const { currentPath = Astro.url.pathname } = Astro.props;
+
+const allServices = [
+  { title: "Lifting Equipment", path: "/lifting-equipment-inspections" },
+  { title: "Mobile Plant", path: "/mobile-plant-inspection" },
+  { title: "Garage Equipment", path: "/garage-equipment-inspections" },
+  { title: "Passenger & Goods Lifts", path: "/passenger-and-goods-lifts-inspections" },
+  { title: "Cranes", path: "/crane-inspections" },
+  { title: "Firefighting Lifts", path: "/firefighting-and-evacuation-lift-inspections" },
+  { title: "Work at Height", path: "/work-at-height-equipment-inspections" }
+];
+
+// Clean path for comparison
+const cleanCurrent = currentPath.replace(/\/$/, '');
+
+const related = allServices
+  .filter(s => s.path !== cleanCurrent)
+  .sort(() => 0.5 - Math.random())
+  .slice(0, 5);
+---
+
+<div class="mt-8 bg-transparent p-4 relative pt-10">
+  <div class="flex items-center gap-3 mb-6 border-b border-brand-orange/30 pb-4 inline-flex">
+    <h3 class="text-xl lg:text-2xl font-medium text-brand-orange">Supporting Your Wider<br/>Compliance Requirements</h3>
+  </div>
+  
+  <div class="flex flex-col gap-1 relative z-10 w-full">
+    {related.map(service => (
+      <a href={service.path} class="group flex items-start gap-3 text-slate-800 font-medium hover:text-brand-orange hover:bg-white hover:shadow-sm transition-all py-3 px-3 rounded-xl border-b border-slate-200 last:border-0 hover:border-transparent">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-brand-orange/60 group-hover:text-brand-orange transition-transform shrink-0 mt-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+        <span class="underline decoration-slate-300 underline-offset-4 group-hover:decoration-brand-orange/40 transition-colors text-[0.95rem] leading-snug">{service.title} Statutory Compliance UK</span>
+      </a>
+    ))}
+  </div>
+</div>

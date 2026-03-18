@@ -1,0 +1,13 @@
+---
+const { town } = Astro.props;
+---
+<div class="bg-brand-navy text-white rounded-[2rem] p-10 text-center mb-10 shadow-lg shadow-brand-navy/10 relative overflow-hidden not-prose">
+  <div class="absolute right-0 top-0 w-32 h-32 bg-brand-orange/10 rounded-bl-[4rem] pointer-events-none"></div>
+  <h3 class="text-2xl font-bold mb-4 tracking-tight text-white m-0">Book an Inspection in {town}</h3>
+  <p class="text-slate-300 md:text-[1.05rem] mb-8 max-w-lg mx-auto leading-relaxed">
+    Contact us to arrange a Thorough Examination in {town} and ensure your equipment remains compliant and safe.
+  </p>
+  <a href="/#contact" class="inline-block bg-brand-orange text-white font-bold py-3.5 px-8 rounded-xl hover:bg-orange-600 transition shadow-lg shadow-brand-orange/20">
+    Request Inspection Quote
+  </a>
+</div>

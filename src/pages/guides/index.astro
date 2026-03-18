@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/Hero.astro';
+
+const guides = await getCollection('guides');
+---
+
+<Layout title="LOLER & PUWER Guides" description="Expert guides on inspections, compliance and safety.">
+  <Hero title="LOLER & PUWER Guides" subtitle="Expert guidance on lifting equipment compliance, inspections, and UK regulations" />
+
+  <section class="bg-white text-slate-900 w-full relative z-10">
+    <div class="max-w-5xl mx-auto px-6 py-12">
+      <h1 class="text-3xl font-bold mb-6">Guides</h1>
+
+      <ul class="grid md:grid-cols-2 gap-6">
+        {guides.map((guide) => (
+          <li class="border border-slate-200 rounded-xl p-6 bg-white shadow-sm hover:shadow-md transition">
+            <a href={`/guides/${guide.data.slug}/`} class="text-xl font-semibold block mb-2 text-brand-orange hover:text-orange-600">
+              {guide.data.title}
+            </a>
+            <p class="text-slate-600">{guide.data.description}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,127 @@
+---
+import CountyPageLayout from '../../../layouts/CountyPageLayout.astro';
+import CTA from '../../../components/CTA.astro';
+import { locations, formatLocationName } from '../../../data/locations';
+
+const serviceName = "Passenger and Goods Lifts Inspections";
+const serviceSlug = "passenger-and-goods-lifts-inspections";
+const county = "london";
+
+const towns = locations[county];
+
+const siblings = [
+  { name: "Kent", slug: "kent" },
+  { name: "Essex", slug: "essex" }
+];
+
+const formattedCountyName = formatLocationName(county);
+const seoTitle = `${serviceName} in ${formattedCountyName} | LOLER & PUWER Compliance`;
+const seoDescription = `Independent ${serviceName.toLowerCase()} in ${formattedCountyName}. Fully compliant LOLER and PUWER thorough examinations for businesses and organisations.`;
+
+const schema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": `${serviceName} in ${formattedCountyName}`,
+  "areaServed": {
+    "@type": "AdministrativeArea",
+    "name": formattedCountyName
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "Excel Inspection Solutions"
+  }
+});
+---
+
+
+<CountyPageLayout 
+  title={seoTitle}
+  description={seoDescription}
+  serviceName={serviceName}
+  serviceSlug={serviceSlug}
+  county={formatLocationName(county)}
+>
+  <script type="application/ld+json" set:html={schema} slot="head" />
+
+  <p class="lead text-lg text-slate-600 mb-8">
+    Operating safe lifting equipment is a strict requirement for businesses across the South East. Whether managing logistics hubs, construction sites, or public sector facilities, the Lifting Operations and Lifting Equipment Regulations 1998 (LOLER) mandate regular, independent Thorough Examinations.
+  </p>
+  <p class="mb-4 text-slate-700">
+    Our local network of qualified Engineer Surveyors provides fast, responsive, and impartial {serviceName.toLowerCase()} across the entire county of {formatLocationName(county)}.
+  </p>
+
+  <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">Your Legal Responsibilities as a Duty Holder</h2>
+  <p class="mb-4 text-slate-700">
+    Under UK safety law, the ultimate responsibility for ensuring equipment is safe to use falls on the Duty Holder—typically the employer, building owner, or facility manager. Both LOLER 1998 and the Provision and Use of Work Equipment Regulations (PUWER 1998) dictate that lifting equipment must be independently verified. Failure to provide active certification can result in immediate Health and Safety Executive (HSE) enforcement action and invalidated liability insurance.
+  </p>
+
+  <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">Supporting Commercial and Industrial Environments</h2>
+  <p class="mb-4 text-slate-700">
+    The diverse commercial landscape requires structured compliance solutions. From warehousing and manufacturing plants to independent automotive garages and large healthcare trusts, our inspection regimes are tailored to the specific environmental stresses and intensive usage your lifting apparatus faces.
+  </p>
+
+  <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">Executed by Certified Competent Persons</h2>
+  <p class="mb-4 text-slate-700">
+    The HSE explicitly requires statutory examinations to be executed by a competent person possessing the necessary theoretical knowledge and practical experience to impartially detect defects.
+  </p>
+  <p class="mb-4 text-slate-700">
+    Operating entirely independently of maintenance and servicing providers, our qualified Engineer Surveyors provide the objective, unbiased statutory reporting your compliance demands.
+  </p>
+
+  <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">What Our Examinations Cover</h2>
+  <p class="mb-4 text-slate-700">
+    A Thorough Examination acts as an audit of your equipment's primary safety mechanisms. Unlike routine mechanical servicing that prioritizes operational uptime, statutory inspections target concealed structural fatigue, load-bearing capacities, and emergency descent protocol integrity to guarantee the absolute safety of suspended loads and personnel alike.
+  </p>
+
+  <hr class="my-12 border-slate-200" />
+
+  <section class="mt-16 border-t pt-10">
+    <div class="mt-12 pt-8 border-t border-slate-200">
+      <h3 class="text-xl font-semibold text-slate-900 mt-8 mb-3">Service Overview</h3>
+      <ul class="grid md:grid-cols-2 gap-3">
+        <li>
+          <a href={serviceSlug === 'lifting-equipment-inspections' || serviceSlug === 'lifting-equipment' ? '/lifting-equipment-inspections' : `/${serviceSlug}`} class="font-medium text-slate-800 hover:text-brand-orange transition flex items-center gap-2">
+             <span class="w-1.5 h-1.5 rounded-full bg-brand-orange"></span>
+            View all {serviceName} across the UK
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="mt-12 pt-8 border-t border-slate-200">
+      <h3 class="text-xl font-semibold text-slate-900 mt-8 mb-3">Neighboring Counties</h3>
+      <ul class="grid md:grid-cols-2 gap-3">
+        {siblings.map(sibling => (
+          <li>
+            <a href={`/loler/${serviceSlug}/${sibling.slug}/`} class="font-medium text-slate-800 hover:text-brand-orange transition flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-orange"></span>
+              {serviceName} in {sibling.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="mt-12 pt-8 border-t border-slate-200">
+      <h3 class="text-xl font-semibold text-slate-900 mt-8 mb-3">Local Town Coverage</h3>
+      <ul class="grid sm:grid-cols-2 gap-3">
+        {towns?.map(town => (
+          <li>
+            <a href={`/loler/${serviceSlug}/${county}/${town}/`} class="font-medium text-slate-800 hover:text-brand-orange transition flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-orange"></span>
+              {serviceName} in {formatLocationName(town)}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="mt-10 mb-12 p-6 bg-slate-50 border border-slate-200 rounded-xl not-prose">
+    <p class="text-slate-600 mb-0 font-medium leading-relaxed">
+      This page acts as a regional hub for {serviceName.toLowerCase()} in {formatLocationName(county)}, connecting service-level guidance with local inspection coverage across towns and surrounding areas.
+    </p>
+  </section>
+
+  <CTA town={formatLocationName(county)} />
+</CountyPageLayout>

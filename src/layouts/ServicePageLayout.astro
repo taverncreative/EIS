@@ -1,0 +1,111 @@
+---
+import Layout from './Layout.astro';
+import Hero from '../components/Hero.astro';
+import RelatedServices from '../components/RelatedServices.astro';
+import EquipmentLinks from '../components/EquipmentLinks.astro';
+import LocationLinks from '../components/LocationLinks.astro';
+
+const { title, intro, regulation, equipmentList } = Astro.props;
+---
+<Layout title={`Excel Inspection Solutions | ${title}`}>
+  <!-- Hero Section -->
+  <Hero title={title} subtitle="Service Overview" />
+
+  <!-- Overlapping Main Content Wrap -->
+  <section class="bg-[#f2f2f4] text-slate-900 relative z-20 rounded-t-[3rem] -mt-16 shadow-[0_-20px_50px_rgba(0,0,0,0.2)]">
+    
+    <!-- Dots Pattern Top Right -->
+    <div class="absolute right-0 top-0 w-48 h-48 opacity-40 pointer-events-none mix-blend-multiply rounded-bl-[3rem] overflow-hidden">
+       <div class="w-full h-full" style="background-image: url('/images/orange_circles.jpg'); background-size: cover; background-repeat: no-repeat; background-position: top right;"></div>
+    </div>
+
+    <section class="max-w-7xl mx-auto px-6 py-24 grid grid-cols-1 lg:grid-cols-12 gap-16 items-start relative z-10">
+      
+      <!-- LEFT: What This Covers -->
+      <div class="lg:col-span-7">
+        
+        <!-- FIX 1: Semantic Breadcrumb Reinforcement -->
+        <nav class="text-[0.95rem] text-slate-500 font-medium mb-10 flex items-center gap-2">
+          <a href="/" class="hover:text-brand-orange transition">Home</a>
+          <span class="text-slate-300">/</span>
+          <a href="/lifting-equipment-inspections" class="hover:text-brand-orange transition">Services</a>
+          <span class="text-slate-300">/</span>
+          <span class="text-slate-800">{title}</span>
+        </nav>
+
+        <h2 class="text-3xl md:text-4xl lg:text-5xl text-brand-orange font-medium mb-10 leading-[1.2] tracking-tight">Thorough Examinations for {title.replace(/ Inspections?/ig, '')}</h2>
+        <p class="text-slate-600 text-lg mb-8">{intro}</p>
+        <div class="prose prose-lg prose-slate max-w-none prose-h2:mt-10 prose-h2:mb-4 prose-p:mb-4">
+          <slot />
+        </div>
+        
+        <!-- FIX 5: Strong Hub Signal -->
+        <section class="mt-8 mb-12 bg-white rounded-[2rem] p-10 border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4 tracking-tight">Explore {title} Across the South East</h2>
+          <p class="text-slate-600 font-normal leading-relaxed text-[1.05rem]">
+            We deliver {title.toLowerCase()} across Kent, London and Essex, supporting commercial and public sector clients with fully compliant, independent statutory inspection services.
+          </p>
+        </section>
+      
+      <EquipmentLinks regulation={regulation} />
+      <LocationLinks regulation={regulation} title={title} county="Kent" />
+    </div>
+    
+      <!-- RIGHT: Regulatory Compliance & Links -->
+      <div class="lg:col-span-5 relative">
+        <div class="sticky top-32">
+          <div class="bg-white border border-slate-100 rounded-[2rem] p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-10 relative overflow-hidden group hover:shadow-[0_8px_30px_rgb(242,139,3,0.1)] transition-shadow duration-300">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-brand-orange/5 rounded-bl-[4rem] pointer-events-none group-hover:bg-brand-orange/10 transition-colors"></div>
+            
+            <div class="w-14 h-14 bg-brand-orange/10 rounded-2xl flex items-center justify-center mb-6 text-brand-orange">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-900 mb-4 tracking-tight">Regulatory Compliance</h3>
+            <p class="text-slate-600 font-normal leading-relaxed text-lg">
+              Ensure strict adherence to the latest structural and safety standards. Our fully certified examinations directly satisfy compliance mandates for 
+              <span class="text-brand-orange font-semibold block mt-1 tracking-wide">{regulation}</span>.
+            </p>
+          </div>
+          
+          <!-- Cross-linking between service pages -->
+          <RelatedServices />
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Inspection Section: What Is Checked -->
+  <section class="bg-[#10192e] py-24 relative overflow-hidden">
+    <div class="absolute left-0 top-0 opacity-10 pointer-events-none mix-blend-screen w-56 h-56" style="background-image: url('/images/orange_circles.jpg'); background-size: contain; background-repeat: no-repeat; background-position: top left;"></div>
+    
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      <div class="mb-16 text-center">
+        <h2 class="text-4xl md:text-5xl font-medium text-white tracking-tight">What Is <span class="text-brand-orange font-bold">Checked</span></h2>
+        <p class="text-slate-400 mt-4 text-lg">Detailed reviews verify all critical safety and mechanical elements flawlessly.</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+        {equipmentList.map((item: string) => (
+          <div class="bg-slate-800/40 backdrop-blur-sm rounded-2xl p-6 flex items-start gap-4 border border-slate-700 hover:border-brand-orange/60 hover:bg-slate-800/80 transition-all duration-300">
+            <div class="w-8 h-8 rounded-full bg-brand-orange flex items-center justify-center shrink-0 mt-1 shadow-lg shadow-brand-orange/30">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+            </div>
+            <p class="text-white text-[1.05rem] font-normal pt-[0.1rem] tracking-wide">{item}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="bg-brand-orange py-32 text-center relative overflow-hidden">
+    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white/20 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="max-w-4xl mx-auto px-6 relative z-10">
+      <h2 class="text-4xl md:text-5xl font-bold text-brand-navy mb-6 tracking-tight">Ensure Supreme Safety</h2>
+      <p class="text-[1.15rem] md:text-xl text-brand-navy/80 mb-10 font-normal">Speak with our certified surveying specialists today and lock in your statutory examinations.</p>
+      <a href="/#contact" class="inline-block bg-brand-navy hover:bg-white hover:text-brand-navy text-white font-bold py-5 px-12 rounded-2xl transition duration-300 text-lg shadow-[0_10px_30px_rgb(10,17,32,0.3)] hover:shadow-2xl hover:-translate-y-1">
+        Contact Us Today
+      </a>
+    </div>
+  </section>
+</Layout>

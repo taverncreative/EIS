@@ -1,0 +1,32 @@
+---
+const { regulation = "", category = "" } = Astro.props;
+
+// Mock database for equipment programmatic pages based on regulation/category
+const equipmentDatabase = [
+  { name: "Scissor Lifts", reg: "LOLER 1998 and PUWER 1998", slug: "scissor-lifts" },
+  { name: "Platform Lifts", reg: "LOLER 1998 and PUWER 1998", slug: "platform-lifts" },
+  { name: "Excavators", reg: "LOLER and PUWER", slug: "excavators" },
+  { name: "Telehandlers", reg: "LOLER and PUWER", slug: "telehandlers" },
+  { name: "Vehicle Lifts", reg: "PUWER", slug: "vehicle-lifts" },
+  { name: "Brake Testers", reg: "PUWER", slug: "brake-testers" },
+  { name: "Passenger Lifts", reg: "LOLER", slug: "passenger-lifts" },
+  { name: "Tower Cranes", reg: "LOLER", slug: "tower-cranes" },
+  { name: "Harness Systems", reg: "WAHR", slug: "harness-systems" }
+];
+
+const links = equipmentDatabase
+  .filter(eq => eq.reg.includes(regulation) || (category && eq.reg.includes(category)))
+  .slice(0, 6);
+---
+{links.length > 0 && (
+  <div class="mt-12 bg-white rounded-[2rem] p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 relative overflow-hidden">
+    <h3 class="text-xl font-bold text-slate-900 mb-6">Specific {regulation.split(' ')[0]} Equipment Covered</h3>
+    <div class="flex flex-wrap gap-3">
+      {links.map(eq => (
+        <span class="bg-slate-50 border border-slate-200 text-slate-700 font-medium text-[0.95rem] py-2 px-5 rounded-full shadow-sm">
+          {regulation.split(' ')[0]} {eq.name} Inspections
+        </span>
+      ))}
+    </div>
+  </div>
+)}
