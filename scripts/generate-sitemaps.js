@@ -72,16 +72,21 @@ const indexXml = `<?xml version="1.0" encoding="UTF-8"?>
   </sitemap>
 </sitemapindex>`;
 
-// Write outputs to public directory
-const publicDir = path.join(process.cwd(), 'dist'); // Output straight to dist to respect final built outputs
-const sitemapsDir = path.join(publicDir, 'sitemaps');
+// Write to both dist/ (for local preview) and public/ (so hosting platforms include them)
+const dirs = [
+  path.join(process.cwd(), 'dist'),
+  path.join(process.cwd(), 'public')
+];
 
-if (!fs.existsSync(publicDir)) fs.mkdirSync(publicDir, { recursive: true });
-if (!fs.existsSync(sitemapsDir)) fs.mkdirSync(sitemapsDir, { recursive: true });
+for (const dir of dirs) {
+  const sitemapsDir = path.join(dir, 'sitemaps');
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  if (!fs.existsSync(sitemapsDir)) fs.mkdirSync(sitemapsDir, { recursive: true });
 
-fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), indexXml);
-fs.writeFileSync(path.join(sitemapsDir, 'services.xml'), servicesXml);
-fs.writeFileSync(path.join(sitemapsDir, 'counties.xml'), countiesXml);
-fs.writeFileSync(path.join(sitemapsDir, 'towns.xml'), townsXml);
+  fs.writeFileSync(path.join(dir, 'sitemap.xml'), indexXml);
+  fs.writeFileSync(path.join(sitemapsDir, 'services.xml'), servicesXml);
+  fs.writeFileSync(path.join(sitemapsDir, 'counties.xml'), countiesXml);
+  fs.writeFileSync(path.join(sitemapsDir, 'towns.xml'), townsXml);
+}
 
 console.log("✅ Successfully generated clustered XML sitemaps.");
