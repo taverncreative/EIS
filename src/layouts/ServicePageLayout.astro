@@ -4,10 +4,39 @@ import Hero from '../components/Hero.astro';
 import RelatedServices from '../components/RelatedServices.astro';
 import EquipmentLinks from '../components/EquipmentLinks.astro';
 import LocationLinks from '../components/LocationLinks.astro';
+import ServiceSchema from '../components/schema/ServiceSchema.astro';
+import BreadcrumbSchema from '../components/schema/BreadcrumbSchema.astro';
+import FAQSchema from '../components/schema/FAQSchema.astro';
 
-const { title, intro, regulation, equipmentList } = Astro.props;
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  title: string;
+  intro: string;
+  regulation: string;
+  equipmentList: string[];
+  faqs?: FAQItem[];
+}
+
+const { title, intro, regulation, equipmentList, faqs } = Astro.props;
+
+const siteBase = 'https://www.eis-uk.com';
+const pageUrl = `${siteBase}${Astro.url.pathname}`;
+
+const breadcrumbs = [
+  { name: 'Home', url: siteBase },
+  { name: title, url: pageUrl }
+];
 ---
-<Layout title={`Excel Inspection Solutions | ${title}`}>
+<Layout title={`${title} | Excel Inspection Solutions`} description={intro}>
+  <Fragment slot="head">
+    <ServiceSchema name={title} description={intro} url={pageUrl} />
+    <BreadcrumbSchema items={breadcrumbs} />
+    {faqs && faqs.length > 0 && <FAQSchema faqs={faqs} />}
+  </Fragment>
   <!-- Hero Section -->
   <Hero title={title} subtitle="Service Overview" />
 

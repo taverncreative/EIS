@@ -1,0 +1,54 @@
+---
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": "https://www.eis-uk.com/#localbusiness",
+  "name": "Excel Inspection Solutions Ltd",
+  "url": "https://www.eis-uk.com",
+  "logo": "https://www.eis-uk.com/images/logo.png",
+  "telephone": "+441634907073",
+  "email": "enquiries@eis-uk.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Suite 2086, 6-8 Revenge Road",
+    "addressLocality": "Chatham",
+    "addressRegion": "Kent",
+    "postalCode": "ME5 8UD",
+    "addressCountry": "GB"
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "opens": "08:00",
+      "closes": "20:00"
+    }
+  ],
+  "areaServed": [
+    { "@type": "AdministrativeArea", "name": "Kent" },
+    { "@type": "AdministrativeArea", "name": "London" },
+    { "@type": "AdministrativeArea", "name": "Surrey" },
+    { "@type": "AdministrativeArea", "name": "Essex" },
+    { "@type": "AdministrativeArea", "name": "East Sussex" }
+  ],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5.0",
+    "reviewCount": "41",
+    "bestRating": "5",
+    "worstRating": "1"
+  },
+  "parentOrganization": {
+    "@id": "https://www.eis-uk.com/#organisation"
+  }
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

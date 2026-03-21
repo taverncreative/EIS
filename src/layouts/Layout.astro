@@ -1,21 +1,61 @@
 ---
 import '../styles/global.css';
+import OrganisationSchema from '../components/schema/OrganisationSchema.astro';
+import LocalBusinessSchema from '../components/schema/LocalBusinessSchema.astro';
 
-const { title = "Excel Inspection Solutions", description = "Independent statutory examinations and lifting equipment inspections supporting LOLER and PUWER compliance." } = Astro.props;
+const {
+  title = "Excel Inspection Solutions",
+  description = "Independent statutory examinations and lifting equipment inspections supporting LOLER and PUWER compliance.",
+  ogImage = "/images/og-default.jpg",
+  ogType = "website"
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL(ogImage, Astro.site);
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="en-GB" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site || 'https://www.excel-inspection-solutions.co.uk')} />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="alternate" hreflang="en-GB" href={canonicalURL} />
+    <link rel="alternate" hreflang="x-default" href={canonicalURL} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:site_name" content="Excel Inspection Solutions" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+
+    <OrganisationSchema />
+    <LocalBusinessSchema />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Excel Inspection Solutions",
+      "url": "https://www.eis-uk.com",
+      "publisher": { "@id": "https://www.eis-uk.com/#organisation" }
+    })} />
     <slot name="head" />
   </head>
   <body class="bg-brand-navy min-h-screen text-slate-900 flex flex-col font-sans">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:bg-brand-orange focus:text-brand-navy focus:px-4 focus:py-2 focus:rounded-lg focus:font-bold">
+      Skip to main content
+    </a>
     <div class="desktop-only text-sm border-b border-brand-navy/30 py-3 hidden lg:block bg-[#0f172a] absolute w-full z-50"></div>
     
     <!-- NAVBAR -->
@@ -66,6 +106,37 @@ const { title = "Excel Inspection Solutions", description = "Independent statuto
             </div>
           </li>
           
+          <!-- COVERAGE AREAS MENU -->
+          <li class="relative group">
+            <a href="/loler/lifting-equipment/kent" class="hover:text-white transition flex items-center gap-1 py-4 lg:py-0">
+              Coverage Areas <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 transition group-hover:rotate-180" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </a>
+            <div class="lg:absolute left-1/2 lg:-translate-x-1/2 top-full lg:pt-8
+                        hidden group-hover:block w-full lg:w-max opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <div class="bg-[#0e1628] lg:border border-slate-700/60 rounded-2xl shadow-2xl p-8 px-12 grid grid-cols-1 md:grid-cols-3 gap-x-16 gap-y-5 relative">
+                <div class="absolute -top-8 left-0 right-0 h-8 bg-transparent"></div>
+                <div class="flex flex-col gap-4">
+                  <span class="text-brand-orange font-bold text-sm tracking-widest uppercase">Kent</span>
+                  <a href="/loler/lifting-equipment/kent" class="hover:text-brand-orange transition whitespace-nowrap text-white font-semibold">Lifting Equipment</a>
+                  <a href="/loler/crane-inspections/kent" class="hover:text-brand-orange transition whitespace-nowrap text-white font-semibold">Crane Inspections</a>
+                  <a href="/loler/passenger-and-goods-lifts-inspections/kent" class="hover:text-brand-orange transition whitespace-nowrap text-white font-semibold">Passenger & Goods Lifts</a>
+                </div>
+                <div class="flex flex-col gap-4">
+                  <span class="text-brand-orange font-bold text-sm tracking-widest uppercase">London</span>
+                  <a href="/loler/lifting-equipment/london" class="hover:text-brand-orange transition whitespace-nowrap text-white font-semibold">Lifting Equipment</a>
+                  <a href="/loler/crane-inspections/london" class="hover:text-brand-orange transition whitespace-nowrap text-white font-semibold">Crane Inspections</a>
+                  <a href="/loler/passenger-and-goods-lifts-inspections/london" class="hover:text-brand-orange transition whitespace-nowrap text-white font-semibold">Passenger & Goods Lifts</a>
+                </div>
+                <div class="flex flex-col gap-4">
+                  <span class="text-brand-orange font-bold text-sm tracking-widest uppercase">Essex</span>
+                  <a href="/loler/lifting-equipment/essex" class="hover:text-brand-orange transition whitespace-nowrap text-white font-semibold">Lifting Equipment</a>
+                  <a href="/loler/crane-inspections/essex" class="hover:text-brand-orange transition whitespace-nowrap text-white font-semibold">Crane Inspections</a>
+                  <a href="/loler/passenger-and-goods-lifts-inspections/essex" class="hover:text-brand-orange transition whitespace-nowrap text-white font-semibold">Passenger & Goods Lifts</a>
+                </div>
+              </div>
+            </div>
+          </li>
+
           <li><a href="/faq" class="hover:text-white transition">FAQ</a></li>
           
           <li class="lg:hidden mt-4 pt-4 border-t border-slate-700/50 w-full text-center">
@@ -104,7 +175,9 @@ const { title = "Excel Inspection Solutions", description = "Independent statuto
       }
     </script>
     
-    <slot />
+    <main id="main-content">
+      <slot />
+    </main>
 
     <!-- FOOTER SECTION -->
     <footer class="bg-brand-footer pt-24 pb-12 border-t border-slate-800">
@@ -115,10 +188,10 @@ const { title = "Excel Inspection Solutions", description = "Independent statuto
           <img src="/images/logo.png" alt="Excel Inspection Solutions" class="h-12 md:h-14 w-auto object-contain mb-6" />
           <div class="flex items-center gap-4 text-slate-300 mt-8">
             <a href="https://www.instagram.com/eis_uk/" target="_blank" rel="noopener noreferrer" class="block hover:-translate-y-1 transition duration-300">
-              <img src="/images/Instagram%20Icon.png" alt="Instagram" class="w-9 h-9 object-contain hover:grayscale-0" />
+              <img src="/images/Instagram%20Icon.png" alt="Instagram" class="w-9 h-9 object-contain hover:grayscale-0" loading="lazy" width="36" height="36" />
             </a>
             <a href="https://www.linkedin.com/company/eis-ltd" target="_blank" rel="noopener noreferrer" class="block hover:-translate-y-1 transition duration-300">
-              <img src="/images/Linkedin%20Icon.png" alt="LinkedIn" class="w-9 h-9 object-contain hover:grayscale-0" />
+              <img src="/images/Linkedin%20Icon.png" alt="LinkedIn" class="w-9 h-9 object-contain hover:grayscale-0" loading="lazy" width="36" height="36" />
             </a>
           </div>
         </div>
@@ -141,8 +214,8 @@ const { title = "Excel Inspection Solutions", description = "Independent statuto
             </div>
             
             <div class="flex gap-4 items-end justify-end mt-4 md:mt-0">
-              <img src="/images/iso_45001.jpg" alt="ISO 45001 UKAS" class="w-[85px] h-[100px] object-contain shadow-lg border-2 border-slate-200 bg-white" />
-              <img src="/images/iso_9001.jpg" alt="ISO 9001 UKAS" class="w-[85px] h-[100px] object-contain shadow-lg border-2 border-slate-200 bg-white" />
+              <img src="/images/iso_45001.jpg" alt="ISO 45001 UKAS Certification" class="w-[85px] h-[100px] object-contain shadow-lg border-2 border-slate-200 bg-white" loading="lazy" width="85" height="100" />
+              <img src="/images/iso_9001.jpg" alt="ISO 9001 UKAS Certification" class="w-[85px] h-[100px] object-contain shadow-lg border-2 border-slate-200 bg-white" loading="lazy" width="85" height="100" />
             </div>
           </div>
         </div>
@@ -154,26 +227,26 @@ const { title = "Excel Inspection Solutions", description = "Independent statuto
         <div>
           <h4 class="text-brand-orange font-semibold mb-3">Core Services</h4>
           <ul class="space-y-2 text-[0.95rem] text-slate-300">
-            <li><a href="/lifting-equipment-inspections/" class="hover:text-brand-orange transition">Lifting Equipment Inspections</a></li>
-            <li><a href="/crane-inspections/" class="hover:text-brand-orange transition">Crane Inspections</a></li>
-            <li><a href="/passenger-and-goods-lifts-inspections/" class="hover:text-brand-orange transition">Passenger & Goods Lift Inspections</a></li>
-            <li><a href="/work-at-height-equipment-inspections/" class="hover:text-brand-orange transition">Work at Height Equipment Inspections</a></li>
+            <li><a href="/lifting-equipment-inspections" class="hover:text-brand-orange transition">Lifting Equipment Inspections</a></li>
+            <li><a href="/crane-inspections" class="hover:text-brand-orange transition">Crane Inspections</a></li>
+            <li><a href="/passenger-and-goods-lifts-inspections" class="hover:text-brand-orange transition">Passenger & Goods Lift Inspections</a></li>
+            <li><a href="/work-at-height-equipment-inspections" class="hover:text-brand-orange transition">Work at Height Equipment Inspections</a></li>
           </ul>
         </div>
         <div>
           <h4 class="text-brand-orange font-semibold mb-3">Specialist Inspections</h4>
           <ul class="space-y-2 text-[0.95rem] text-slate-300">
-             <li><a href="/mobile-plant-inspection/" class="hover:text-brand-orange transition">Mobile Plant Inspections</a></li>
-             <li><a href="/garage-equipment-inspections/" class="hover:text-brand-orange transition">Garage Equipment Inspections</a></li>
-             <li><a href="/firefighting-and-evacuation-lift-inspections/" class="hover:text-brand-orange transition">Firefighting & Evacuation Lifts</a></li>
+             <li><a href="/mobile-plant-inspection" class="hover:text-brand-orange transition">Mobile Plant Inspections</a></li>
+             <li><a href="/garage-equipment-inspections" class="hover:text-brand-orange transition">Garage Equipment Inspections</a></li>
+             <li><a href="/firefighting-and-evacuation-lift-inspections" class="hover:text-brand-orange transition">Firefighting & Evacuation Lifts</a></li>
           </ul>
         </div>
         <div>
           <h4 class="text-brand-orange font-semibold mb-3">Key Locations</h4>
           <ul class="space-y-2 text-[0.95rem] text-slate-300">
-            <li><a href="/loler/lifting-equipment/kent/" class="hover:text-brand-orange transition">Lifting Equipment in Kent</a></li>
-            <li><a href="/loler/lifting-equipment/london/" class="hover:text-brand-orange transition">Lifting Equipment in London</a></li>
-            <li><a href="/loler/lifting-equipment/essex/" class="hover:text-brand-orange transition">Lifting Equipment in Essex</a></li>
+            <li><a href="/loler/lifting-equipment/kent" class="hover:text-brand-orange transition">Lifting Equipment in Kent</a></li>
+            <li><a href="/loler/lifting-equipment/london" class="hover:text-brand-orange transition">Lifting Equipment in London</a></li>
+            <li><a href="/loler/lifting-equipment/essex" class="hover:text-brand-orange transition">Lifting Equipment in Essex</a></li>
           </ul>
         </div>
       </div>

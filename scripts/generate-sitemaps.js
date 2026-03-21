@@ -4,7 +4,7 @@ import path from 'path';
 // Load static logic natively for exact string maps
 import { locations } from '../src/data/locations.js';
 
-const DOMAIN = "https://www.excelinspectionsolutions.co.uk"; // Generic absolute domain
+const DOMAIN = "https://www.eis-uk.com";
 const today = new Date().toISOString().split('T')[0];
 
 const services = [
@@ -38,7 +38,7 @@ servicesXml += footer();
 let countiesXml = header();
 for (const s of services) {
   for (const c of counties) {
-    countiesXml += urlTag(`/loler/${s.slug}/${c}/`, "0.8");
+    countiesXml += urlTag(`/loler/${s.slug}/${c}`, "0.8");
   }
 }
 countiesXml += footer();
@@ -49,7 +49,7 @@ for (const s of services) {
   for (const c of counties) {
     const localTowns = locations[c];
     for (const t of localTowns) {
-      townsXml += urlTag(`/loler/${s.slug}/${c}/${t}/`, "0.6");
+      townsXml += urlTag(`/loler/${s.slug}/${c}/${t}`, "0.6");
     }
   }
 }

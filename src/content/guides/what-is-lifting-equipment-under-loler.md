@@ -1,6 +1,6 @@
 ---
 title: "What Is Lifting Equipment Under LOLER?"
-description: "Understand what qualifies as lifting equipment under LOLER regulations and what requires inspection."
+description: "Learn what qualifies as lifting equipment under the Lifting Operations and Lifting Equipment Regulations 1998, including cranes, hoists, lifts and accessories that require statutory thorough examination."
 slug: "what-is-lifting-equipment-under-loler"
 date: "2026-03-01"
 updated: "2026-03-18"

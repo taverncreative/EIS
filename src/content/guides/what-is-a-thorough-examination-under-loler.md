@@ -1,6 +1,6 @@
 ---
 title: "What Is a Thorough Examination Under LOLER?"
-description: "A complete guide to LOLER thorough examinations and compliance requirements."
+description: "What a LOLER thorough examination involves, how it differs from routine maintenance, who can carry one out, and why it is a legal requirement for lifting equipment in UK workplaces."
 slug: "what-is-a-thorough-examination-under-loler"
 date: "2026-03-05"
 updated: "2026-03-18"

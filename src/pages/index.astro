@@ -53,7 +53,7 @@ const services = [
 ];
 ---
 
-<Layout title="Excel Inspection Solutions | Home">
+<Layout title="Lifting Equipment Inspections & Thorough Examinations | Excel Inspection Solutions" description="Independent LOLER and PUWER thorough examinations for lifts, cranes, mobile plant and work at height equipment across Kent, London and Essex.">
   
   <!-- Layout Header natively imported -->
 
@@ -86,8 +86,8 @@ const services = [
         <div class="absolute right-2 -top-8 lg:right-0 lg:-top-10 w-[5rem] lg:w-[7rem] h-[5rem] lg:h-[7rem] z-30 mix-blend-screen pointer-events-none" style="background-image: url('/images/orange_circles.jpg'); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
         
         <div class="overflow-hidden rounded-2xl relative w-full h-[520px] md:h-[620px] xl:h-[720px] object-cover shadow-2xl">
-          <img src="/images/crane-bg.png" class="absolute inset-0 w-full h-full object-cover hero-bg-pan z-10" alt="Crane Background" />
-          <img src="/images/crane-fg.png" class="absolute inset-0 w-full h-full object-cover hero-fg-pan z-20" alt="Crane Foreground" />
+          <img src="/images/crane-bg.png" class="absolute inset-0 w-full h-full object-cover hero-bg-pan z-10" alt="Tower crane on construction site during LOLER inspection" loading="eager" fetchpriority="high" width="1920" height="720" />
+          <img src="/images/crane-fg.png" class="absolute inset-0 w-full h-full object-cover hero-fg-pan z-20" alt="Close-up of crane boom and jib being inspected" loading="eager" fetchpriority="high" width="1920" height="720" />
         </div>
       </div>
 
@@ -138,7 +138,7 @@ const services = [
 
       <!-- RIGHT COLUMN: Glass Door Full Height Image -->
       <div class="hidden xl:block xl:col-span-5 rounded-[2.5rem] overflow-hidden shadow-xl sticky top-8" style="height: calc(100vh - 4rem);">
-        <img src="/images/glass_door.jpg" class="w-full h-full object-cover scale-105" alt="Glass Lift Doors" />
+        <img src="/images/glass_door.jpg" class="w-full h-full object-cover scale-105" alt="Glass passenger lift doors in a modern building" loading="lazy" width="800" height="1200" />
       </div>
 
     </div>
@@ -315,7 +315,7 @@ const services = [
       
       <!-- Left Image Overlapping -->
       <div class="lg:col-span-5 rounded-[2.5rem] overflow-hidden shadow-2xl min-h-[500px] lg:h-auto object-cover relative group">
-        <img src="/images/lift_shaft.jpg" class="absolute inset-0 w-full h-full object-cover lift-shaft-zoom" alt="Lift Shaft Context" />
+        <img src="/images/lift_shaft.jpg" class="absolute inset-0 w-full h-full object-cover lift-shaft-zoom" alt="Inside a lift shaft during thorough examination" loading="lazy" width="800" height="1200" />
       </div>
       
       <!-- Right Form -->
@@ -329,9 +329,7 @@ const services = [
           You can also contact us<br/><span class="text-brand-orange">using this form</span>
         </h2>
         
-        <form action="https://formsubmit.co/jl@taverncreative.com" method="POST" class="space-y-5">
-          <input type="hidden" name="_next" value="https://www.excel-inspection-solutions.co.uk/" />
-          <input type="hidden" name="_captcha" value="false" />
+        <form id="contact-form" class="space-y-5">
           <div>
             <label class="block text-[0.85rem] text-slate-300 mb-2">Your Name *</label>
             <input type="text" name="name" class="w-full bg-brand-form border-none text-white rounded px-4 py-3 focus:ring-2 focus:ring-brand-orange transition-all outline-none" required />
@@ -358,10 +356,47 @@ const services = [
             <label class="block text-[0.85rem] text-slate-300 mb-2">Your Message (Optional)</label>
             <textarea name="message" class="w-full bg-brand-form border-none text-white rounded px-4 py-3 focus:ring-2 focus:ring-brand-orange transition-all outline-none resize-none" rows="5"></textarea>
           </div>
+          <div id="form-message" class="hidden text-sm font-medium py-3 px-4 rounded"></div>
           <div class="pt-2">
-            <button type="submit" class="w-full bg-slate-100 hover:bg-white text-slate-900 font-semibold text-[1rem] py-3 rounded transition-all tracking-wide">Submit</button>
+            <button type="submit" id="form-submit" class="w-full bg-slate-100 hover:bg-white text-slate-900 font-semibold text-[1rem] py-3 rounded transition-all tracking-wide">Submit</button>
           </div>
         </form>
+        <script>
+          const form = document.getElementById('contact-form');
+          const btn = document.getElementById('form-submit');
+          const msg = document.getElementById('form-message');
+
+          form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+            msg.className = 'hidden text-sm font-medium py-3 px-4 rounded';
+
+            const data = Object.fromEntries(new FormData(form));
+
+            try {
+              const res = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+              });
+
+              if (res.ok) {
+                msg.textContent = 'Thank you — we\'ll be in touch shortly.';
+                msg.className = 'text-sm font-medium py-3 px-4 rounded bg-green-900/40 text-green-300';
+                form.reset();
+              } else {
+                throw new Error('Failed');
+              }
+            } catch {
+              msg.textContent = 'Something went wrong. Please call us on 01634 907073.';
+              msg.className = 'text-sm font-medium py-3 px-4 rounded bg-red-900/40 text-red-300';
+            } finally {
+              btn.disabled = false;
+              btn.textContent = 'Submit';
+            }
+          });
+        </script>
       </div>
     </div>
   </section>

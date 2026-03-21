@@ -1,0 +1,36 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="Page Not Found | Excel Inspection Solutions" description="The page you're looking for doesn't exist. Browse our inspection services or contact us for help.">
+  <section class="bg-[#f2f2f4] text-slate-900 relative z-20 rounded-t-[3rem] shadow-[0_-20px_50px_rgba(0,0,0,0.2)] py-24 min-h-[60vh] flex items-center">
+    <div class="max-w-3xl mx-auto px-6 text-center">
+      <p class="text-brand-orange text-7xl font-bold mb-4">404</p>
+      <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">Page Not Found</h1>
+      <p class="text-slate-600 text-lg mb-12">Sorry, the page you're looking for doesn't exist or has been moved.</p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+        <a href="/" class="bg-brand-orange hover:bg-orange-600 text-slate-900 font-extrabold py-3 px-8 rounded-2xl transition shadow-lg">
+          Back to Homepage
+        </a>
+        <a href="/#contact" class="bg-brand-navy hover:bg-slate-800 text-white font-extrabold py-3 px-8 rounded-2xl transition shadow-lg">
+          Contact Us
+        </a>
+      </div>
+
+      <div class="text-left bg-white rounded-2xl p-8 shadow-sm border border-slate-100">
+        <h2 class="text-xl font-bold text-slate-900 mb-4">Our Inspection Services</h2>
+        <ul class="grid md:grid-cols-2 gap-3 text-[0.95rem]">
+          <li><a href="/lifting-equipment-inspections" class="text-brand-orange hover:underline">Lifting Equipment Inspections</a></li>
+          <li><a href="/crane-inspections" class="text-brand-orange hover:underline">Crane Inspections</a></li>
+          <li><a href="/passenger-and-goods-lifts-inspections" class="text-brand-orange hover:underline">Passenger & Goods Lift Inspections</a></li>
+          <li><a href="/work-at-height-equipment-inspections" class="text-brand-orange hover:underline">Work at Height Equipment</a></li>
+          <li><a href="/mobile-plant-inspection" class="text-brand-orange hover:underline">Mobile Plant Inspections</a></li>
+          <li><a href="/garage-equipment-inspections" class="text-brand-orange hover:underline">Garage Equipment Inspections</a></li>
+          <li><a href="/firefighting-and-evacuation-lift-inspections" class="text-brand-orange hover:underline">Firefighting & Evacuation Lifts</a></li>
+          <li><a href="/faq" class="text-brand-orange hover:underline">Frequently Asked Questions</a></li>
+        </ul>
+        <p class="mt-6 text-slate-600">Or call us directly: <a href="tel:01634907073" class="text-brand-orange font-semibold hover:underline">01634 907073</a></p>
+      </div>
+    </div>
+  </section>
+</Layout>

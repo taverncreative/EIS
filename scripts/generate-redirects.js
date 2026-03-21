@@ -54,46 +54,59 @@ const exhaustiveMap = {
 
 const counties = Object.keys(locations);
 
+// Pages that exist as real service pages — never redirect these slugs
+const realServicePages = new Set([
+  "crane-inspections",
+  "lifting-equipment-inspections",
+  "mobile-plant-inspection",
+  "passenger-and-goods-lifts-inspections",
+  "work-at-height-equipment-inspections",
+  "garage-equipment-inspections",
+  "firefighting-and-evacuation-lift-inspections"
+]);
+
 function push(oldUrl, newUrl) {
+  // Skip if old URL matches a real service page
+  if (realServicePages.has(oldUrl)) return;
   content += `/${oldUrl} /loler/${newUrl} 301\n`;
 }
 
 // Map everything exhaustive to protect ranking collapse on exact URLs that don't fit generic parser
 for (const [legacy, fresh] of Object.entries(exhaustiveMap)) {
-  // Service
-  push(legacy, `${fresh}/`);
+  // Service (no trailing slash)
+  push(legacy, fresh);
 
   for (const county of counties) {
-    // Service+County & County+Service
-    push(`${legacy}-${county}`, `${fresh}/${county}/`);
-    push(`${county}-${legacy}`, `${fresh}/${county}/`);
-    
+    // Service+County & County+Service (no trailing slashes)
+    push(`${legacy}-${county}`, `${fresh}/${county}`);
+    push(`${county}-${legacy}`, `${fresh}/${county}`);
+
     // Towns
     for (const town of locations[county]) {
-       push(`${legacy}-${town}`, `${fresh}/${county}/${town}/`);
-       push(`${town}-${legacy}`, `${fresh}/${county}/${town}/`);
+       push(`${legacy}-${town}`, `${fresh}/${county}/${town}`);
+       push(`${town}-${legacy}`, `${fresh}/${county}/${town}`);
     }
   }
 
   // Unsupported legacy migrations
-  push(`${legacy}-surrey`, `${fresh}/london/`);
-  push(`surrey-${legacy}`, `${fresh}/london/`);
-  push(`${legacy}-east-sussex`, `${fresh}/kent/`);
-  push(`east-sussex-${legacy}`, `${fresh}/kent/`);
-  push(`${legacy}-sussex`, `${fresh}/kent/`);
-  push(`sussex-${legacy}`, `${fresh}/kent/`);
+  push(`${legacy}-surrey`, `${fresh}/london`);
+  push(`surrey-${legacy}`, `${fresh}/london`);
+  push(`${legacy}-east-sussex`, `${fresh}/kent`);
+  push(`east-sussex-${legacy}`, `${fresh}/kent`);
+  push(`${legacy}-sussex`, `${fresh}/kent`);
+  push(`sussex-${legacy}`, `${fresh}/kent`);
 }
 
 content += `
 # LAYER 2: PATTERN RULES (FALLBACK)
-/:service-inspections /loler/:service/ 301
-/:service-inspection /loler/:service/ 301
-/:service-inspections-:county /loler/:service/:county/ 301
-/:county-:service-inspections /loler/:service/:county/ 301
-/:service-inspection-:county /loler/:service/:county/ 301
-/:county-:service-inspection /loler/:service/:county/ 301
-/:service-inspections-:town /loler/:service/:county/:town/ 301
-/:service-inspection-:town /loler/:service/:county/:town/ 301
+/:service-inspections /loler/:service 301
+/:service-inspection /loler/:service 301
+/:service-inspections-:county /loler/:service/:county 301
+/:county-:service-inspections /loler/:service/:county 301
+/:service-inspection-:county /loler/:service/:county 301
+/:county-:service-inspection /loler/:service/:county 301
+/:service-inspections-:town /loler/:service/:county/:town 301
+/:service-inspection-:town /loler/:service/:county/:town 301
 
 # LAYER 3: GUIDES MIGRATION
 /post/* /guides/:splat 301

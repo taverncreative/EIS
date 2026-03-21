@@ -1,5 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import FAQSchema from '../components/schema/FAQSchema.astro';
+import BreadcrumbSchema from '../components/schema/BreadcrumbSchema.astro';
+
+const breadcrumbs = [
+  { name: 'Home', url: 'https://www.eis-uk.com' },
+  { name: 'FAQ', url: 'https://www.eis-uk.com/faq' }
+];
 
 const faqs = [
   { q: "What does Excel Inspection Solutions do?", a: "We carry out statutory inspections across the UK under LOLER, PUWER, and PSSR — including lifts, cranes, pressure systems, garage equipment, and more." },
@@ -25,7 +32,11 @@ const faqs = [
 ];
 ---
 
-<Layout title="Excel Inspection Solutions | FAQ">
+<Layout title="LOLER & PUWER Inspection FAQ | Excel Inspection Solutions" description="Answers to common questions about LOLER thorough examinations, PUWER inspections, inspection frequency, legal duties and how to book with EIS.">
+  <Fragment slot="head">
+    <FAQSchema faqs={faqs.map(f => ({ question: f.q, answer: f.a }))} />
+    <BreadcrumbSchema items={breadcrumbs} />
+  </Fragment>
   
   <!-- HERO SECTION -->
   <section class="max-w-7xl mx-auto px-6 pt-24 pb-12 relative overflow-visible text-center">

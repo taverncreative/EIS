@@ -2,10 +2,23 @@
 import Layout from './Layout.astro';
 import Hero from '../components/Hero.astro';
 import ContentSection from '../components/ContentSection.astro';
+import BreadcrumbSchema from '../components/schema/BreadcrumbSchema.astro';
+
 const { title, description, serviceName, serviceSlug, county } = Astro.props;
+
+const siteBase = 'https://www.eis-uk.com';
+const servicePageSlug = serviceSlug === 'lifting-equipment' ? 'lifting-equipment-inspections' : serviceSlug;
+const breadcrumbs = [
+  { name: 'Home', url: siteBase },
+  { name: serviceName, url: `${siteBase}/${servicePageSlug}` },
+  { name: county, url: `${siteBase}${Astro.url.pathname}` }
+];
 ---
-<Layout title={`Excel Inspection Solutions | ${title}`} description={description}>
-  <slot name="head" slot="head" />
+<Layout title={`${title} | Excel Inspection Solutions`} description={description}>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={breadcrumbs} />
+    <slot name="head" />
+  </Fragment>
   <!-- Lightweight Hero -->
   <Hero title={title} subtitle="Local Service Hub" />
 

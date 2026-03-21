@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import Layout from "../../layouts/Layout.astro";
 import Hero from "../../components/Hero.astro";
 import ContentSection from "../../components/ContentSection.astro";
+import BreadcrumbSchema from "../../components/schema/BreadcrumbSchema.astro";
 
 export async function getStaticPaths() {
   const guides = await getCollection('guides');
@@ -15,9 +16,34 @@ export async function getStaticPaths() {
 
 const { guide } = Astro.props;
 const { Content } = await render(guide);
+
+const siteBase = 'https://www.eis-uk.com';
+const pageUrl = `${siteBase}${Astro.url.pathname}`;
+
+const breadcrumbs = [
+  { name: 'Home', url: siteBase },
+  { name: 'Guides', url: `${siteBase}/guides` },
+  { name: guide.data.title, url: pageUrl }
+];
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": guide.data.title,
+  "description": guide.data.description,
+  "url": pageUrl,
+  "datePublished": guide.data.date,
+  "dateModified": guide.data.updated || guide.data.date,
+  "author": { "@id": `${siteBase}/#organisation` },
+  "publisher": { "@id": `${siteBase}/#organisation` }
+};
 ---
 
-<Layout title={guide.data.title} description={guide.data.description}>
+<Layout title={guide.data.title} description={guide.data.description} ogType="article">
+  <Fragment slot="head">
+    <BreadcrumbSchema items={breadcrumbs} />
+    <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+  </Fragment>
   <Hero title={guide.data.title} subtitle="UK LOLER & PUWER Compliance Guide" />
 
   <ContentSection>
@@ -26,7 +52,7 @@ const { Content } = await render(guide);
       <!-- Breadcrumbs -->
       <nav class="text-sm mb-4 not-prose">
         <a href="/">Home</a> →
-        <a href="/guides/">Guides</a> →
+        <a href="/guides">Guides</a> →
         <span>{guide.data.title}</span>
       </nav>
 
@@ -45,10 +71,10 @@ const { Content } = await render(guide);
       <section class="mt-12 not-prose">
         <h2 class="text-xl font-semibold mb-4">Related inspections and services</h2>
         <ul class="grid md:grid-cols-2 gap-3">
-          <li><a href="/loler/lifting-equipment/">Lifting equipment inspections</a></li>
-          <li><a href="/loler/crane-inspections/">Crane inspections</a></li>
-          <li><a href="/loler/passenger-and-goods-lifts-inspections/">Passenger & goods lift inspections</a></li>
-          <li><a href="/loler/work-at-height-equipment-inspections/">MEWP inspections</a></li>
+          <li><a href="/lifting-equipment-inspections">Lifting equipment inspections</a></li>
+          <li><a href="/crane-inspections">Crane inspections</a></li>
+          <li><a href="/passenger-and-goods-lifts-inspections">Passenger & goods lift inspections</a></li>
+          <li><a href="/work-at-height-equipment-inspections">MEWP inspections</a></li>
         </ul>
       </section>
 

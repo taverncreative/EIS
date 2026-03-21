@@ -1,0 +1,29 @@
+---
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://www.eis-uk.com/#organisation",
+  "name": "Excel Inspection Solutions Ltd",
+  "url": "https://www.eis-uk.com",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "https://www.eis-uk.com/images/logo.png"
+  },
+  "founder": {
+    "@type": "Person",
+    "name": "Joe Ward"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+441634907073",
+    "contactType": "customer service",
+    "areaServed": "GB",
+    "availableLanguage": "English"
+  },
+  "sameAs": [
+    "https://www.instagram.com/eis_uk/",
+    "https://www.linkedin.com/company/eis-ltd"
+  ]
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

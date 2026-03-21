@@ -9,13 +9,37 @@ const equipmentList = [
   "Overall structural integrity",
   "Motor and brake mechanics"
 ];
+
+const faqs = [
+  {
+    question: "Is a lifting equipment inspection a legal requirement?",
+    answer: "Yes. Under LOLER 1998, lifting equipment used at work must undergo regular Thorough Examination by a competent person."
+  },
+  {
+    question: "How often does lifting equipment need to be inspected?",
+    answer: "Every 6 months for equipment lifting people, and every 12 months for equipment lifting goods, unless a Written Scheme specifies otherwise."
+  },
+  {
+    question: "Who is responsible for arranging inspections?",
+    answer: "The duty holder, typically the employer, building owner, or organisation responsible for the equipment."
+  },
+  {
+    question: "What happens if inspections are missed?",
+    answer: "Non-compliance can lead to HSE enforcement action, insurance issues, and increased risk of equipment failure."
+  },
+  {
+    question: "Is a Thorough Examination the same as maintenance?",
+    answer: "No. A Thorough Examination is an independent statutory inspection, separate from routine maintenance or servicing."
+  }
+];
 ---
 
-<ServicePageLayout 
+<ServicePageLayout
   title="Lifting Equipment Inspections"
   intro="Ensure the complete safety and operational readiness of your lifting apparatus with our thorough, fully compliant statutory inspections under LOLER and PUWER."
   regulation="LOLER 1998 and PUWER 1998"
   equipmentList={equipmentList}
+  faqs={faqs}
 >
   <!-- 2. EXPANDED INTRO -->
   <p class="mb-4">
