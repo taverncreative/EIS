@@ -60,13 +60,13 @@ const ogImageURL = new URL(ogImage, Astro.site);
     
     <!-- NAVBAR -->
     <nav class="w-full relative z-50 bg-brand-navy">
-      <div class="max-w-[1600px] mx-auto px-6 md:px-8 py-6 flex flex-wrap lg:flex-nowrap items-center justify-between relative">
+      <div class="max-w-[1600px] mx-auto px-6 md:px-8 py-6 flex flex-wrap xl:flex-nowrap items-center justify-between relative">
         <a href="/" class="flex flex-col shrink-0 group z-50">
           <img src="/images/logo.png" alt="Excel Inspection Solutions" class="h-10 md:h-12 w-auto object-contain transition duration-300 group-hover:opacity-90" />
         </a>
         
         <!-- Mobile Toggle & Brochure Group -->
-        <div class="flex items-center gap-3 lg:hidden z-50">
+        <div class="flex items-center gap-3 xl:hidden z-50">
           <a href="/#contact" class="bg-brand-orange hover:bg-orange-600 text-slate-900 font-extrabold py-2 px-4 rounded-[0.7rem] text-[0.8rem] shadow-lg shadow-brand-orange/20 transition whitespace-nowrap">
             Request Quote
           </a>
@@ -75,20 +75,20 @@ const ogImageURL = new URL(ogImage, Astro.site);
           </button>
         </div>
 
-        <ul id="nav-menu" class="hidden lg:flex w-full lg:w-auto flex-col lg:flex-row items-start lg:items-center gap-6 lg:gap-12 text-[1rem] font-bold text-slate-400 mt-8 lg:mt-0 pb-6 lg:pb-0">
+        <ul id="nav-menu" class="hidden xl:flex w-full xl:w-auto flex-col xl:flex-row items-start xl:items-center gap-6 xl:gap-5 2xl:gap-8 text-[0.85rem] 2xl:text-[0.95rem] font-bold text-slate-400 mt-8 xl:mt-0 pb-6 xl:pb-0 whitespace-nowrap">
           <li><a href="/" class="hover:text-brand-orange text-brand-orange border-b-2 border-brand-orange pb-0.5 transition">Home</a></li>
           <li><a href="/#about-us" class="hover:text-white transition">About Us</a></li>
           <li><a href="/#what-we-do" class="hover:text-white transition">What We Do</a></li>
           
           <!-- MEGA MENU -->
           <li class="relative group">
-            <a href="/#services" class="hover:text-white transition flex items-center gap-1 py-4 lg:py-0">
+            <a href="/#services" class="hover:text-white transition flex items-center gap-1 py-4 xl:py-0">
               Services <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 transition group-hover:rotate-180" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
             </a>
             <!-- Dropdown Panel -->
-            <div class="lg:absolute left-1/2 lg:-translate-x-1/2 top-full lg:pt-8 
-                        hidden group-hover:block w-full lg:w-max opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-              <div class="bg-[#0e1628] lg:border border-slate-700/60 rounded-2xl shadow-2xl p-8 px-12 grid grid-cols-1 md:grid-cols-2 gap-x-24 gap-y-5 relative">
+            <div class="xl:absolute left-1/2 xl:-translate-x-1/2 top-full xl:pt-8
+                        hidden group-hover:block w-full xl:w-max opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <div class="bg-[#0e1628] xl:border border-slate-700/60 rounded-2xl shadow-2xl p-8 px-12 grid grid-cols-1 md:grid-cols-2 gap-x-24 gap-y-5 relative">
                 <!-- invisible connector to prevent hover dropout -->
                 <div class="absolute -top-8 left-0 right-0 h-8 bg-transparent"></div>
                 <div class="flex flex-col gap-4">
@@ -108,12 +108,12 @@ const ogImageURL = new URL(ogImage, Astro.site);
           
           <!-- COVERAGE AREAS MENU -->
           <li class="relative group">
-            <a href="/loler/lifting-equipment/kent" class="hover:text-white transition flex items-center gap-1 py-4 lg:py-0">
-              Coverage Areas <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 transition group-hover:rotate-180" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            <a href="/loler/lifting-equipment/kent" class="hover:text-white transition flex items-center gap-1 py-4 xl:py-0">
+              Areas <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 transition group-hover:rotate-180" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
             </a>
-            <div class="lg:absolute left-1/2 lg:-translate-x-1/2 top-full lg:pt-8
-                        hidden group-hover:block w-full lg:w-max opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-              <div class="bg-[#0e1628] lg:border border-slate-700/60 rounded-2xl shadow-2xl p-8 px-12 grid grid-cols-1 md:grid-cols-3 gap-x-16 gap-y-5 relative">
+            <div class="xl:absolute left-1/2 xl:-translate-x-1/2 top-full xl:pt-8
+                        hidden group-hover:block w-full xl:w-max opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <div class="bg-[#0e1628] xl:border border-slate-700/60 rounded-2xl shadow-2xl p-8 px-12 grid grid-cols-1 md:grid-cols-3 gap-x-16 gap-y-5 relative">
                 <div class="absolute -top-8 left-0 right-0 h-8 bg-transparent"></div>
                 <div class="flex flex-col gap-4">
                   <span class="text-brand-orange font-bold text-sm tracking-widest uppercase">Kent</span>
@@ -139,26 +139,26 @@ const ogImageURL = new URL(ogImage, Astro.site);
 
           <li><a href="/faq" class="hover:text-white transition">FAQ</a></li>
           
-          <li class="lg:hidden mt-4 pt-4 border-t border-slate-700/50 w-full text-center">
+          <li class="xl:hidden mt-4 pt-4 border-t border-slate-700/50 w-full text-center">
             <a href="tel:01634907073" class="text-white font-medium hover:text-brand-orange transition flex items-center justify-center gap-2">
               📞 01634 907073
             </a>
           </li>
-          <li class="lg:hidden mt-4">
+          <li class="xl:hidden mt-4">
              <a href="/EIS Brochure 2025_Final.pdf" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white transition whitespace-nowrap font-medium text-sm flex items-center justify-center">
                 View Brochure
               </a>
           </li>
         </ul>
-        
-        <div class="hidden lg:flex items-center gap-6">
-          <a href="tel:01634907073" class="text-white font-medium hover:text-brand-orange transition whitespace-nowrap">
+
+        <div class="hidden xl:flex items-center gap-4 2xl:gap-6 shrink-0">
+          <a href="tel:01634907073" class="text-white font-medium hover:text-brand-orange transition whitespace-nowrap text-[0.85rem] 2xl:text-[0.95rem]">
             📞 01634 907073
           </a>
-          <a href="/#contact" class="bg-brand-orange hover:bg-orange-600 text-slate-900 font-extrabold py-2.5 px-6 rounded-[1rem] text-base shadow-lg shadow-brand-orange/20 transition whitespace-nowrap">
+          <a href="/#contact" class="bg-brand-orange hover:bg-orange-600 text-slate-900 font-extrabold py-2 px-5 2xl:py-2.5 2xl:px-6 rounded-[1rem] text-[0.85rem] 2xl:text-base shadow-lg shadow-brand-orange/20 transition whitespace-nowrap">
             Request a Quote
           </a>
-          <a href="/EIS Brochure 2025_Final.pdf" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white transition whitespace-nowrap font-medium text-sm hidden xl:block">
+          <a href="/EIS Brochure 2025_Final.pdf" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white transition whitespace-nowrap font-medium text-sm hidden 2xl:block">
             View Brochure
           </a>
         </div>
