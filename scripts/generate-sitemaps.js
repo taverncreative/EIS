@@ -25,12 +25,24 @@ function urlTag(loc, priority = "0.8") {
   return `  <url>\n    <loc>${DOMAIN}${loc}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>${priority}</priority>\n  </url>\n`;
 }
 
+// Guide pages to include in services sitemap
+const guides = [
+  "what-is-lifting-equipment-under-loler",
+  "what-is-a-thorough-examination-under-loler",
+  "loler-vs-puwer",
+  "mewp-loler-inspection-frequency"
+];
+
 // 1. SERVICES SITEMAP (/sitemaps/services.xml)
 let servicesXml = header();
 servicesXml += urlTag("/", "1.0");
 servicesXml += urlTag("/faq", "0.7");
 for (const s of services) {
   servicesXml += urlTag(`/${s.file}`, "0.9");
+}
+servicesXml += urlTag("/guides", "0.8");
+for (const g of guides) {
+  servicesXml += urlTag(`/guides/${g}`, "0.8");
 }
 servicesXml += footer();
 

@@ -27,11 +27,15 @@ const ctyContent = countyContent[county as keyof typeof countyContent];
 const showEquipmentAsGrid = ["lifting-equipment", "garage-equipment-inspections", "passenger-and-goods-lifts-inspections"].includes(serviceSlug);
 const showDefectsSection = ["crane-inspections", "mobile-plant-inspection", "work-at-height-equipment-inspections", "garage-equipment-inspections"].includes(serviceSlug);
 
-// Build FAQ schema
-const faqSchema = svcContent?.faq ? JSON.stringify({
+// Build FAQ schema including county-specific FAQ
+const faqItems = [
+  ...(svcContent?.faq || []),
+  ...(ctyContent?.localFaq ? [ctyContent.localFaq] : [])
+];
+const faqSchema = faqItems.length > 0 ? JSON.stringify({
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": svcContent.faq.map(item => ({
+  "mainEntity": faqItems.map(item => ({
     "@type": "Question",
     "name": item.q,
     "acceptedAnswer": {
@@ -140,11 +144,11 @@ const faqSchema = svcContent?.faq ? JSON.stringify({
 )}
 
 <!-- FAQ section -->
-{svcContent?.faq && svcContent.faq.length > 0 && (
+{faqItems.length > 0 && (
   <>
     <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-6">Frequently Asked Questions</h2>
     <div class="space-y-6 mb-8">
-      {svcContent.faq.map((item: { q: string; a: string }) => (
+      {faqItems.map((item: { q: string; a: string }) => (
         <div class="border-b border-slate-200 pb-5">
           <h3 class="text-lg font-semibold text-slate-900 mb-2">{item.q}</h3>
           <p class="text-slate-700">{item.a}</p>

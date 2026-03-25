@@ -65,12 +65,17 @@ const ctyContent = countyContent[county as keyof typeof countyContent];
 const twnContent = townContent[town as keyof typeof townContent];
 
 const seoTitle = `${serviceName} in ${formattedTown}, ${formattedCounty} | LOLER Compliance`;
-const seoDescription = `${serviceName} in ${formattedTown} — independent thorough examinations covering ${svcContent?.whatWeInspect?.slice(0, 3).join(', ').toLowerCase() || 'lifting equipment'}. LOLER and PUWER compliant. Book today.`;
+const townSectors = twnContent?.keySectors?.slice(0, 2).join(' and ').toLowerCase() || 'local businesses';
+const seoDescription = `${serviceName} in ${formattedTown} — serving ${townSectors} sectors. Independent thorough examinations by qualified Engineer Surveyors. LOLER and PUWER compliant.`;
 
 // Build rich structured data
-const faqSchema = svcContent?.faq ? {
+const faqItems = [
+  ...(svcContent?.faq || []),
+  ...(ctyContent?.localFaq ? [ctyContent.localFaq] : [])
+];
+const faqSchema = faqItems.length > 0 ? {
   "@type": "FAQPage",
-  "mainEntity": svcContent.faq.map(item => ({
+  "mainEntity": faqItems.map(item => ({
     "@type": "Question",
     "name": item.q,
     "acceptedAnswer": {
@@ -249,6 +254,12 @@ const overlappingSectors = (svcContent?.typicalSectors && twnContent?.keySectors
             <p class="text-slate-700">{item.a}</p>
           </div>
         ))}
+        {ctyContent?.localFaq && (
+          <div class="border-b border-slate-200 pb-5">
+            <h3 class="text-lg font-semibold text-slate-900 mb-2">{ctyContent.localFaq.q}</h3>
+            <p class="text-slate-700">{ctyContent.localFaq.a}</p>
+          </div>
+        )}
       </div>
     </>
   )}
