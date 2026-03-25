@@ -4,6 +4,9 @@
 import CountyPageLayout from '../../../../layouts/CountyPageLayout.astro';
 import CTA from '../../../../components/CTA.astro';
 import { locations, formatLocationName } from '../../../../data/locations';
+import { serviceContent } from '../../../../data/serviceContent';
+import { countyContent } from '../../../../data/countyContent';
+import { townContent } from '../../../../data/townContent';
 
 export async function getStaticPaths() {
   const services = [
@@ -17,8 +20,7 @@ export async function getStaticPaths() {
   ];
 
   const counties = ["kent", "london", "essex"];
-  
-  // NOTE: getStaticPaths executes identically in static mode using hoisted imports gracefully!
+
   const { locations } = await import('../../../../data/locations.js');
 
   const paths = [];
@@ -40,7 +42,6 @@ export async function getStaticPaths() {
 
 const { service, county, town } = Astro.params;
 
-// Map service name cleanly
 const serviceMap: Record<string, string> = {
   "lifting-equipment": "Lifting Equipment Inspections",
   "crane-inspections": "Crane Inspections",
@@ -58,25 +59,69 @@ const nearbyTowns = towns.filter((t: string) => t !== town).slice(0, 5);
 const formattedTown = formatLocationName(town as string);
 const formattedCounty = formatLocationName(county as string);
 
-const seoTitle = `${serviceName} in ${formattedTown} | LOLER & PUWER Compliance`;
-const seoDescription = `Independent ${serviceName.toLowerCase()} in ${formattedTown}. Fully compliant LOLER and PUWER thorough examinations for businesses and organisations.`;
+// Pull unique content from data sources
+const svcContent = serviceContent[service as keyof typeof serviceContent];
+const ctyContent = countyContent[county as keyof typeof countyContent];
+const twnContent = townContent[town as keyof typeof townContent];
 
-const schema = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "name": `${serviceName} in ${formattedTown}`,
-  "areaServed": {
-    "@type": "Place",
-    "name": formattedTown
+const seoTitle = `${serviceName} in ${formattedTown}, ${formattedCounty} | LOLER Compliance`;
+const seoDescription = `${serviceName} in ${formattedTown} — independent thorough examinations covering ${svcContent?.whatWeInspect?.slice(0, 3).join(', ').toLowerCase() || 'lifting equipment'}. LOLER and PUWER compliant. Book today.`;
+
+// Build rich structured data
+const faqSchema = svcContent?.faq ? {
+  "@type": "FAQPage",
+  "mainEntity": svcContent.faq.map(item => ({
+    "@type": "Question",
+    "name": item.q,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.a
+    }
+  }))
+} : null;
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": `${serviceName} in ${formattedTown}`,
+    "description": seoDescription,
+    "areaServed": {
+      "@type": "Place",
+      "name": formattedTown,
+      "containedInPlace": {
+        "@type": "AdministrativeArea",
+        "name": formattedCounty
+      }
+    },
+    "provider": {
+      "@type": "Organization",
+      "name": "Excel Inspection Solutions",
+      "url": "https://www.eis-uk.com"
+    },
+    "serviceType": serviceName,
+    "termsOfService": "https://www.eis-uk.com/faq"
   },
-  "provider": {
-    "@type": "Organization",
-    "name": "Excel Inspection Solutions"
-  }
-});
+  ...(faqSchema ? [{ "@context": "https://schema.org", ...faqSchema }] : [])
+]);
+
+// Determine which sections to show and in what order based on service type
+// This creates layout variation between service types
+const showDefectsFirst = ["crane-inspections", "mobile-plant-inspection"].includes(service as string);
+const showEquipmentAsGrid = ["lifting-equipment", "garage-equipment-inspections"].includes(service as string);
+
+// Find overlapping sectors between service and town
+const overlappingSectors = (svcContent?.typicalSectors && twnContent?.keySectors)
+  ? svcContent.typicalSectors.filter(s =>
+      twnContent.keySectors.some(ts =>
+        s.toLowerCase().includes(ts.toLowerCase().split(' ')[0]) ||
+        ts.toLowerCase().includes(s.toLowerCase().split(' ')[0])
+      )
+    )
+  : [];
 ---
 
-<CountyPageLayout 
+<CountyPageLayout
   title={seoTitle}
   description={seoDescription}
   serviceName={serviceName}
@@ -85,51 +130,132 @@ const schema = JSON.stringify({
 >
   <script type="application/ld+json" set:html={schema} slot="head" />
 
-  <p class="lead text-lg text-slate-600 mb-8">
-    We provide fully compliant {serviceName.toLowerCase()} in {formattedTown}, supporting businesses with independent Thorough Examinations in line with LOLER and PUWER regulations. Our inspections ensure equipment remains safe, legally certified, and suitable for continued use.
+  <!-- Service-specific introduction with local context -->
+  <p class="lead text-lg text-slate-600 mb-6">
+    {svcContent?.intro || `We provide independent ${serviceName.toLowerCase()} across ${formattedTown} and the surrounding area.`}
   </p>
 
-  <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">What Our Inspections Cover</h2>
+  {twnContent && (
+    <p class="text-slate-700 mb-8">
+      {twnContent.localContext} Our Engineer Surveyors provide {serviceName.toLowerCase()} to businesses throughout {formattedTown} and nearby areas including {twnContent.nearbyAreas.slice(0, 3).join(', ')}.
+    </p>
+  )}
+
+  <!-- Equipment list section — varies layout per service type -->
+  <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">What We Inspect in {formattedTown}</h2>
+  {showEquipmentAsGrid ? (
+    <div class="grid sm:grid-cols-2 gap-2 mb-6">
+      {svcContent?.whatWeInspect?.map((item: string) => (
+        <div class="flex items-start gap-2 py-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-orange mt-2 shrink-0"></span>
+          <span class="text-slate-700">{item}</span>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <ul class="list-disc pl-5 mb-6 space-y-1 text-slate-700">
+      {svcContent?.whatWeInspect?.map((item: string) => (
+        <li>{item}</li>
+      ))}
+    </ul>
+  )}
   <p class="mb-4 text-slate-700">
-    We carry out Thorough Examinations on a wide range of equipment used across workplaces in {formattedTown}. This includes lifting systems, mechanical handling equipment, and safety-critical components requiring statutory inspection.
+    {svcContent?.inspectionDetails}
   </p>
 
-  <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">Sectors We Support</h2>
+  {/* Show defects section early for crane/plant, later for others */}
+  {showDefectsFirst && svcContent?.commonDefects && (
+    <>
+      <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">Common Issues Identified During Inspections</h2>
+      <p class="mb-3 text-slate-700">
+        Our Engineer Surveyors regularly identify the following types of defects during {serviceName.toLowerCase()}:
+      </p>
+      <ul class="list-disc pl-5 mb-6 space-y-1 text-slate-700">
+        {svcContent.commonDefects.map((defect: string) => (
+          <li>{defect}</li>
+        ))}
+      </ul>
+    </>
+  )}
+
+  <!-- Industries and sectors — combines town + service data -->
+  <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">Industries We Support in {formattedTown}</h2>
+  {twnContent ? (
+    <p class="mb-4 text-slate-700">
+      {formattedTown}'s local economy includes {twnContent.keySectors.slice(0, 3).join(', ').toLowerCase()}{twnContent.keySectors.length > 3 ? `, and ${twnContent.keySectors[3].toLowerCase()}` : ''} — sectors where {serviceName.toLowerCase()} are regularly required to maintain legal compliance and workplace safety.
+    </p>
+  ) : (
+    <p class="mb-4 text-slate-700">
+      Our {serviceName.toLowerCase()} support businesses across a range of sectors in {formattedTown}.
+    </p>
+  )}
   <p class="mb-4 text-slate-700">
-    Our inspection services support businesses across construction, logistics, warehousing, manufacturing, facilities management, and public sector environments throughout {formattedTown}.
+    Across {formattedCounty}, {ctyContent?.sectorMix || `businesses across multiple sectors rely on regular thorough examinations to maintain LOLER and PUWER compliance.`}
   </p>
 
-  <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">Inspection Services in {formattedTown}</h2>
-  <p class="mb-4 text-slate-700">
-    We operate across {formattedTown} and surrounding areas, helping duty holders maintain compliance and reduce risk. Whether equipment is used daily or intermittently, regular inspection is essential for safe operation.
-  </p>
+  {/* Notable local areas callout */}
+  {twnContent?.localLandmarks && twnContent.localLandmarks.length > 0 && (
+    <div class="my-8 p-5 bg-slate-50 border border-slate-200 rounded-xl">
+      <p class="text-slate-700 font-medium mb-2">Local Coverage Areas</p>
+      <p class="text-slate-600 text-sm">
+        We provide {serviceName.toLowerCase()} to businesses at and around {twnContent.localLandmarks.join(', ')}, as well as across the wider {formattedTown} area.
+      </p>
+    </div>
+  )}
 
-  <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">Meeting Legal Compliance</h2>
+  <!-- Regulation and compliance — service-specific -->
+  <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">Inspection Frequency and Legal Requirements</h2>
   <p class="mb-4 text-slate-700">
-    Duty holders are legally required to ensure lifting equipment is inspected at defined intervals. Our independent inspections help businesses in {formattedTown} meet their obligations under LOLER and PUWER.
+    {svcContent?.regulationNotes}
   </p>
-  <p class="mb-4 text-slate-700">
-    Businesses requiring 
-    <a href={`/loler/${service}/${county}/`}>
-      {serviceName.toLowerCase()} in {formatLocationName(county as string)}
-    </a> 
-    can also access coverage across nearby locations including 
-    {nearbyTowns.slice(0,2).map((t: string, i: number) => (
-      <>
-        <a href={`/loler/${service}/${county}/${t}/`}>
-          {formatLocationName(t)}
-        </a>{i === 0 ? ', ' : ''}
-      </>
-    ))}.
-  </p>
+  <div class="my-6 p-5 bg-brand-orange/5 border border-brand-orange/20 rounded-xl">
+    <p class="text-slate-800 font-semibold mb-1">Required Inspection Interval</p>
+    <p class="text-slate-700">{svcContent?.inspectionFrequency || 'Intervals vary depending on equipment type and use.'}</p>
+  </div>
 
-  <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">Independent Competent Inspections</h2>
-  <p class="mb-4 text-slate-700">
-    All inspections are carried out by qualified Engineer Surveyors, ensuring unbiased reporting and full compliance.
-  </p>
+  {/* Show defects section here for non-crane/plant services */}
+  {!showDefectsFirst && svcContent?.commonDefects && (
+    <>
+      <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">Common Defects Found</h2>
+      <p class="mb-3 text-slate-700">
+        During {serviceName.toLowerCase()} in {formattedTown} and the wider {formattedCounty} area, our Engineer Surveyors commonly identify:
+      </p>
+      <ul class="list-disc pl-5 mb-6 space-y-1 text-slate-700">
+        {svcContent.commonDefects.map((defect: string) => (
+          <li>{defect}</li>
+        ))}
+      </ul>
+    </>
+  )}
+
+  <!-- Regional context -->
+  {ctyContent?.regionalNotes && (
+    <>
+      <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">Covering {formattedTown} and {formattedCounty}</h2>
+      <p class="mb-4 text-slate-700">
+        {ctyContent.regionalNotes}
+      </p>
+    </>
+  )}
+
+  <!-- FAQ section with schema markup -->
+  {svcContent?.faq && svcContent.faq.length > 0 && (
+    <>
+      <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-6">Frequently Asked Questions</h2>
+      <div class="space-y-6 mb-8">
+        {svcContent.faq.map((item: { q: string; a: string }) => (
+          <div class="border-b border-slate-200 pb-5">
+            <h3 class="text-lg font-semibold text-slate-900 mb-2">{item.q}</h3>
+            <p class="text-slate-700">{item.a}</p>
+          </div>
+        ))}
+      </div>
+    </>
+  )}
 
   <hr class="my-12 border-slate-200" />
 
+  <!-- Internal linking section (preserved from original) -->
   <section class="mt-16 border-t pt-10">
     <div class="mt-12 pt-8 border-t border-slate-200">
       <h3 class="text-xl font-semibold text-slate-900 mt-8 mb-3">{serviceName} in {formattedCounty}</h3>
@@ -168,17 +294,7 @@ const schema = JSON.stringify({
         ))}
       </ul>
     </div>
-  </div>
-
-  <section class="mt-8 mb-6 p-6 bg-slate-50 border border-slate-200 rounded-xl not-prose">
-    <p class="m-0 text-slate-600 font-medium leading-relaxed">
-      This page forms part of our inspection coverage across {formattedCounty}, connecting local service delivery with regional compliance requirements.
-    </p>
   </section>
-
-  <p class="text-[1.05rem] text-slate-700 mb-10 leading-relaxed">
-    Inspection schedules may vary depending on equipment type, usage, and environment. We can advise on appropriate intervals and ensure full compliance for businesses operating in {formattedTown}.
-  </p>
 
   <CTA town={formattedTown} />
 

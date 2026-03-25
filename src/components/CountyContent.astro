@@ -1,0 +1,202 @@
+---
+/**
+ * CountyContent.astro — Shared component for county-level pSEO pages.
+ * Composes unique content from serviceContent + countyContent data files,
+ * ensuring each of the 21 county pages has genuinely different body text.
+ */
+import CTA from './CTA.astro';
+import { formatLocationName } from '../data/locations';
+import { serviceContent } from '../data/serviceContent';
+import { countyContent } from '../data/countyContent';
+
+interface Props {
+  serviceSlug: string;
+  serviceName: string;
+  county: string;
+  towns: string[];
+  siblings: { name: string; slug: string }[];
+}
+
+const { serviceSlug, serviceName, county, towns, siblings } = Astro.props;
+
+const formattedCounty = formatLocationName(county);
+const svcContent = serviceContent[serviceSlug as keyof typeof serviceContent];
+const ctyContent = countyContent[county as keyof typeof countyContent];
+
+// Vary layout based on service type
+const showEquipmentAsGrid = ["lifting-equipment", "garage-equipment-inspections", "passenger-and-goods-lifts-inspections"].includes(serviceSlug);
+const showDefectsSection = ["crane-inspections", "mobile-plant-inspection", "work-at-height-equipment-inspections", "garage-equipment-inspections"].includes(serviceSlug);
+
+// Build FAQ schema
+const faqSchema = svcContent?.faq ? JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": svcContent.faq.map(item => ({
+    "@type": "Question",
+    "name": item.q,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.a
+    }
+  }))
+}) : null;
+---
+
+{faqSchema && <script type="application/ld+json" set:html={faqSchema} />}
+
+<!-- Service-specific introduction -->
+<p class="lead text-lg text-slate-600 mb-6">
+  {svcContent?.intro}
+</p>
+
+<p class="mb-8 text-slate-700">
+  Our local network of qualified Engineer Surveyors provides independent {serviceName.toLowerCase()} across {formattedCounty}. {ctyContent?.regionalNotes || ''}
+</p>
+
+<!-- County economic context -->
+<h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">{serviceName} Across {formattedCounty}</h2>
+<p class="mb-4 text-slate-700">
+  {ctyContent?.economicProfile}
+</p>
+<p class="mb-4 text-slate-700">
+  {ctyContent?.sectorMix}
+</p>
+
+<!-- Equipment covered — service-specific -->
+<h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">Equipment We Inspect</h2>
+{showEquipmentAsGrid ? (
+  <div class="grid sm:grid-cols-2 gap-2 mb-6">
+    {svcContent?.whatWeInspect?.map((item: string) => (
+      <div class="flex items-start gap-2 py-1.5">
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-orange mt-2 shrink-0"></span>
+        <span class="text-slate-700">{item}</span>
+      </div>
+    ))}
+  </div>
+) : (
+  <ul class="list-disc pl-5 mb-6 space-y-1 text-slate-700">
+    {svcContent?.whatWeInspect?.map((item: string) => (
+      <li>{item}</li>
+    ))}
+  </ul>
+)}
+<p class="mb-4 text-slate-700">
+  {svcContent?.inspectionDetails}
+</p>
+
+<!-- Industrial areas callout — county-specific -->
+{ctyContent?.industrialAreas && ctyContent.industrialAreas.length > 0 && (
+  <div class="my-8 p-5 bg-slate-50 border border-slate-200 rounded-xl">
+    <p class="text-slate-700 font-medium mb-3">Key Industrial and Commercial Areas in {formattedCounty}</p>
+    <div class="grid sm:grid-cols-2 gap-2">
+      {ctyContent.industrialAreas.map((area: string) => (
+        <div class="flex items-start gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-orange mt-2 shrink-0"></span>
+          <span class="text-slate-600 text-sm">{area}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
+<!-- Legal compliance — service-specific -->
+<h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">Legal Requirements and Inspection Frequency</h2>
+<p class="mb-4 text-slate-700">
+  {svcContent?.regulationNotes}
+</p>
+<div class="my-6 p-5 bg-brand-orange/5 border border-brand-orange/20 rounded-xl">
+  <p class="text-slate-800 font-semibold mb-1">Required Inspection Interval</p>
+  <p class="text-slate-700">{svcContent?.inspectionFrequency || 'Intervals vary depending on equipment type and use.'}</p>
+</div>
+
+<!-- Common defects — service-specific, only shown for relevant services -->
+{showDefectsSection && svcContent?.commonDefects && (
+  <>
+    <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">Common Defects Identified</h2>
+    <p class="mb-3 text-slate-700">
+      During {serviceName.toLowerCase()} across {formattedCounty}, our Engineer Surveyors regularly identify:
+    </p>
+    <ul class="list-disc pl-5 mb-6 space-y-1 text-slate-700">
+      {svcContent.commonDefects.map((defect: string) => (
+        <li>{defect}</li>
+      ))}
+    </ul>
+  </>
+)}
+
+<!-- Key infrastructure — county-specific -->
+{ctyContent?.keyInfrastructure && (
+  <>
+    <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">Infrastructure and Major Projects</h2>
+    <p class="mb-4 text-slate-700">
+      {formattedCounty}'s infrastructure drives significant demand for {serviceName.toLowerCase()}. Key sites and projects include:
+    </p>
+    <ul class="list-disc pl-5 mb-6 space-y-1 text-slate-700">
+      {ctyContent.keyInfrastructure.map((item: string) => (
+        <li>{item}</li>
+      ))}
+    </ul>
+  </>
+)}
+
+<!-- FAQ section -->
+{svcContent?.faq && svcContent.faq.length > 0 && (
+  <>
+    <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-6">Frequently Asked Questions</h2>
+    <div class="space-y-6 mb-8">
+      {svcContent.faq.map((item: { q: string; a: string }) => (
+        <div class="border-b border-slate-200 pb-5">
+          <h3 class="text-lg font-semibold text-slate-900 mb-2">{item.q}</h3>
+          <p class="text-slate-700">{item.a}</p>
+        </div>
+      ))}
+    </div>
+  </>
+)}
+
+<hr class="my-12 border-slate-200" />
+
+<!-- Internal linking section -->
+<section class="mt-16 border-t pt-10">
+  <div class="mt-12 pt-8 border-t border-slate-200">
+    <h3 class="text-xl font-semibold text-slate-900 mt-8 mb-3">Service Overview</h3>
+    <ul class="grid md:grid-cols-2 gap-3">
+      <li>
+        <a href={serviceSlug === 'lifting-equipment' ? '/lifting-equipment-inspections' : `/${serviceSlug}`} class="font-medium text-slate-800 hover:text-brand-orange transition flex items-center gap-2">
+           <span class="w-1.5 h-1.5 rounded-full bg-brand-orange"></span>
+          View all {serviceName.toLowerCase()} across the UK
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="mt-12 pt-8 border-t border-slate-200">
+    <h3 class="text-xl font-semibold text-slate-900 mt-8 mb-3">Neighboring Counties</h3>
+    <ul class="grid md:grid-cols-2 gap-3">
+      {siblings.map(sibling => (
+        <li>
+          <a href={`/loler/${serviceSlug}/${sibling.slug}/`} class="font-medium text-slate-800 hover:text-brand-orange transition flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-brand-orange"></span>
+            {serviceName} in {sibling.name}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div class="mt-12 pt-8 border-t border-slate-200">
+    <h3 class="text-xl font-semibold text-slate-900 mt-8 mb-3">Local Town Coverage</h3>
+    <ul class="grid sm:grid-cols-2 gap-3">
+      {towns?.map(town => (
+        <li>
+          <a href={`/loler/${serviceSlug}/${county}/${town}/`} class="font-medium text-slate-800 hover:text-brand-orange transition flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-brand-orange"></span>
+            {serviceName} in {formatLocationName(town)}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<CTA town={formattedCounty} />
