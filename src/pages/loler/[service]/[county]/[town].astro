@@ -7,6 +7,7 @@ import { locations, formatLocationName } from '../../../../data/locations';
 import { serviceContent } from '../../../../data/serviceContent';
 import { countyContent } from '../../../../data/countyContent';
 import { townContent } from '../../../../data/townContent';
+import { getShortServiceName, getFullServiceName, buildTitle, buildDescription, ALL_SERVICES, ALL_COUNTIES } from '../../../../utils/seo';
 
 export async function getStaticPaths() {
   const services = [
@@ -14,7 +15,6 @@ export async function getStaticPaths() {
     "crane-inspections",
     "mobile-plant-inspection",
     "work-at-height-equipment-inspections",
-    "garage-equipment-inspections",
     "passenger-and-goods-lifts-inspections",
     "firefighting-and-evacuation-lift-inspections"
   ];
@@ -42,17 +42,9 @@ export async function getStaticPaths() {
 
 const { service, county, town } = Astro.params;
 
-const serviceMap: Record<string, string> = {
-  "lifting-equipment": "Lifting Equipment Inspections",
-  "crane-inspections": "Crane Inspections",
-  "mobile-plant-inspection": "Mobile Plant Inspections",
-  "work-at-height-equipment-inspections": "Access Equipment Inspections",
-  "garage-equipment-inspections": "Garage Equipment Inspections",
-  "passenger-and-goods-lifts-inspections": "Passenger and Goods Lift Inspections",
-  "firefighting-and-evacuation-lift-inspections": "Firefighting and Evacuation Lift Inspections"
-};
-
-const serviceName = serviceMap[service as string] || "Inspection Services";
+// Use short names for <title> tag (max 60 chars), full names for body copy
+const shortServiceName = getShortServiceName(service as string);
+const serviceName = getFullServiceName(service as string);
 const towns = locations[county as keyof typeof locations] || [];
 const nearbyTowns = towns.filter((t: string) => t !== town).slice(0, 5);
 
@@ -64,9 +56,18 @@ const svcContent = serviceContent[service as keyof typeof serviceContent];
 const ctyContent = countyContent[county as keyof typeof countyContent];
 const twnContent = townContent[town as keyof typeof townContent];
 
-const seoTitle = `${serviceName} in ${formattedTown}, ${formattedCounty} | LOLER Compliance`;
+// SEO: title max 60 chars, description max 155 chars
 const townSectors = twnContent?.keySectors?.slice(0, 2).join(' and ').toLowerCase() || 'local businesses';
-const seoDescription = `${serviceName} in ${formattedTown} — serving ${townSectors} sectors. Independent thorough examinations by qualified Engineer Surveyors. LOLER and PUWER compliant.`;
+const seoTitle = buildTitle(shortServiceName, formattedTown, formattedCounty);
+const seoDescription = buildDescription(shortServiceName, {
+  town: formattedTown,
+  county: formattedCounty,
+  sectors: townSectors,
+});
+
+// Cross-linking: other services in this town, this service in other counties
+const otherServices = ALL_SERVICES.filter(s => s.slug !== service);
+const otherCounties = ALL_COUNTIES.filter(c => c !== county);
 
 // Build rich structured data
 const faqItems = [
@@ -113,7 +114,7 @@ const schema = JSON.stringify([
 // Determine which sections to show and in what order based on service type
 // This creates layout variation between service types
 const showDefectsFirst = ["crane-inspections", "mobile-plant-inspection"].includes(service as string);
-const showEquipmentAsGrid = ["lifting-equipment", "garage-equipment-inspections"].includes(service as string);
+const showEquipmentAsGrid = ["lifting-equipment"].includes(service as string);
 
 // Find overlapping sectors between service and town
 const overlappingSectors = (svcContent?.typicalSectors && twnContent?.keySectors)
@@ -168,6 +169,21 @@ const overlappingSectors = (svcContent?.typicalSectors && twnContent?.keySectors
     {svcContent?.inspectionDetails}
   </p>
 
+  {/* Block A: Town-specific equipment for this service — unique per town×service combo */}
+  {twnContent?.typicalEquipment?.[service as string] && (
+    <>
+      <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">Equipment We Typically Inspect in {formattedTown}</h2>
+      <p class="mb-3 text-slate-700">
+        Based on the industries operating in and around {formattedTown}, our Engineer Surveyors commonly carry out {serviceName.toLowerCase()} on:
+      </p>
+      <ul class="list-disc pl-5 mb-6 space-y-1 text-slate-700">
+        {twnContent.typicalEquipment[service as string].map((item: string) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </>
+  )}
+
   {/* Show defects section early for crane/plant, later for others */}
   {showDefectsFirst && svcContent?.commonDefects && (
     <>
@@ -198,15 +214,32 @@ const overlappingSectors = (svcContent?.typicalSectors && twnContent?.keySectors
     Across {formattedCounty}, {ctyContent?.sectorMix || `businesses across multiple sectors rely on regular thorough examinations to maintain LOLER and PUWER compliance.`}
   </p>
 
-  {/* Notable local areas callout */}
-  {twnContent?.localLandmarks && twnContent.localLandmarks.length > 0 && (
+  {/* Block B: Why this service matters in this specific town — unique per town×service */}
+  {twnContent?.industryContext?.[service as string] && (
+    <>
+      <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">Why {serviceName} Matter in {formattedTown}</h2>
+      <p class="mb-4 text-slate-700">
+        {twnContent.industryContext[service as string]}
+      </p>
+    </>
+  )}
+
+  {/* Block C: Enhanced coverage detail — unique per town (replaces generic landmarks) */}
+  {twnContent?.coverageDetail ? (
+    <div class="my-8 p-5 bg-slate-50 border border-slate-200 rounded-xl">
+      <p class="text-slate-700 font-medium mb-2">Our Coverage Around {formattedTown}</p>
+      <p class="text-slate-600 text-sm">
+        {twnContent.coverageDetail}
+      </p>
+    </div>
+  ) : twnContent?.localLandmarks && twnContent.localLandmarks.length > 0 ? (
     <div class="my-8 p-5 bg-slate-50 border border-slate-200 rounded-xl">
       <p class="text-slate-700 font-medium mb-2">Local Coverage Areas</p>
       <p class="text-slate-600 text-sm">
         We provide {serviceName.toLowerCase()} to businesses at and around {twnContent.localLandmarks.join(', ')}, as well as across the wider {formattedTown} area.
       </p>
     </div>
-  )}
+  ) : null}
 
   <!-- Regulation and compliance — service-specific -->
   <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">Inspection Frequency and Legal Requirements</h2>
@@ -272,7 +305,7 @@ const overlappingSectors = (svcContent?.typicalSectors && twnContent?.keySectors
       <h3 class="text-xl font-semibold text-slate-900 mt-8 mb-3">{serviceName} in {formattedCounty}</h3>
       <ul class="grid md:grid-cols-2 gap-3">
         <li>
-          <a href={`/loler/${service}/${county}/`} class="font-medium text-slate-800 hover:text-brand-orange transition flex items-center gap-2">
+          <a href={`/loler/${service}/${county}`} class="font-medium text-slate-800 hover:text-brand-orange transition flex items-center gap-2">
              <span class="w-1.5 h-1.5 rounded-full bg-brand-orange"></span>
             {serviceName} in {formattedCounty}
           </a>
@@ -284,7 +317,7 @@ const overlappingSectors = (svcContent?.typicalSectors && twnContent?.keySectors
       <h3 class="text-xl font-semibold text-slate-900 mt-8 mb-3">All {serviceName}</h3>
       <ul class="grid md:grid-cols-2 gap-3">
         <li>
-          <a href={service === 'lifting-equipment' ? `/${service}-inspections` : `/${service}`} class="font-medium text-slate-800 hover:text-brand-orange transition flex items-center gap-2">
+          <a href={`/${ALL_SERVICES.find(s => s.slug === service)?.pageSlug || service}`} class="font-medium text-slate-800 hover:text-brand-orange transition flex items-center gap-2">
             <span class="w-1.5 h-1.5 rounded-full bg-brand-orange"></span>
             View all {serviceName.toLowerCase()} across the UK
           </a>
@@ -297,9 +330,39 @@ const overlappingSectors = (svcContent?.typicalSectors && twnContent?.keySectors
       <ul class="grid sm:grid-cols-2 gap-3">
         {nearbyTowns.map((t: string) => (
           <li>
-            <a href={`/loler/${service}/${county}/${t}/`} class="font-medium text-slate-800 hover:text-brand-orange transition flex items-center gap-2">
+            <a href={`/loler/${service}/${county}/${t}`} class="font-medium text-slate-800 hover:text-brand-orange transition flex items-center gap-2">
               <span class="w-1.5 h-1.5 rounded-full bg-brand-orange"></span>
               {serviceName} in {formatLocationName(t)}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Cross-service links: other services available in this town -->
+    <div class="mt-12 pt-8 border-t border-slate-200">
+      <h3 class="text-xl font-semibold text-slate-900 mt-8 mb-3">Other Inspections in {formattedTown}</h3>
+      <ul class="grid sm:grid-cols-2 gap-3">
+        {otherServices.slice(0, 4).map((s) => (
+          <li>
+            <a href={`/loler/${s.slug}/${county}/${town}`} class="font-medium text-slate-800 hover:text-brand-orange transition flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-orange"></span>
+              {s.name} in {formattedTown}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Cross-county links: this service in other counties -->
+    <div class="mt-12 pt-8 border-t border-slate-200">
+      <h3 class="text-xl font-semibold text-slate-900 mt-8 mb-3">{serviceName} in Other Areas</h3>
+      <ul class="grid sm:grid-cols-2 gap-3">
+        {otherCounties.map((c) => (
+          <li>
+            <a href={`/loler/${service}/${c}`} class="font-medium text-slate-800 hover:text-brand-orange transition flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-orange"></span>
+              {serviceName} in {formatLocationName(c)}
             </a>
           </li>
         ))}

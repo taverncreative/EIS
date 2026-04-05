@@ -13,7 +13,6 @@ const services = [
   { slug: "passenger-and-goods-lifts-inspections", file: "passenger-and-goods-lifts-inspections" },
   { slug: "work-at-height-equipment-inspections", file: "work-at-height-equipment-inspections" },
   { slug: "mobile-plant-inspection", file: "mobile-plant-inspection" },
-  { slug: "garage-equipment-inspections", file: "garage-equipment-inspections" },
   { slug: "firefighting-and-evacuation-lift-inspections", file: "firefighting-and-evacuation-lift-inspections" }
 ];
 
@@ -30,7 +29,10 @@ const guides = [
   "what-is-lifting-equipment-under-loler",
   "what-is-a-thorough-examination-under-loler",
   "loler-vs-puwer",
-  "mewp-loler-inspection-frequency"
+  "mewp-loler-inspection-frequency",
+  "loler-inspection-checklist",
+  "loler-for-property-managers",
+  "loler-for-care-homes"
 ];
 
 // 1. SERVICES SITEMAP (/sitemaps/services.xml)

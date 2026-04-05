@@ -1,6 +1,6 @@
 ---
 title: "LOLER vs PUWER"
-description: "Understand the key differences between LOLER 1998 and PUWER 1998, when each regulation applies, and which equipment needs thorough examination under UK health and safety law."
+description: "Key differences between LOLER 1998 and PUWER 1998, when each applies, and which equipment needs thorough examination."
 slug: "loler-vs-puwer"
 date: "2026-03-10"
 updated: "2026-03-18"

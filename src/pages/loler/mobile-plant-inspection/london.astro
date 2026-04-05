@@ -3,6 +3,7 @@ import CountyPageLayout from '../../../layouts/CountyPageLayout.astro';
 import CountyContent from '../../../components/CountyContent.astro';
 import { locations, formatLocationName } from '../../../data/locations';
 import { serviceContent } from '../../../data/serviceContent';
+import { getShortServiceName, buildTitle, buildDescription } from '../../../utils/seo';
 
 const serviceName = "Mobile Plant Inspections";
 const serviceSlug = "mobile-plant-inspection";
@@ -16,8 +17,9 @@ const siblings = [
 
 const formattedCountyName = formatLocationName(county);
 const svcContent = serviceContent[serviceSlug as keyof typeof serviceContent];
-const seoTitle = `${serviceName} in ${formattedCountyName} | LOLER & PUWER Compliance`;
-const seoDescription = `Independent ${serviceName.toLowerCase()} across ${formattedCountyName}. Covering ${svcContent?.whatWeInspect?.slice(0, 3).join(', ').toLowerCase() || 'lifting equipment'}. LOLER compliant thorough examinations.`;
+const shortName = getShortServiceName(serviceSlug);
+const seoTitle = buildTitle(shortName, undefined, formattedCountyName);
+const seoDescription = buildDescription(shortName, { county: formattedCountyName });
 
 const schema = JSON.stringify({
   "@context": "https://schema.org",

@@ -23,6 +23,9 @@ const formattedCounty = formatLocationName(county);
 const svcContent = serviceContent[serviceSlug as keyof typeof serviceContent];
 const ctyContent = countyContent[county as keyof typeof countyContent];
 
+// Hub content: service-specific content for this county (when available)
+const hubData = ctyContent?.serviceHub?.[serviceSlug];
+
 // Vary layout based on service type
 const showEquipmentAsGrid = ["lifting-equipment", "garage-equipment-inspections", "passenger-and-goods-lifts-inspections"].includes(serviceSlug);
 const showDefectsSection = ["crane-inspections", "mobile-plant-inspection", "work-at-height-equipment-inspections", "garage-equipment-inspections"].includes(serviceSlug);
@@ -57,33 +60,53 @@ const faqSchema = faqItems.length > 0 ? JSON.stringify({
   Our local network of qualified Engineer Surveyors provides independent {serviceName.toLowerCase()} across {formattedCounty}. {ctyContent?.regionalNotes || ''}
 </p>
 
-<!-- County economic context -->
+<!-- County context: hub-specific or generic -->
 <h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">{serviceName} Across {formattedCounty}</h2>
-<p class="mb-4 text-slate-700">
-  {ctyContent?.economicProfile}
-</p>
-<p class="mb-4 text-slate-700">
-  {ctyContent?.sectorMix}
-</p>
-
-<!-- Equipment covered — service-specific -->
-<h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">Equipment We Inspect</h2>
-{showEquipmentAsGrid ? (
-  <div class="grid sm:grid-cols-2 gap-2 mb-6">
-    {svcContent?.whatWeInspect?.map((item: string) => (
-      <div class="flex items-start gap-2 py-1.5">
-        <span class="w-1.5 h-1.5 rounded-full bg-brand-orange mt-2 shrink-0"></span>
-        <span class="text-slate-700">{item}</span>
-      </div>
-    ))}
-  </div>
+{hubData?.overview ? (
+  <p class="mb-4 text-slate-700">{hubData.overview}</p>
 ) : (
-  <ul class="list-disc pl-5 mb-6 space-y-1 text-slate-700">
-    {svcContent?.whatWeInspect?.map((item: string) => (
-      <li>{item}</li>
-    ))}
-  </ul>
+  <>
+    <p class="mb-4 text-slate-700">{ctyContent?.economicProfile}</p>
+    <p class="mb-4 text-slate-700">{ctyContent?.sectorMix}</p>
+  </>
 )}
+
+{/* Hub: top sectors for this service in this county */}
+{hubData?.topSectors && (
+  <div class="my-8 p-5 bg-brand-orange/5 border border-brand-orange/20 rounded-xl">
+    <p class="text-slate-800 font-semibold mb-3">Key Sectors Driving {serviceName} Demand in {formattedCounty}</p>
+    <ul class="space-y-2">
+      {hubData.topSectors.map((sector: string) => (
+        <li class="flex items-start gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-orange mt-2 shrink-0"></span>
+          <span class="text-slate-700">{sector}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+
+<!-- Equipment covered — hub-specific list or service-generic -->
+<h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">{hubData ? `${serviceName} Equipment in ${formattedCounty}` : 'Equipment We Inspect'}</h2>
+{(() => {
+  const equipList = hubData?.keyEquipment || svcContent?.whatWeInspect || [];
+  return showEquipmentAsGrid ? (
+    <div class="grid sm:grid-cols-2 gap-2 mb-6">
+      {equipList.map((item: string) => (
+        <div class="flex items-start gap-2 py-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-orange mt-2 shrink-0"></span>
+          <span class="text-slate-700">{item}</span>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <ul class="list-disc pl-5 mb-6 space-y-1 text-slate-700">
+      {equipList.map((item: string) => (
+        <li>{item}</li>
+      ))}
+    </ul>
+  );
+})()}
 <p class="mb-4 text-slate-700">
   {svcContent?.inspectionDetails}
 </p>
@@ -112,6 +135,14 @@ const faqSchema = faqItems.length > 0 ? JSON.stringify({
   <p class="text-slate-800 font-semibold mb-1">Required Inspection Interval</p>
   <p class="text-slate-700">{svcContent?.inspectionFrequency || 'Intervals vary depending on equipment type and use.'}</p>
 </div>
+
+{/* Hub: county-specific inspection scheduling note */}
+{hubData?.inspectionNote && (
+  <div class="my-8 p-5 bg-slate-50 border border-slate-200 rounded-xl">
+    <p class="text-slate-700 font-medium mb-2">Scheduling Note for {formattedCounty}</p>
+    <p class="text-slate-600 text-sm">{hubData.inspectionNote}</p>
+  </div>
+)}
 
 <!-- Common defects — service-specific, only shown for relevant services -->
 {showDefectsSection && svcContent?.commonDefects && (
@@ -142,6 +173,17 @@ const faqSchema = faqItems.length > 0 ? JSON.stringify({
     </ul>
   </>
 )}
+
+<!-- Related guides — supports topical authority -->
+<div class="my-8 p-5 bg-slate-50 border border-slate-200 rounded-xl">
+  <p class="text-slate-700 font-medium mb-3">LOLER & PUWER Compliance Guides</p>
+  <ul class="space-y-2">
+    <li><a href="/guides/what-is-lifting-equipment-under-loler" class="text-brand-orange hover:text-orange-600 transition text-sm font-medium">What Is Lifting Equipment Under LOLER?</a></li>
+    <li><a href="/guides/what-is-a-thorough-examination-under-loler" class="text-brand-orange hover:text-orange-600 transition text-sm font-medium">What Is a Thorough Examination?</a></li>
+    <li><a href="/guides/loler-vs-puwer" class="text-brand-orange hover:text-orange-600 transition text-sm font-medium">LOLER vs PUWER: Key Differences</a></li>
+    <li><a href="/guides/loler-inspection-checklist" class="text-brand-orange hover:text-orange-600 transition text-sm font-medium">LOLER Inspection Checklist</a></li>
+  </ul>
+</div>
 
 <!-- FAQ section -->
 {faqItems.length > 0 && (
@@ -179,7 +221,7 @@ const faqSchema = faqItems.length > 0 ? JSON.stringify({
     <ul class="grid md:grid-cols-2 gap-3">
       {siblings.map(sibling => (
         <li>
-          <a href={`/loler/${serviceSlug}/${sibling.slug}/`} class="font-medium text-slate-800 hover:text-brand-orange transition flex items-center gap-2">
+          <a href={`/loler/${serviceSlug}/${sibling.slug}`} class="font-medium text-slate-800 hover:text-brand-orange transition flex items-center gap-2">
             <span class="w-1.5 h-1.5 rounded-full bg-brand-orange"></span>
             {serviceName} in {sibling.name}
           </a>
@@ -193,7 +235,7 @@ const faqSchema = faqItems.length > 0 ? JSON.stringify({
     <ul class="grid sm:grid-cols-2 gap-3">
       {towns?.map(town => (
         <li>
-          <a href={`/loler/${serviceSlug}/${county}/${town}/`} class="font-medium text-slate-800 hover:text-brand-orange transition flex items-center gap-2">
+          <a href={`/loler/${serviceSlug}/${county}/${town}`} class="font-medium text-slate-800 hover:text-brand-orange transition flex items-center gap-2">
             <span class="w-1.5 h-1.5 rounded-full bg-brand-orange"></span>
             {serviceName} in {formatLocationName(town)}
           </a>

@@ -1,6 +1,6 @@
 ---
 title: "How Often Do MEWPs Need LOLER Inspection?"
-description: "How often MEWPs, cherry pickers and scissor lifts need LOLER thorough examination, including 6-monthly and 12-monthly intervals based on equipment use and personnel access."
+description: "How often MEWPs, cherry pickers and scissor lifts need LOLER thorough examination, including 6 and 12-month intervals."
 slug: "mewp-loler-inspection-frequency"
 date: "2026-03-15"
 updated: "2026-03-18"

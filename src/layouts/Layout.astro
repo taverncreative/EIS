@@ -10,7 +10,9 @@ const {
   ogType = "website"
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+// Strip trailing slashes to match trailingSlash: 'never' config
+const pathname = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const canonicalURL = new URL(pathname, Astro.site);
 const ogImageURL = new URL(ogImage, Astro.site);
 ---
 
@@ -51,6 +53,43 @@ const ogImageURL = new URL(ogImage, Astro.site);
       "publisher": { "@id": "https://www.eis-uk.com/#organisation" }
     })} />
     <slot name="head" />
+
+    <!-- Core Web Vitals tracking (lightweight, non-blocking) -->
+    <script>
+      // Inline CWV reporting using the web-vitals CDN module
+      // Reports LCP, FID, CLS, FCP, TTFB to console + sends to /api/vitals if available
+      (function() {
+        function sendToAnalytics(metric) {
+          // Log to console in development
+          if (typeof console !== 'undefined') {
+            console.log('[CWV]', metric.name, Math.round(metric.value), metric.rating);
+          }
+
+          // Send to analytics endpoint if available (e.g., Vercel Analytics)
+          if (typeof navigator !== 'undefined' && navigator.sendBeacon) {
+            const body = JSON.stringify({
+              name: metric.name,
+              value: metric.value,
+              rating: metric.rating,
+              id: metric.id,
+              page: window.location.pathname,
+            });
+            navigator.sendBeacon('/api/vitals', body);
+          }
+        }
+
+        // Dynamically import web-vitals from CDN
+        import('https://unpkg.com/web-vitals@4/dist/web-vitals.attribution.js?module').then(function(mod) {
+          mod.onCLS(sendToAnalytics);
+          mod.onFCP(sendToAnalytics);
+          mod.onLCP(sendToAnalytics);
+          mod.onTTFB(sendToAnalytics);
+          mod.onINP(sendToAnalytics);
+        }).catch(function() {
+          // Silently fail — CWV tracking is non-critical
+        });
+      })();
+    </script>
   </head>
   <body class="bg-brand-navy min-h-screen text-slate-900 flex flex-col font-sans">
     <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:bg-brand-orange focus:text-brand-navy focus:px-4 focus:py-2 focus:rounded-lg focus:font-bold">
@@ -95,7 +134,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
                   <a href="/lifting-equipment-inspections" class="hover:text-brand-orange transition whitespace-nowrap text-white font-semibold">Lifting Equipment Inspections</a>
                   <a href="/work-at-height-equipment-inspections" class="hover:text-brand-orange transition whitespace-nowrap text-white font-semibold">Work at height equipment</a>
                   <a href="/mobile-plant-inspection" class="hover:text-brand-orange transition whitespace-nowrap text-white font-semibold">Mobile Plant</a>
-                  <a href="/garage-equipment-inspections" class="hover:text-brand-orange transition whitespace-nowrap text-white font-semibold">Garage Equipment</a>
+
                 </div>
                 <div class="flex flex-col gap-4">
                   <a href="/passenger-and-goods-lifts-inspections" class="hover:text-brand-orange transition whitespace-nowrap text-white font-semibold">Passenger & Goods Lift Inspections</a>
@@ -239,7 +278,6 @@ const ogImageURL = new URL(ogImage, Astro.site);
           <h4 class="text-brand-orange font-semibold mb-3">Specialist Inspections</h4>
           <ul class="space-y-2 text-[0.95rem] text-slate-300">
              <li><a href="/mobile-plant-inspection" class="hover:text-brand-orange transition">Mobile Plant Inspections</a></li>
-             <li><a href="/garage-equipment-inspections" class="hover:text-brand-orange transition">Garage Equipment Inspections</a></li>
              <li><a href="/firefighting-and-evacuation-lift-inspections" class="hover:text-brand-orange transition">Firefighting & Evacuation Lifts</a></li>
           </ul>
         </div>

@@ -7,14 +7,25 @@ import BreadcrumbSchema from '../components/schema/BreadcrumbSchema.astro';
 const { title, description, serviceName, serviceSlug, county } = Astro.props;
 
 const siteBase = 'https://www.eis-uk.com';
-const servicePageSlug = serviceSlug === 'lifting-equipment' ? 'lifting-equipment-inspections' : serviceSlug;
+
+// Map LOLER service slugs to their actual page file names
+const SERVICE_PAGE_MAP: Record<string, string> = {
+  'lifting-equipment': 'lifting-equipment-inspections',
+  'crane-inspections': 'crane-inspections',
+  'mobile-plant-inspection': 'mobile-plant-inspection',
+  'work-at-height-equipment-inspections': 'work-at-height-equipment-inspections',
+  'garage-equipment-inspections': 'garage-equipment-inspections',
+  'passenger-and-goods-lifts-inspections': 'passenger-and-goods-lifts-inspections',
+  'firefighting-and-evacuation-lift-inspections': 'firefighting-and-evacuation-lift-inspections',
+};
+const servicePageSlug = SERVICE_PAGE_MAP[serviceSlug] || serviceSlug;
 const breadcrumbs = [
   { name: 'Home', url: siteBase },
   { name: serviceName, url: `${siteBase}/${servicePageSlug}` },
   { name: county, url: `${siteBase}${Astro.url.pathname}` }
 ];
 ---
-<Layout title={`${title} | Excel Inspection Solutions`} description={description}>
+<Layout title={title} description={description}>
   <Fragment slot="head">
     <BreadcrumbSchema items={breadcrumbs} />
     <slot name="head" />
@@ -27,9 +38,9 @@ const breadcrumbs = [
     <nav class="text-sm text-slate-500 mb-6 flex flex-wrap items-center gap-2 border-b border-slate-100 pb-6">
       <a href="/" class="hover:text-brand-orange transition">Home</a>
       <span class="text-slate-300">/</span>
-      <a href={`/${serviceSlug}-inspections`} class="hover:text-brand-orange transition">Services</a>
+      <a href={`/${servicePageSlug}`} class="hover:text-brand-orange transition">Services</a>
       <span class="text-slate-300">/</span>
-      <a href={`/${serviceSlug}-inspections`} class="hover:text-brand-orange transition">{serviceName}</a>
+      <a href={`/${servicePageSlug}`} class="hover:text-brand-orange transition">{serviceName}</a>
       <span class="text-slate-300">/</span>
       <span class="text-slate-800">{county}</span>
     </nav>
