@@ -52,6 +52,15 @@
   }
 }
 
+/* Mobile-only card spacing for sticky stacking section */
+@media (max-width: 1023px) {
+  .service-card + .service-card,
+  .contents + .contents .service-card,
+  div:has(> .service-card) + div:has(> .service-card) .service-card {
+    margin-top: 1.5rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .lift-shaft-zoom,
   .hero-bg-pan,

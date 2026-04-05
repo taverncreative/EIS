@@ -208,70 +208,43 @@ const services = [
 
   <!-- STICKY SERVICES SECTION -->
   <div id="services" class="pt-24 bg-brand-navy z-10 relative scroll-mt-24">
+    <div class="max-w-7xl mx-auto px-6 lg:grid lg:pb-[10vh]" style="grid-template-columns: 30% 1fr; grid-template-rows: 1fr;">
 
-    <!-- Mobile only: heading + normal card list (no sticky) -->
-    <div class="lg:hidden max-w-7xl mx-auto px-6">
-      <h2 class="text-brand-orange font-bold text-sm tracking-widest mb-4">SERVICES</h2>
-      <p class="text-xl font-bold leading-relaxed text-white tracking-tight mb-8">
-        We offer a variety of other services that go <span class="text-brand-orange font-bold">much further</span> than our inspections:
-      </p>
-      {services.map((service) => (
-        <a
-          href={service.href}
-          class="block min-h-[280px] mb-6 bg-brand-navy border border-slate-700/60 rounded-[2.5rem] p-10 shadow-2xl hover:border-brand-orange/40 group"
-        >
-          <div class="flex justify-between items-start mb-8">
-            <div class="w-16 h-16 bg-brand-orange rounded-full flex items-center justify-center shadow-lg">
-              <span class="text-brand-navy font-black text-2xl leading-none">{service.num}</span>
-            </div>
-            <div class="w-12 h-12 rounded-full border border-slate-700 flex items-center justify-center group-hover:bg-brand-orange group-hover:border-brand-orange transition-colors shrink-0">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-400 group-hover:text-brand-navy transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-            </div>
-          </div>
-          <h3 class="text-3xl font-bold mb-4 text-white tracking-wide group-hover:text-brand-orange transition-colors">{service.title}</h3>
-          <p class="text-slate-300 text-[1.05rem] leading-relaxed max-w-2xl font-medium">{service.desc}</p>
-        </a>
-      ))}
-    </div>
-
-    <!-- Desktop only: sticky stacking cards -->
-    <!-- Grid with 2 columns, ZERO gap. Both columns are in the same parent. -->
-    <!-- Left: single sticky title. Right: sticky cards that overlap via z-index. -->
-    <!-- Grid row-start forces both into the same row so they share vertical space. -->
-    <div class="hidden lg:grid max-w-7xl mx-auto px-6 pb-[10vh]" style="grid-template-columns: 30% 1fr; grid-template-rows: 1fr;">
-
-      <!-- Left column: ONE instance, sticky, spans the full grid row -->
-      <div class="sticky top-[120px] self-start pr-8" style="grid-column: 1; grid-row: 1; z-index: 5;">
-        <h2 class="text-brand-orange font-bold text-sm tracking-widest mb-6">SERVICES</h2>
-        <p class="text-2xl font-bold leading-relaxed max-w-sm text-white tracking-tight">
+      <!-- Left column: title -->
+      <div class="sticky top-[80px] lg:top-[120px] self-start pr-0 lg:pr-8 mb-8 lg:mb-0" style="grid-column: 1; grid-row: 1; z-index: 5;">
+        <h2 class="text-brand-orange font-bold text-sm tracking-widest mb-4 lg:mb-6">SERVICES</h2>
+        <p class="text-xl lg:text-2xl font-bold leading-relaxed max-w-sm text-white tracking-tight">
           We offer a variety of other services that go <span class="text-brand-orange font-bold">much further</span> than our inspections:
         </p>
       </div>
 
-      <!-- Right column: all cards in one cell, overlapping via sticky -->
-      <div style="grid-column: 2; grid-row: 1;">
+      <!-- Right column: cards -->
+      <div class="pt-8 lg:pt-0" style="grid-column: 2; grid-row: 1;">
         {services.map((service, index) => (
-          <a
-            href={service.href}
-            class="sticky top-[120px] block h-[450px] w-full bg-brand-navy border border-slate-700/60 rounded-[2.5rem] p-14 shadow-2xl hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(242,139,3,0.15)] hover:border-brand-orange/40 group"
-            style={`z-index: ${10 + index * 10};`}
-          >
-            <div class="flex justify-between items-start mb-8">
-              <div class="w-16 h-16 bg-brand-orange rounded-full flex items-center justify-center shadow-lg transition-transform group-hover:scale-110">
-                <span class="text-brand-navy font-black text-2xl leading-none">{service.num}</span>
+          <div class="contents">
+            <a
+              href={service.href}
+              class={`service-card sticky top-[80px] lg:top-[120px] block h-[300px] lg:h-[450px] w-full bg-brand-navy border border-slate-700/60 rounded-[2.5rem] p-8 lg:p-14 shadow-2xl hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(242,139,3,0.15)] hover:border-brand-orange/40 group`}
+              style={`z-index: ${10 + index * 10};`}
+            >
+              <div class="flex justify-between items-start mb-6 lg:mb-8">
+                <div class="w-14 h-14 lg:w-16 lg:h-16 bg-brand-orange rounded-full flex items-center justify-center shadow-lg transition-transform group-hover:scale-110">
+                  <span class="text-brand-navy font-black text-xl lg:text-2xl leading-none">{service.num}</span>
+                </div>
+                <div class="w-10 h-10 lg:w-12 lg:h-12 rounded-full border border-slate-700 flex items-center justify-center group-hover:bg-brand-orange group-hover:border-brand-orange transition-colors shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 lg:w-5 lg:h-5 text-slate-400 group-hover:text-brand-navy transition-colors duration-300 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                </div>
               </div>
-              <div class="w-12 h-12 rounded-full border border-slate-700 flex items-center justify-center group-hover:bg-brand-orange group-hover:border-brand-orange transition-colors shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-400 group-hover:text-brand-navy transition-colors duration-300 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-              </div>
-            </div>
-            <h3 class="text-3xl font-bold mb-4 text-white tracking-wide group-hover:text-brand-orange transition-colors">{service.title}</h3>
-            <p class="text-slate-300 text-[1.05rem] leading-relaxed max-w-2xl font-medium">{service.desc}</p>
-          </a>
+              <h3 class="text-2xl lg:text-3xl font-bold mb-3 lg:mb-4 text-white tracking-wide group-hover:text-brand-orange transition-colors">{service.title}</h3>
+              <p class="text-slate-300 text-[0.95rem] lg:text-[1.05rem] leading-relaxed max-w-2xl font-medium">{service.desc}</p>
+            </a>
+          </div>
         ))}
       </div>
 
     </div>
   </div>
+
 
   <!-- SOLID ORANGE CONTACT GRID SECTION (MOVED ABOVE FORM) -->
   <section id="contact" class="bg-brand-orange text-brand-navy pt-24 pb-48 relative overflow-hidden z-20 scroll-mt-24">
