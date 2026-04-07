@@ -52,7 +52,7 @@
   }
 }
 
-/* Mobile-only card spacing for sticky stacking section */
+/* Mobile-only: visual spacing between cards in flow (collapses on stack) */
 @media (max-width: 1023px) {
   .service-card + .service-card,
   .contents + .contents .service-card,

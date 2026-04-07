@@ -208,9 +208,9 @@ const services = [
 
   <!-- STICKY SERVICES SECTION -->
   <div id="services" class="pt-24 bg-brand-navy z-10 relative scroll-mt-24">
-    <div class="max-w-7xl mx-auto px-6 lg:grid lg:pb-[10vh]" style="grid-template-columns: 30% 1fr; grid-template-rows: 1fr;">
+    <div class="max-w-7xl mx-auto px-6 pt-12 pb-[80px] lg:pt-0 lg:pb-[10vh] lg:grid" style="grid-template-columns: 30% 1fr; grid-template-rows: 1fr;">
 
-      <!-- Left column: title -->
+      <!-- Title (sticky in grid col 1, normal flow on mobile) -->
       <div class="sticky top-[80px] lg:top-[120px] self-start pr-0 lg:pr-8 mb-8 lg:mb-0" style="grid-column: 1; grid-row: 1; z-index: 5;">
         <h2 class="text-brand-orange font-bold text-sm tracking-widest mb-4 lg:mb-6">SERVICES</h2>
         <p class="text-xl lg:text-2xl font-bold leading-relaxed max-w-sm text-white tracking-tight">
@@ -218,13 +218,13 @@ const services = [
         </p>
       </div>
 
-      <!-- Right column: cards -->
-      <div class="pt-8 lg:pt-0" style="grid-column: 2; grid-row: 1;">
+      <!-- Card stacking zone (col 2): dedicated container holding all card wrappers -->
+      <div class="relative" style="grid-column: 2; grid-row: 1;">
         {services.map((service, index) => (
           <div class="contents">
             <a
               href={service.href}
-              class={`service-card sticky top-[80px] lg:top-[120px] block h-[300px] lg:h-[450px] w-full bg-brand-navy border border-slate-700/60 rounded-[2.5rem] p-8 lg:p-14 shadow-2xl hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(242,139,3,0.15)] hover:border-brand-orange/40 group`}
+              class="service-card sticky top-[230px] lg:top-[120px] block h-[440px] lg:h-[450px] w-full bg-brand-navy border border-slate-700/60 rounded-[2.5rem] p-8 lg:p-14 shadow-2xl hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(242,139,3,0.15)] hover:border-brand-orange/40 group"
               style={`z-index: ${10 + index * 10};`}
             >
               <div class="flex justify-between items-start mb-6 lg:mb-8">
