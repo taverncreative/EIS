@@ -2,27 +2,141 @@
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Hero from '../../components/Hero.astro';
+import BreadcrumbSchema from '../../components/schema/BreadcrumbSchema.astro';
 
 const guides = await getCollection('guides');
+
+const siteBase = 'https://www.eis-uk.com';
+const breadcrumbs = [
+  { name: 'Home', url: siteBase },
+  { name: 'Guides', url: `${siteBase}/guides` }
+];
+
+// Categorise guides for H2 structure
+const fundamentalSlugs = ['what-is-a-thorough-examination-under-loler', 'what-is-lifting-equipment-under-loler', 'loler-vs-puwer'];
+const equipmentSlugs = ['mewp-loler-inspection-frequency', 'loler-inspection-checklist'];
+const sectorSlugs = ['loler-for-property-managers', 'loler-for-care-homes'];
+
+const byCategory = {
+  fundamentals: guides.filter(g => fundamentalSlugs.includes(g.data.slug)),
+  equipment: guides.filter(g => equipmentSlugs.includes(g.data.slug)),
+  sector: guides.filter(g => sectorSlugs.includes(g.data.slug)),
+};
+
+// CollectionPage schema for the guides index
+const collectionPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "LOLER & PUWER Compliance Guides",
+  "url": `${siteBase}/guides`,
+  "description": "Expert LOLER and PUWER compliance guides for duty holders, facilities managers, and safety professionals.",
+  "inLanguage": "en-GB",
+  "isPartOf": { "@id": `${siteBase}/#website` },
+  "publisher": { "@id": `${siteBase}/#organisation` },
+  "hasPart": guides.map(g => ({
+    "@type": "Article",
+    "name": g.data.title,
+    "url": `${siteBase}/guides/${g.data.slug}`,
+    "description": g.data.description,
+    "datePublished": g.data.date,
+    "dateModified": g.data.updated || g.data.date
+  }))
+};
 ---
 
-<Layout title="LOLER & PUWER Compliance Guides | EIS" description="Expert guides on LOLER thorough examinations, PUWER compliance, lifting equipment and MEWP inspection frequency.">
+<Layout
+  title="LOLER & PUWER Compliance Guides | EIS"
+  description="Expert LOLER and PUWER guides on thorough examinations, compliance and inspection frequency. Browse our free resources today."
+>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={breadcrumbs} />
+    <script type="application/ld+json" set:html={JSON.stringify(collectionPageSchema)} />
+  </Fragment>
   <Hero title="LOLER & PUWER Guides" subtitle="Expert guidance on lifting equipment compliance, inspections, and UK regulations" />
 
   <section class="bg-white text-slate-900 w-full relative z-10">
-    <div class="max-w-5xl mx-auto px-6 py-12">
-      <h1 class="text-3xl font-bold mb-6">Guides</h1>
+    <div class="max-w-5xl mx-auto px-6 py-16">
 
-      <ul class="grid md:grid-cols-2 gap-6">
-        {guides.map((guide) => (
-          <li class="border border-slate-200 rounded-xl p-6 bg-white shadow-sm hover:shadow-md transition">
-            <a href={`/guides/${guide.data.slug}/`} class="text-xl font-semibold block mb-2 text-brand-orange hover:text-orange-600">
-              {guide.data.title}
-            </a>
-            <p class="text-slate-600">{guide.data.description}</p>
-          </li>
-        ))}
-      </ul>
+      <!-- Breadcrumb -->
+      <nav class="text-sm text-slate-500 mb-8 flex flex-wrap items-center gap-2">
+        <a href="/" class="hover:text-brand-orange transition">Home</a>
+        <span class="text-slate-300">/</span>
+        <span class="text-slate-800">Guides</span>
+      </nav>
+
+      <!-- Intro -->
+      <div class="prose prose-lg prose-slate max-w-none mb-12">
+        <p class="lead">
+          Plain-English guides on the UK's lifting equipment regulations — written by our qualified engineer surveyors for duty holders, facilities managers, care home operators, and safety professionals.
+        </p>
+        <p>
+          Every guide is grounded in current HSE guidance, British Standards, and LOLER/PUWER regulatory text. Last reviewed and updated throughout 2026.
+        </p>
+      </div>
+
+      <!-- Fundamentals -->
+      {byCategory.fundamentals.length > 0 && (
+        <div class="mb-16">
+          <h2 class="text-2xl font-bold mb-2">Regulation Fundamentals</h2>
+          <p class="text-slate-600 mb-6">Start here if you're new to LOLER and PUWER, or need to understand which regulation applies to your equipment.</p>
+          <ul class="grid md:grid-cols-2 gap-6">
+            {byCategory.fundamentals.map((guide) => (
+              <li class="border border-slate-200 rounded-xl p-6 bg-white shadow-sm hover:shadow-md hover:border-brand-orange/40 transition">
+                <a href={`/guides/${guide.data.slug}/`} class="text-xl font-semibold block mb-2 text-brand-orange hover:text-orange-600">
+                  {guide.data.title}
+                </a>
+                <p class="text-slate-600 text-sm">{guide.data.description}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <!-- Equipment & Inspection Practice -->
+      {byCategory.equipment.length > 0 && (
+        <div class="mb-16">
+          <h2 class="text-2xl font-bold mb-2">Equipment & Inspection Practice</h2>
+          <p class="text-slate-600 mb-6">How thorough examinations work, what competent persons look for, and how often specific equipment types need inspecting.</p>
+          <ul class="grid md:grid-cols-2 gap-6">
+            {byCategory.equipment.map((guide) => (
+              <li class="border border-slate-200 rounded-xl p-6 bg-white shadow-sm hover:shadow-md hover:border-brand-orange/40 transition">
+                <a href={`/guides/${guide.data.slug}/`} class="text-xl font-semibold block mb-2 text-brand-orange hover:text-orange-600">
+                  {guide.data.title}
+                </a>
+                <p class="text-slate-600 text-sm">{guide.data.description}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <!-- Sector-Specific -->
+      {byCategory.sector.length > 0 && (
+        <div class="mb-16">
+          <h2 class="text-2xl font-bold mb-2">Sector Guides</h2>
+          <p class="text-slate-600 mb-6">Compliance guidance tailored to specific industries and roles — property, care, facilities, and beyond.</p>
+          <ul class="grid md:grid-cols-2 gap-6">
+            {byCategory.sector.map((guide) => (
+              <li class="border border-slate-200 rounded-xl p-6 bg-white shadow-sm hover:shadow-md hover:border-brand-orange/40 transition">
+                <a href={`/guides/${guide.data.slug}/`} class="text-xl font-semibold block mb-2 text-brand-orange hover:text-orange-600">
+                  {guide.data.title}
+                </a>
+                <p class="text-slate-600 text-sm">{guide.data.description}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <!-- CTA -->
+      <div class="mt-12 bg-brand-navy text-white rounded-2xl p-8">
+        <h2 class="text-2xl font-semibold mb-2">Need a thorough examination?</h2>
+        <p class="mb-4 text-slate-300">Speak with a qualified engineer surveyor about your equipment and site requirements.</p>
+        <a href="/#contact" class="inline-block bg-brand-orange text-brand-navy px-6 py-3 rounded-lg font-bold hover:bg-orange-400 transition">
+          Request a quote
+        </a>
+      </div>
+
     </div>
   </section>
 </Layout>

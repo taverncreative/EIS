@@ -38,6 +38,9 @@ const guides = [
 // 1. SERVICES SITEMAP (/sitemaps/services.xml)
 let servicesXml = header();
 servicesXml += urlTag("/", "1.0");
+servicesXml += urlTag("/about", "0.8");
+servicesXml += urlTag("/services", "0.8");
+servicesXml += urlTag("/contact", "0.7");
 servicesXml += urlTag("/faq", "0.7");
 for (const s of services) {
   servicesXml += urlTag(`/${s.file}`, "0.9");

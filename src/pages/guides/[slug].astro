@@ -32,10 +32,20 @@ const articleSchema = {
   "headline": guide.data.title,
   "description": guide.data.description,
   "url": pageUrl,
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": pageUrl
+  },
   "datePublished": guide.data.date,
   "dateModified": guide.data.updated || guide.data.date,
-  "author": { "@id": `${siteBase}/#organisation` },
-  "publisher": { "@id": `${siteBase}/#organisation` }
+  "author": {
+    "@type": "Person",
+    "name": "Joe Ward",
+    "jobTitle": "Founder & Engineer Surveyor",
+    "worksFor": { "@id": `${siteBase}/#organisation` }
+  },
+  "publisher": { "@id": `${siteBase}/#organisation` },
+  "inLanguage": "en-GB"
 };
 ---
 
@@ -56,10 +66,12 @@ const articleSchema = {
         <span>{guide.data.title}</span>
       </nav>
 
-      <!-- Last updated -->
-      <p class="text-sm text-slate-500">
-        Last updated: {guide.data.updated || guide.data.date}
-      </p>
+      <!-- Author + last updated -->
+      <div class="not-prose flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-slate-500 mb-4 pb-4 border-b border-slate-200">
+        <span>By <strong class="text-slate-700">Joe Ward</strong>, Founder & Engineer Surveyor</span>
+        <span class="hidden sm:inline text-slate-300">•</span>
+        <span>Last updated: {guide.data.updated || guide.data.date}</span>
+      </div>
 
       <!-- Intro -->
       <p class="lead">{guide.data.description}</p>

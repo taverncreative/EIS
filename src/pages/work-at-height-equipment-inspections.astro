@@ -8,13 +8,23 @@ const equipmentList = [
   "Signs of wear across chassis and outrigger stability",
   "Integrity of safety harness anchor points"
 ];
+
+const faqs = [
+  { question: "Are MEWP inspections a legal requirement?", answer: "Yes. Under LOLER 1998, MEWPs and related elevating platforms used at work must undergo regular Thorough Examination." },
+  { question: "How often does a scissor lift need to be inspected?", answer: "Because they elevate personnel, scissor lifts must be inspected strictly every 6 months under LOLER regulations." },
+  { question: "Who is responsible for arranging platform inspections?", answer: "The duty holder, which is typically the employer, site contractor, or organisation leasing and using the equipment." },
+  { question: "Do fall arrest harnesses need inspection?", answer: "Yes. As critical lifting accessories, safety harnesses, lanyards, and anchor points must undergo documented inspection every 6 months." },
+  { question: "What happens if MEWP inspections are missed?", answer: "Non-compliance compromises worker safety, can lead to HSE prohibition notices, and fully invalidates active liability insurance." }
+];
 ---
 
-<ServicePageLayout 
+<ServicePageLayout
   title="Work at Height Equipment Inspections"
   intro="Secure compliance and protect operators with independent examinations of MEWPs, scaffolding hoists, and fall arrest systems."
+  metaDescription="Independent 6-monthly LOLER inspections for MEWPs, scissor lifts, scaffold hoists and fall arrest harnesses. Book your inspection today."
   regulation="LOLER 1998 and WAHR 2005"
   equipmentList={equipmentList}
+  faqs={faqs}
 >
   <p class="mb-4">
     Work at height equipment inspections are a strict legal requirement. Under the Lifting Operations and Lifting Equipment Regulations 1998 (LOLER) and Work at Height Regulations 2005 (WAHR), duty holders must ensure that all elevating equipment is safe, correctly maintained, and subject to regular independent Thorough Examinations.

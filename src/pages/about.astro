@@ -1,0 +1,91 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import BreadcrumbSchema from '../components/schema/BreadcrumbSchema.astro';
+
+const siteBase = 'https://www.eis-uk.com';
+const breadcrumbs = [
+  { name: 'Home', url: siteBase },
+  { name: 'About', url: `${siteBase}/about` }
+];
+
+const aboutPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "name": "About Excel Inspection Solutions",
+  "url": `${siteBase}/about`,
+  "mainEntity": { "@id": `${siteBase}/#organisation` }
+};
+---
+
+<Layout
+  title="About Excel Inspection Solutions | EIS"
+  description="Independent LOLER and PUWER inspections led by qualified Engineer Surveyors. ISO 9001 and 45001 certified. Meet the team behind EIS."
+>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={breadcrumbs} />
+    <script type="application/ld+json" set:html={JSON.stringify(aboutPageSchema)} />
+  </Fragment>
+
+  <Hero title="About Excel Inspection Solutions" subtitle="Independent engineer surveyors" />
+
+  <section class="bg-white text-slate-900 relative z-20 rounded-t-[3rem] -mt-16 shadow-[0_-20px_50px_rgba(0,0,0,0.2)]">
+    <div class="max-w-4xl mx-auto px-6 py-20">
+
+      <!-- Breadcrumb -->
+      <nav class="text-sm text-slate-500 mb-8 flex flex-wrap items-center gap-2">
+        <a href="/" class="hover:text-brand-orange transition">Home</a>
+        <span class="text-slate-300">/</span>
+        <span class="text-slate-800">About</span>
+      </nav>
+
+      <div class="prose prose-lg prose-slate max-w-none">
+        <p class="lead text-xl text-slate-600">
+          Excel Inspection Solutions (EIS) was founded on the belief that compliance inspections should be independent, thorough, and delivered around the client — not the other way around.
+        </p>
+
+        <h2>Our approach</h2>
+        <p>
+          We carry out statutory Thorough Examinations under LOLER 1998, PUWER 1998, and PSSR 2000 across the South East of England and nationwide. Every inspection is conducted by a qualified Engineer Surveyor operating independently of any maintenance provider — which is what the HSE expects, and what duty holders need to demonstrate real compliance.
+        </p>
+
+        <h2>Founded by an engineer surveyor</h2>
+        <p>
+          EIS was founded by <strong>Joe Ward</strong>, a qualified Engineer Surveyor with extensive experience in lifting equipment, pressure systems, and workplace safety compliance. Joe leads every aspect of the business and still attends inspections personally, which keeps the technical standards high and the reporting grounded in real-world practice.
+        </p>
+
+        <h2>Part of a national network</h2>
+        <p>
+          Most of our clients are based in Kent, London, Essex, and the wider South East. As part of the <strong>Engineer Surveyor Inspection Network (ESiNet)</strong>, we can call upon a national network of qualified engineer surveyors to deliver inspections anywhere in the UK — without the overhead of a large centralised firm.
+        </p>
+
+        <h2>Accreditations</h2>
+        <ul>
+          <li><strong>ISO 9001</strong> — Quality Management System certified</li>
+          <li><strong>ISO 45001</strong> — Occupational Health &amp; Safety Management System certified</li>
+          <li><strong>UKAS-accredited certification bodies</strong></li>
+        </ul>
+
+        <h2>Who we work with</h2>
+        <p>
+          Our clients include property managers and managing agents, care home operators, facilities management companies, construction firms, local authorities, warehousing and logistics operators, automotive workshops, and hospitality businesses. Wherever LOLER, PUWER, or PSSR applies, we can help.
+        </p>
+
+        <h2>What "independent" actually means</h2>
+        <p>
+          A Thorough Examination is not the same as routine maintenance. The HSE specifically requires that the competent person conducting the examination is independent of the maintenance provider, so defects cannot be overlooked in favour of commercial relationships. EIS operates entirely on that basis — we don't sell maintenance contracts, and we have no incentive to pass equipment that isn't safe.
+        </p>
+      </div>
+
+      <!-- CTA -->
+      <div class="mt-12 bg-brand-navy text-white rounded-2xl p-8">
+        <h2 class="text-2xl font-semibold mb-2">Need a LOLER or PUWER inspection?</h2>
+        <p class="mb-4 text-slate-300">Speak with our engineer surveyors about your equipment and site requirements.</p>
+        <a href="/#contact" class="inline-block bg-brand-orange text-brand-navy px-6 py-3 rounded-lg font-bold hover:bg-orange-400 transition">
+          Request a quote
+        </a>
+      </div>
+
+    </div>
+  </section>
+</Layout>

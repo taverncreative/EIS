@@ -8,13 +8,23 @@ const equipmentList = [
   "Operation of machine room equipment",
   "Condition of pit environments and buffers"
 ];
+
+const faqs = [
+  { question: "Is a lift inspection a legal requirement?", answer: "Yes. Under LOLER 1998, lifts used at work and in commercial buildings must undergo regular Thorough Examination." },
+  { question: "How often does a passenger lift need to be inspected?", answer: "Every 6 months for equipment carrying people. Lifts handling strictly goods require inspection every 12 months." },
+  { question: "Who is responsible for arranging lift inspections?", answer: "The duty holder, which is typically the building owner, facilities manager, or employer responsible for the lifting equipment." },
+  { question: "Can my maintenance provider perform the Thorough Examination?", answer: "HSE strongly advises against this to avoid conflicts of interest. The examination must be performed by an impartial and independent competent person." },
+  { question: "What happens if an inspection is missed?", answer: "Non-compliance compromises passenger safety and can lead to immediate HSE enforcement action and fully invalidated liability insurance." }
+];
 ---
 
-<ServicePageLayout 
+<ServicePageLayout
   title="Passenger and Goods Lifts Inspections"
   intro="Maintain passenger safety and operational reliability with statutory lift inspections conducted by independent Engineer Surveyors."
+  metaDescription="Independent LOLER thorough examinations for passenger lifts, goods lifts and platform lifts. Book your 6-monthly inspection today."
   regulation="LOLER 1998 and SAFed Guidelines"
   equipmentList={equipmentList}
+  faqs={faqs}
 >
   <p class="mb-4">
     Passenger and goods lift inspections are a strict legal requirement for businesses operating internal transport equipment. Under the Lifting Operations and Lifting Equipment Regulations 1998 (LOLER), duty holders must ensure that all lifts are safe, correctly installed, and subject to regular independent Thorough Examinations.

@@ -47,7 +47,7 @@ const services = [
 ];
 ---
 
-<Layout title="Lifting Equipment Inspections | EIS" description="Independent LOLER and PUWER inspections for lifts, cranes, plant and access equipment across Kent, London and Essex.">
+<Layout title="LOLER & PUWER Inspections in Kent, London & Essex | EIS" description="Independent LOLER and PUWER thorough examinations for lifts, cranes, plant and access equipment. Book your inspection today.">
   
   <!-- Layout Header natively imported -->
 
@@ -80,8 +80,14 @@ const services = [
         <div class="absolute right-2 -top-8 lg:right-0 lg:-top-10 w-[5rem] lg:w-[7rem] h-[5rem] lg:h-[7rem] z-30 mix-blend-screen pointer-events-none" style="background-image: url('/images/orange_circles.jpg'); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
         
         <div class="overflow-hidden rounded-2xl relative w-full h-[520px] md:h-[620px] xl:h-[720px] object-cover shadow-2xl">
-          <img src="/images/crane-bg.png" class="absolute inset-0 w-full h-full object-cover hero-bg-pan z-10" alt="Tower crane on construction site during LOLER inspection" loading="eager" fetchpriority="high" width="1920" height="720" />
-          <img src="/images/crane-fg.png" class="absolute inset-0 w-full h-full object-cover hero-fg-pan z-20" alt="Close-up of crane boom and jib being inspected" loading="eager" fetchpriority="high" width="1920" height="720" />
+          <picture>
+            <source srcset="/images/crane-bg.webp" type="image/webp" />
+            <img src="/images/crane-bg.png" class="absolute inset-0 w-full h-full object-cover hero-bg-pan z-10" alt="Tower crane on construction site during LOLER inspection" loading="eager" fetchpriority="high" width="1920" height="720" />
+          </picture>
+          <picture>
+            <source srcset="/images/crane-fg.webp" type="image/webp" />
+            <img src="/images/crane-fg.png" class="absolute inset-0 w-full h-full object-cover hero-fg-pan z-20" alt="Close-up of crane boom and jib being inspected" loading="eager" fetchpriority="high" width="1920" height="720" />
+          </picture>
         </div>
       </div>
 
@@ -132,7 +138,10 @@ const services = [
 
       <!-- RIGHT COLUMN: Glass Door Full Height Image -->
       <div class="hidden xl:block xl:col-span-5 rounded-[2.5rem] overflow-hidden shadow-xl sticky top-8" style="height: calc(100vh - 4rem);">
-        <img src="/images/glass_door.jpg" class="w-full h-full object-cover scale-105" alt="Glass passenger lift doors in a modern building" loading="lazy" width="800" height="1200" />
+        <picture>
+          <source srcset="/images/glass_door.webp" type="image/webp" />
+          <img src="/images/glass_door.jpg" class="w-full h-full object-cover scale-105" alt="Glass passenger lift doors in a modern building" loading="lazy" width="800" height="1200" />
+        </picture>
       </div>
 
     </div>
@@ -245,6 +254,41 @@ const services = [
     </div>
   </div>
 
+  <!-- RESOURCES / LEARN SECTION -->
+  <section class="bg-brand-navy pt-24 pb-24 border-t border-slate-800/50">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex items-center gap-4 mb-4">
+        <div class="w-10 h-0.5 bg-brand-orange"></div>
+        <span class="text-brand-orange font-bold text-sm tracking-widest uppercase">Learn</span>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">LOLER & PUWER Guides</h2>
+      <p class="text-slate-300 max-w-2xl mb-10 text-lg">
+        Plain-English compliance guides written by our engineer surveyors — covering what gets checked, how often, and what duty holders need to know.
+      </p>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <a href="/guides/what-is-a-thorough-examination-under-loler" class="block bg-slate-800/40 border border-slate-700/60 rounded-2xl p-6 hover:border-brand-orange/40 transition group">
+          <h3 class="text-lg font-semibold text-white mb-2 group-hover:text-brand-orange transition">What is a Thorough Examination?</h3>
+          <p class="text-slate-400 text-sm">Understand the statutory inspection regime required under LOLER 1998.</p>
+        </a>
+        <a href="/guides/loler-vs-puwer" class="block bg-slate-800/40 border border-slate-700/60 rounded-2xl p-6 hover:border-brand-orange/40 transition group">
+          <h3 class="text-lg font-semibold text-white mb-2 group-hover:text-brand-orange transition">LOLER vs PUWER</h3>
+          <p class="text-slate-400 text-sm">Key differences between the two regulations and when each applies.</p>
+        </a>
+        <a href="/guides/loler-inspection-checklist" class="block bg-slate-800/40 border border-slate-700/60 rounded-2xl p-6 hover:border-brand-orange/40 transition group">
+          <h3 class="text-lg font-semibold text-white mb-2 group-hover:text-brand-orange transition">LOLER Inspection Checklist</h3>
+          <p class="text-slate-400 text-sm">What a competent person checks during a thorough examination.</p>
+        </a>
+      </div>
+
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="/guides" class="text-brand-orange hover:text-orange-400 font-semibold transition">Browse all guides →</a>
+        <span class="text-slate-600">•</span>
+        <a href="/faq" class="text-brand-orange hover:text-orange-400 font-semibold transition">Read our FAQ →</a>
+      </div>
+    </div>
+  </section>
+
 
   <!-- SOLID ORANGE CONTACT GRID SECTION (MOVED ABOVE FORM) -->
   <section id="contact" class="bg-brand-orange text-brand-navy pt-24 pb-48 relative overflow-hidden z-20 scroll-mt-24">
@@ -297,7 +341,10 @@ const services = [
       
       <!-- Left Image Overlapping -->
       <div class="lg:col-span-5 rounded-[2.5rem] overflow-hidden shadow-2xl min-h-[500px] lg:h-auto object-cover relative group">
-        <img src="/images/lift_shaft.jpg" class="absolute inset-0 w-full h-full object-cover lift-shaft-zoom" alt="Inside a lift shaft during thorough examination" loading="lazy" width="800" height="1200" />
+        <picture>
+          <source srcset="/images/lift_shaft.webp" type="image/webp" />
+          <img src="/images/lift_shaft.jpg" class="absolute inset-0 w-full h-full object-cover lift-shaft-zoom" alt="Inside a lift shaft during thorough examination" loading="lazy" width="800" height="1200" />
+        </picture>
       </div>
       
       <!-- Right Form -->

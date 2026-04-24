@@ -8,13 +8,23 @@ const equipmentList = [
   "Condition of slew rings, gears and chassis",
   "Stability of outriggers and foundation anchors"
 ];
+
+const faqs = [
+  { question: "Is a crane inspection a legal requirement?", answer: "Yes. Under LOLER 1998, cranes used at work must undergo regular Thorough Examination by a competent person." },
+  { question: "How often does a crane need to be inspected?", answer: "Typically every 12 months for goods lifting, or every 6 months if lifting people or for lifting accessories, unless a Written Scheme specifies otherwise." },
+  { question: "Who is responsible for arranging crane inspections?", answer: "The duty holder, which is typically the employer, site contractor, or organisation responsible for the crane." },
+  { question: "What happens if crane inspections are missed?", answer: "Non-compliance can lead to HSE enforcement action, invalidated insurance, and increased risk of operational failure." },
+  { question: "Is a Thorough Examination the same as crane maintenance?", answer: "No. A Thorough Examination is an independent statutory safety inspection, completely separate from routine mechanical maintenance or servicing." }
+];
 ---
 
-<ServicePageLayout 
+<ServicePageLayout
   title="Crane Inspections"
   intro="Ensure the safe operation and legal compliance of your crane fleet with independent Thorough Examinations."
+  metaDescription="Independent LOLER crane inspections for tower, mobile, overhead and gantry cranes. Book your thorough examination today."
   regulation="LOLER 1998 and BS 7121"
   equipmentList={equipmentList}
+  faqs={faqs}
 >
   <p class="mb-4">
     Crane inspections are a legal requirement for businesses operating heavy lifting machinery. Under the Lifting Operations and Lifting Equipment Regulations 1998 (LOLER), duty holders must ensure that all cranes are safe, correctly installed, and subject to regular independent Thorough Examinations.

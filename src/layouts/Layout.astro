@@ -22,6 +22,14 @@ const ogImageURL = new URL(ogImage, Astro.site);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Performance: preconnect to third-party origins (web-vitals CDN, unpkg) -->
+    <link rel="preconnect" href="https://unpkg.com" crossorigin />
+    <link rel="dns-prefetch" href="https://unpkg.com" />
+
+    <!-- Performance: preload logo (WebP, used in nav on every page, above the fold) -->
+    <link rel="preload" as="image" href="/images/logo.webp" type="image/webp" fetchpriority="high" />
+
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
     <link rel="canonical" href={canonicalURL} />
@@ -100,8 +108,11 @@ const ogImageURL = new URL(ogImage, Astro.site);
     <!-- NAVBAR -->
     <nav class="w-full relative z-50 bg-brand-navy">
       <div class="max-w-[1600px] mx-auto px-6 md:px-8 py-6 flex flex-wrap lg:flex-nowrap items-center justify-between relative">
-        <a href="/" class="flex flex-col shrink-0 group z-50">
-          <img src="/images/logo.png" alt="Excel Inspection Solutions" class="h-10 md:h-12 w-auto object-contain transition duration-300 group-hover:opacity-90" />
+        <a href="/" aria-label="Excel Inspection Solutions — home" class="flex flex-col shrink-0 group z-50">
+          <picture>
+            <source srcset="/images/logo.webp" type="image/webp" />
+            <img src="/images/logo.png" alt="Excel Inspection Solutions" class="h-10 md:h-12 w-auto object-contain transition duration-300 group-hover:opacity-90" width="200" height="48" loading="eager" fetchpriority="high" />
+          </picture>
         </a>
 
         <!-- Mobile Toggle & Brochure Group -->
@@ -116,12 +127,11 @@ const ogImageURL = new URL(ogImage, Astro.site);
 
         <ul id="nav-menu" class="hidden lg:flex w-full lg:w-auto flex-col lg:flex-row items-start lg:items-center gap-1 lg:gap-3 xl:gap-5 2xl:gap-8 text-[1rem] lg:text-[0.8rem] xl:text-[0.85rem] 2xl:text-[0.95rem] font-bold text-slate-400 mt-6 lg:mt-0 pb-4 lg:pb-0 whitespace-nowrap">
           <li><a href="/" class="hover:text-brand-orange text-brand-orange border-b-2 border-brand-orange pb-0.5 transition block py-2 lg:py-0">Home</a></li>
-          <li><a href="/#about-us" class="hover:text-white transition block py-2 lg:py-0">About Us</a></li>
-          <li><a href="/#what-we-do" class="hover:text-white transition block py-2 lg:py-0">What We Do</a></li>
+          <li><a href="/about" class="hover:text-white transition block py-2 lg:py-0">About Us</a></li>
 
           <!-- MEGA MENU -->
           <li class="relative group">
-            <a href="/#services" class="hover:text-white transition flex items-center gap-1 py-2 lg:py-0">
+            <a href="/services" class="hover:text-white transition flex items-center gap-1 py-2 lg:py-0">
               Services <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 transition group-hover:rotate-180" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
             </a>
             <!-- Dropdown Panel -->
@@ -139,7 +149,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
                 <div class="flex flex-col gap-4">
                   <a href="/passenger-and-goods-lifts-inspections" class="hover:text-brand-orange transition whitespace-nowrap text-white font-semibold">Passenger & Goods Lift Inspections</a>
                   <a href="/crane-inspections" class="hover:text-brand-orange transition whitespace-nowrap text-white font-semibold">Cranes</a>
-                  <a href="/firefighting-and-evacuation-lift-inspections" class="hover:text-brand-orange transition whitespace-nowrap text-white font-semibold">Firefighting & Evacuation Lift Inspection</a>
+                  <a href="/firefighting-and-evacuation-lift-inspections" class="hover:text-brand-orange transition whitespace-nowrap text-white font-semibold">Firefighting & Evacuation Lift Inspections</a>
                 </div>
               </div>
             </div>
@@ -226,13 +236,22 @@ const ogImageURL = new URL(ogImage, Astro.site);
         
         <!-- Logo Col -->
         <div class="col-span-1 md:col-span-4 lg:col-span-5">
-          <img src="/images/logo.png" alt="Excel Inspection Solutions" class="h-12 md:h-14 w-auto object-contain mb-6" />
+          <picture>
+            <source srcset="/images/logo.webp" type="image/webp" />
+            <img src="/images/logo.png" alt="Excel Inspection Solutions" class="h-12 md:h-14 w-auto object-contain mb-6" width="240" height="56" loading="lazy" />
+          </picture>
           <div class="flex items-center gap-4 text-slate-300 mt-8">
             <a href="https://www.instagram.com/eis_uk/" target="_blank" rel="noopener noreferrer" class="block hover:-translate-y-1 transition duration-300">
-              <img src="/images/Instagram%20Icon.png" alt="Instagram" class="w-9 h-9 object-contain hover:grayscale-0" loading="lazy" width="36" height="36" />
+              <picture>
+                <source srcset="/images/Instagram%20Icon.webp" type="image/webp" />
+                <img src="/images/Instagram%20Icon.png" alt="Instagram" class="w-9 h-9 object-contain hover:grayscale-0" loading="lazy" width="36" height="36" />
+              </picture>
             </a>
             <a href="https://www.linkedin.com/company/eis-ltd" target="_blank" rel="noopener noreferrer" class="block hover:-translate-y-1 transition duration-300">
-              <img src="/images/Linkedin%20Icon.png" alt="LinkedIn" class="w-9 h-9 object-contain hover:grayscale-0" loading="lazy" width="36" height="36" />
+              <picture>
+                <source srcset="/images/Linkedin%20Icon.webp" type="image/webp" />
+                <img src="/images/Linkedin%20Icon.png" alt="LinkedIn" class="w-9 h-9 object-contain hover:grayscale-0" loading="lazy" width="36" height="36" />
+              </picture>
             </a>
           </div>
         </div>
@@ -255,8 +274,14 @@ const ogImageURL = new URL(ogImage, Astro.site);
             </div>
             
             <div class="flex gap-4 items-end justify-end mt-4 md:mt-0">
-              <img src="/images/iso_45001.jpg" alt="ISO 45001 UKAS Certification" class="w-[85px] h-[100px] object-contain shadow-lg border-2 border-slate-200 bg-white" loading="lazy" width="85" height="100" />
-              <img src="/images/iso_9001.jpg" alt="ISO 9001 UKAS Certification" class="w-[85px] h-[100px] object-contain shadow-lg border-2 border-slate-200 bg-white" loading="lazy" width="85" height="100" />
+              <picture>
+                <source srcset="/images/iso_45001.webp" type="image/webp" />
+                <img src="/images/iso_45001.jpg" alt="ISO 45001 UKAS Certification" class="w-[85px] h-[100px] object-contain shadow-lg border-2 border-slate-200 bg-white" loading="lazy" width="85" height="100" />
+              </picture>
+              <picture>
+                <source srcset="/images/iso_9001.webp" type="image/webp" />
+                <img src="/images/iso_9001.jpg" alt="ISO 9001 UKAS Certification" class="w-[85px] h-[100px] object-contain shadow-lg border-2 border-slate-200 bg-white" loading="lazy" width="85" height="100" />
+              </picture>
             </div>
           </div>
         </div>
@@ -264,7 +289,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
       </div>
 
       <!-- SEO INTERNAL LINKING ROWS -->
-      <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8 mb-12 border-t border-slate-800/50 pt-12">
+      <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12 border-t border-slate-800/50 pt-12">
         <div>
           <h4 class="text-brand-orange font-semibold mb-3">Core Services</h4>
           <ul class="space-y-2 text-[0.95rem] text-slate-300">
@@ -287,6 +312,15 @@ const ogImageURL = new URL(ogImage, Astro.site);
             <li><a href="/loler/lifting-equipment/kent" class="hover:text-brand-orange transition">Lifting Equipment in Kent</a></li>
             <li><a href="/loler/lifting-equipment/london" class="hover:text-brand-orange transition">Lifting Equipment in London</a></li>
             <li><a href="/loler/lifting-equipment/essex" class="hover:text-brand-orange transition">Lifting Equipment in Essex</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-brand-orange font-semibold mb-3">Resources</h4>
+          <ul class="space-y-2 text-[0.95rem] text-slate-300">
+            <li><a href="/guides" class="hover:text-brand-orange transition">LOLER & PUWER Guides</a></li>
+            <li><a href="/guides/loler-vs-puwer" class="hover:text-brand-orange transition">LOLER vs PUWER</a></li>
+            <li><a href="/guides/loler-inspection-checklist" class="hover:text-brand-orange transition">LOLER Inspection Checklist</a></li>
+            <li><a href="/faq" class="hover:text-brand-orange transition">Frequently Asked Questions</a></li>
           </ul>
         </div>
       </div>

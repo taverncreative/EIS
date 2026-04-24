@@ -8,13 +8,23 @@ const equipmentList = [
   "Safety of quick hitches and specific lifting points",
   "Signs of structural fatigue or weld degradation"
 ];
+
+const faqs = [
+  { question: "Are mobile plant inspections a legal requirement?", answer: "Yes. Under PUWER and LOLER 1998, plant machinery used at work must undergo regular Thorough Examination." },
+  { question: "How often does a telehandler need to be inspected?", answer: "A telehandler requires inspection every 12 months. However, if it is used with a personnel basket to elevate people, this frequency strictly changes to every 6 months." },
+  { question: "Does an excavator need a LOLER inspection?", answer: "If the excavator is used at any point to lift, transport, or suspend a load via lifting points or quick hitches, it immediately requires a LOLER Thorough Examination." },
+  { question: "What happens if plant inspections are missed?", answer: "Non-compliance can lead to HSE enforcement action on-site, fully invalidated liability insurance, and increased risk of operational failure." },
+  { question: "Is a Thorough Examination the same as routine maintenance?", answer: "No. A Thorough Examination is an independent statutory structural inspection, completely separate from routine mechanical maintenance, fluid servicing, or daily driver checks." }
+];
 ---
 
-<ServicePageLayout 
+<ServicePageLayout
   title="Mobile Plant Inspections"
   intro="Ensure your excavators, telehandlers, and site dumpers meet strict safety and legal requirements with comprehensive plant inspections."
+  metaDescription="Independent LOLER and PUWER plant inspections for telehandlers, excavators, forklifts and site dumpers. Book your inspection today."
   regulation="PUWER 1998 and LOLER 1998"
   equipmentList={equipmentList}
+  faqs={faqs}
 >
   <p class="mb-4">
     Mobile plant and construction equipment inspections are a legal requirement for businesses operating heavy machinery. Under the Provision and Use of Work Equipment Regulations (PUWER) and Lifting Operations and Lifting Equipment Regulations (LOLER), duty holders must ensure equipment is safe, correctly maintained, and subject to regular independent Thorough Examinations.

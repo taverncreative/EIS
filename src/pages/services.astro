@@ -1,0 +1,97 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import BreadcrumbSchema from '../components/schema/BreadcrumbSchema.astro';
+
+const siteBase = 'https://www.eis-uk.com';
+const breadcrumbs = [
+  { name: 'Home', url: siteBase },
+  { name: 'Services', url: `${siteBase}/services` }
+];
+
+const services = [
+  {
+    title: "Lifting Equipment Inspections",
+    href: "/lifting-equipment-inspections",
+    desc: "Hoists, slings, dock levellers, pallet trucks and lifting accessories — inspected under LOLER Regulation 9.",
+    interval: "12-monthly (6-monthly for accessories)"
+  },
+  {
+    title: "Crane Inspections",
+    href: "/crane-inspections",
+    desc: "Tower cranes, mobile cranes, overhead travelling cranes and loader cranes — Thorough Examination by competent person.",
+    interval: "12-monthly (6-monthly for lifting persons)"
+  },
+  {
+    title: "Passenger & Goods Lift Inspections",
+    href: "/passenger-and-goods-lifts-inspections",
+    desc: "Passenger lifts, goods lifts, platform lifts and dumbwaiters in commercial and residential buildings.",
+    interval: "6-monthly (12-monthly for goods-only)"
+  },
+  {
+    title: "Work at Height Equipment",
+    href: "/work-at-height-equipment-inspections",
+    desc: "MEWPs, scissor lifts, cherry pickers, mast climbers and fall arrest systems — statutory 6-monthly examination.",
+    interval: "6-monthly"
+  },
+  {
+    title: "Mobile Plant Inspections",
+    href: "/mobile-plant-inspection",
+    desc: "Telehandlers, excavators with lifting duties, forklifts and rough terrain plant — covered by LOLER and PUWER.",
+    interval: "12-monthly"
+  },
+  {
+    title: "Firefighting & Evacuation Lift Inspections",
+    href: "/firefighting-and-evacuation-lift-inspections",
+    desc: "BS EN 81-72 firefighting lifts and BS EN 81-76 evacuation lifts — specialist examination including fire-mode.",
+    interval: "6-monthly"
+  }
+];
+---
+
+<Layout
+  title="Inspection Services | LOLER, PUWER & PSSR | EIS"
+  description="Independent statutory inspections across lifting equipment, cranes, lifts, MEWPs, plant and firefighting lifts. Book your Thorough Examination today."
+>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={breadcrumbs} />
+  </Fragment>
+
+  <Hero title="Our Inspection Services" subtitle="LOLER, PUWER and PSSR compliance" />
+
+  <section class="bg-white text-slate-900 relative z-20 rounded-t-[3rem] -mt-16 shadow-[0_-20px_50px_rgba(0,0,0,0.2)]">
+    <div class="max-w-6xl mx-auto px-6 py-20">
+
+      <!-- Breadcrumb -->
+      <nav class="text-sm text-slate-500 mb-8 flex flex-wrap items-center gap-2">
+        <a href="/" class="hover:text-brand-orange transition">Home</a>
+        <span class="text-slate-300">/</span>
+        <span class="text-slate-800">Services</span>
+      </nav>
+
+      <p class="text-xl text-slate-600 mb-12 max-w-3xl">
+        Every inspection is a statutory Thorough Examination conducted by a qualified, independent Engineer Surveyor — delivering a clear, photographic digital report that duty holders can rely on for HSE compliance.
+      </p>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        {services.map(s => (
+          <a href={s.href} class="block bg-slate-50 hover:bg-white border border-slate-200 hover:border-brand-orange/40 rounded-2xl p-8 transition group">
+            <h2 class="text-xl font-bold text-slate-900 mb-2 group-hover:text-brand-orange transition">{s.title}</h2>
+            <p class="text-slate-600 text-[0.95rem] mb-4">{s.desc}</p>
+            <p class="text-xs font-semibold text-brand-orange uppercase tracking-wide">Interval: {s.interval}</p>
+          </a>
+        ))}
+      </div>
+
+      <!-- CTA -->
+      <div class="mt-16 bg-brand-navy text-white rounded-2xl p-8 text-center">
+        <h2 class="text-2xl font-semibold mb-2">Need more than one service?</h2>
+        <p class="mb-4 text-slate-300">We can combine multiple inspections into a single site visit across Kent, London and Essex.</p>
+        <a href="/#contact" class="inline-block bg-brand-orange text-brand-navy px-6 py-3 rounded-lg font-bold hover:bg-orange-400 transition">
+          Request a combined quote
+        </a>
+      </div>
+
+    </div>
+  </section>
+</Layout>

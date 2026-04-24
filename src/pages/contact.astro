@@ -1,0 +1,89 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import BreadcrumbSchema from '../components/schema/BreadcrumbSchema.astro';
+
+const siteBase = 'https://www.eis-uk.com';
+const breadcrumbs = [
+  { name: 'Home', url: siteBase },
+  { name: 'Contact', url: `${siteBase}/contact` }
+];
+
+const contactPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "name": "Contact Excel Inspection Solutions",
+  "url": `${siteBase}/contact`,
+  "mainEntity": { "@id": `${siteBase}/#localbusiness` }
+};
+---
+
+<Layout
+  title="Contact EIS | LOLER & PUWER Inspection Quotes"
+  description="Contact Excel Inspection Solutions for LOLER and PUWER inspection quotes. Phone, email or online form. Kent, London, Essex and nationwide."
+>
+  <Fragment slot="head">
+    <BreadcrumbSchema items={breadcrumbs} />
+    <script type="application/ld+json" set:html={JSON.stringify(contactPageSchema)} />
+  </Fragment>
+
+  <Hero title="Contact Us" subtitle="Request a quote or ask a question" />
+
+  <section class="bg-white text-slate-900 relative z-20 rounded-t-[3rem] -mt-16 shadow-[0_-20px_50px_rgba(0,0,0,0.2)]">
+    <div class="max-w-5xl mx-auto px-6 py-20">
+
+      <!-- Breadcrumb -->
+      <nav class="text-sm text-slate-500 mb-8 flex flex-wrap items-center gap-2">
+        <a href="/" class="hover:text-brand-orange transition">Home</a>
+        <span class="text-slate-300">/</span>
+        <span class="text-slate-800">Contact</span>
+      </nav>
+
+      <p class="text-xl text-slate-600 mb-12 max-w-3xl">
+        Speak with a qualified Engineer Surveyor about your inspection requirements. We respond to all enquiries within one working day.
+      </p>
+
+      <div class="grid md:grid-cols-2 gap-10">
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-8">
+          <h2 class="text-lg font-bold text-slate-900 mb-2">Phone</h2>
+          <a href="tel:01634907073" class="text-brand-orange text-2xl font-bold hover:text-orange-500 transition">01634 907073</a>
+          <p class="text-slate-500 text-sm mt-2">Monday to Friday, 08:00–18:00</p>
+        </div>
+
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-8">
+          <h2 class="text-lg font-bold text-slate-900 mb-2">Email</h2>
+          <a href="mailto:enquiries@eis-uk.com" class="text-brand-orange text-xl font-bold hover:text-orange-500 transition break-all">enquiries@eis-uk.com</a>
+          <p class="text-slate-500 text-sm mt-2">We reply within one working day</p>
+        </div>
+
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-8">
+          <h2 class="text-lg font-bold text-slate-900 mb-2">Office</h2>
+          <address class="not-italic text-slate-700 leading-relaxed">
+            Excel Inspection Solutions Ltd<br />
+            Suite 2086, 6-8 Revenge Road<br />
+            Chatham, Kent<br />
+            ME5 8UD<br />
+            United Kingdom
+          </address>
+        </div>
+
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-8">
+          <h2 class="text-lg font-bold text-slate-900 mb-2">Coverage</h2>
+          <p class="text-slate-700 leading-relaxed">
+            Kent, London, Essex, Surrey and East Sussex as core coverage — nationwide via the Engineer Surveyor Inspection Network (ESiNet).
+          </p>
+        </div>
+      </div>
+
+      <!-- Online form CTA -->
+      <div class="mt-16 bg-brand-navy text-white rounded-2xl p-10 text-center">
+        <h2 class="text-2xl font-semibold mb-2">Prefer an online form?</h2>
+        <p class="mb-6 text-slate-300">Send us the equipment type, location and frequency required and we'll come back with a quote.</p>
+        <a href="/#contact" class="inline-block bg-brand-orange text-brand-navy px-8 py-3 rounded-lg font-bold hover:bg-orange-400 transition">
+          Use online quote form
+        </a>
+      </div>
+
+    </div>
+  </section>
+</Layout>

@@ -87,7 +87,7 @@ const faqSchema = faqItems.length > 0 ? JSON.stringify({
 )}
 
 <!-- Equipment covered — hub-specific list or service-generic -->
-<h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">{hubData ? `${serviceName} Equipment in ${formattedCounty}` : 'Equipment We Inspect'}</h2>
+<h2 class="text-2xl font-semibold text-slate-900 mt-12 mb-4">{hubData ? `What We Inspect Across ${formattedCounty}` : 'Equipment We Inspect'}</h2>
 {(() => {
   const equipList = hubData?.keyEquipment || svcContent?.whatWeInspect || [];
   return showEquipmentAsGrid ? (

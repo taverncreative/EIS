@@ -19,9 +19,11 @@ interface Props {
   regulation: string;
   equipmentList: string[];
   faqs?: FAQItem[];
+  /** Optional separate meta description; falls back to intro if not set. Use to add a CTA. */
+  metaDescription?: string;
 }
 
-const { title, intro, regulation, equipmentList, faqs } = Astro.props;
+const { title, intro, regulation, equipmentList, faqs, metaDescription } = Astro.props;
 
 const siteBase = 'https://www.eis-uk.com';
 const pageUrl = `${siteBase}${Astro.url.pathname}`;
@@ -30,8 +32,11 @@ const breadcrumbs = [
   { name: 'Home', url: siteBase },
   { name: title, url: pageUrl }
 ];
+
+// Meta description: prefer explicit metaDescription, fall back to intro
+const finalDescription = metaDescription || intro;
 ---
-<Layout title={`${title} | EIS`} description={intro}>
+<Layout title={`${title} | EIS`} description={finalDescription}>
   <Fragment slot="head">
     <ServiceSchema name={title} description={intro} url={pageUrl} />
     <BreadcrumbSchema items={breadcrumbs} />

@@ -6,6 +6,9 @@ import BreadcrumbSchema from '../components/schema/BreadcrumbSchema.astro';
 
 const { title, description, serviceName, serviceSlug, county } = Astro.props;
 
+// Strip brand suffix from H1 — brand belongs in <title>, not headings
+const headingTitle = title.replace(/\s*\|\s*EIS\s*$/i, '');
+
 const siteBase = 'https://www.eis-uk.com';
 
 // Map LOLER service slugs to their actual page file names
@@ -19,10 +22,23 @@ const SERVICE_PAGE_MAP: Record<string, string> = {
   'firefighting-and-evacuation-lift-inspections': 'firefighting-and-evacuation-lift-inspections',
 };
 const servicePageSlug = SERVICE_PAGE_MAP[serviceSlug] || serviceSlug;
+
+// Detect town pages: county prop passed as "Kent / Dartford" by town page template
+// Split into proper breadcrumb hierarchy: Home → Services → Service → County → Town
+const isTownPage = typeof county === 'string' && county.includes('/');
+const [countyName, townName] = isTownPage
+  ? county.split('/').map((s: string) => s.trim())
+  : [county, null];
+
+const countySlug = countyName ? countyName.toLowerCase().replace(/\s+/g, '-') : '';
+const countyUrl = `${siteBase}/loler/${serviceSlug}/${countySlug}`;
+
 const breadcrumbs = [
   { name: 'Home', url: siteBase },
+  { name: 'Services', url: `${siteBase}/services` },
   { name: serviceName, url: `${siteBase}/${servicePageSlug}` },
-  { name: county, url: `${siteBase}${Astro.url.pathname}` }
+  { name: countyName, url: isTownPage ? countyUrl : `${siteBase}${Astro.url.pathname}` },
+  ...(isTownPage ? [{ name: townName, url: `${siteBase}${Astro.url.pathname}` }] : [])
 ];
 ---
 <Layout title={title} description={description}>
@@ -31,18 +47,26 @@ const breadcrumbs = [
     <slot name="head" />
   </Fragment>
   <!-- Lightweight Hero -->
-  <Hero title={title} subtitle="Local Service Hub" />
+  <Hero title={headingTitle} subtitle="Local Service Hub" />
 
   <ContentSection>
-    <!-- Breadcrumb -->
-    <nav class="text-sm text-slate-500 mb-6 flex flex-wrap items-center gap-2 border-b border-slate-100 pb-6">
+    <!-- Visual breadcrumb -->
+    <nav class="text-sm text-slate-500 mb-6 flex flex-wrap items-center gap-2 border-b border-slate-100 pb-6" aria-label="Breadcrumb">
       <a href="/" class="hover:text-brand-orange transition">Home</a>
       <span class="text-slate-300">/</span>
-      <a href={`/${servicePageSlug}`} class="hover:text-brand-orange transition">Services</a>
+      <a href="/services" class="hover:text-brand-orange transition">Services</a>
       <span class="text-slate-300">/</span>
       <a href={`/${servicePageSlug}`} class="hover:text-brand-orange transition">{serviceName}</a>
       <span class="text-slate-300">/</span>
-      <span class="text-slate-800">{county}</span>
+      {isTownPage ? (
+        <>
+          <a href={`/loler/${serviceSlug}/${countySlug}`} class="hover:text-brand-orange transition">{countyName}</a>
+          <span class="text-slate-300">/</span>
+          <span class="text-slate-800">{townName}</span>
+        </>
+      ) : (
+        <span class="text-slate-800">{countyName}</span>
+      )}
     </nav>
 
     <!-- Content Slot -->
