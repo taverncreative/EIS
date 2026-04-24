@@ -19,7 +19,18 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { name, email, phone, subject, message, botcheck } = req.body || {};
+  // Parse body — req.body is usually parsed by Vercel for application/json,
+  // but fall back to manual parsing if it arrives as a string or buffer.
+  let body = req.body;
+  if (typeof body === 'string') {
+    try { body = JSON.parse(body); } catch { body = {}; }
+  } else if (body && typeof body === 'object' && Buffer.isBuffer?.(body)) {
+    try { body = JSON.parse(body.toString('utf8')); } catch { body = {}; }
+  } else if (!body) {
+    body = {};
+  }
+
+  const { name, email, phone, subject, message, botcheck } = body;
 
   // Honeypot: legitimate users leave this empty; bots fill it
   if (botcheck) {
@@ -94,6 +105,10 @@ export default async function handler(req, res) {
     return res.status(200).json({ success: true });
   } catch (err) {
     console.error('Contact handler error:', err);
-    return res.status(500).json({ error: 'Server error' });
+    return res.status(500).json({
+      error: 'Server error',
+      detail: err?.message || String(err),
+      name: err?.name,
+    });
   }
 }
