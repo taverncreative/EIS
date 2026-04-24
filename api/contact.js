@@ -5,6 +5,16 @@
  *   CONTACT_EMAIL         - optional, overrides the email destination configured in Web3Forms
  */
 export default async function handler(req, res) {
+  // Diagnostic GET: list env var names that look Web3Forms-related (for debugging)
+  if (req.method === 'GET' && req.query?.diag === '1') {
+    const web3Keys = Object.keys(process.env).filter(k => /web3/i.test(k));
+    return res.status(200).json({
+      web3VarsFound: web3Keys,
+      hasExpectedKey: !!process.env.WEB3FORMS_ACCESS_KEY,
+      nodeVersion: process.version,
+    });
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
