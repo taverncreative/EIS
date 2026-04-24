@@ -88,11 +88,25 @@ export default async function handler(req, res) {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
+        // Some providers (Cloudflare-fronted) return HTML challenges without a UA
+        'User-Agent': 'EIS-Contact-Form/1.0 (eis-uk.com)',
       },
       body: JSON.stringify(payload),
     });
 
-    const result = await response.json();
+    // Read raw text first so we can surface Cloudflare / HTML challenges
+    const raw = await response.text();
+    let result;
+    try {
+      result = JSON.parse(raw);
+    } catch {
+      console.error('Web3Forms non-JSON response:', response.status, raw.slice(0, 200));
+      return res.status(502).json({
+        error: 'Upstream non-JSON response',
+        status: response.status,
+        snippet: raw.slice(0, 200),
+      });
+    }
 
     if (!response.ok || !result.success) {
       console.error('Web3Forms error:', result);
