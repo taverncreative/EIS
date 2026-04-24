@@ -359,6 +359,10 @@ const services = [
         </h2>
         
         <form id="contact-form" class="space-y-5">
+          <!-- Honeypot: hidden from real users, caught bots -->
+          <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+            <label>Leave this field empty: <input type="text" name="botcheck" tabindex="-1" autocomplete="off" /></label>
+          </div>
           <div>
             <label class="block text-[0.85rem] text-slate-300 mb-2">Your Name *</label>
             <input type="text" name="name" class="w-full bg-brand-form border-none text-white rounded px-4 py-3 focus:ring-2 focus:ring-brand-orange transition-all outline-none" required />
@@ -415,10 +419,12 @@ const services = [
                 msg.className = 'text-sm font-medium py-3 px-4 rounded bg-green-900/40 text-green-300';
                 form.reset();
               } else {
-                throw new Error('Failed');
+                const body = await res.json().catch(() => ({}));
+                console.error('Contact form error:', body);
+                throw new Error(body.error || 'Failed');
               }
-            } catch {
-              msg.textContent = 'Something went wrong. Please call us on 01634 907073.';
+            } catch (err) {
+              msg.textContent = 'Something went wrong. Please email enquiries@eis-uk.com or call 01634 907073.';
               msg.className = 'text-sm font-medium py-3 px-4 rounded bg-red-900/40 text-red-300';
             } finally {
               btn.disabled = false;
