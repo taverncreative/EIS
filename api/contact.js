@@ -20,10 +20,24 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
-  const accessKey = process.env.WEB3FORMS_ACCESS_KEY;
+  // Accept common env var names so the same code works regardless of
+  // how the access key was named in Vercel.
+  const accessKey =
+    process.env.WEB3FORMS_ACCESS_KEY ||
+    process.env.WEB3FORMS_KEY ||
+    process.env.WEB3FORM_KEY ||
+    process.env.WEB3_FORMS_KEY ||
+    process.env.WEB3_KEY ||
+    process.env.WEB3_ACCESS_KEY ||
+    process.env.PUBLIC_WEB3FORMS_KEY;
+
   if (!accessKey) {
-    console.error('WEB3FORMS_ACCESS_KEY is not set');
-    return res.status(500).json({ error: 'Form backend not configured' });
+    console.error('No Web3Forms access key env var is set');
+    return res.status(500).json({
+      error: 'Form backend not configured',
+      detail:
+        'No Web3Forms access key env var detected. Expected one of: WEB3FORMS_ACCESS_KEY, WEB3FORMS_KEY, WEB3FORM_KEY, WEB3_FORMS_KEY, WEB3_KEY, WEB3_ACCESS_KEY, PUBLIC_WEB3FORMS_KEY',
+    });
   }
 
   // Build Web3Forms payload
