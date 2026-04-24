@@ -363,41 +363,134 @@ const services = [
           <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
             <label>Leave this field empty: <input type="text" name="botcheck" tabindex="-1" autocomplete="off" /></label>
           </div>
-          <div>
-            <label class="block text-[0.85rem] text-slate-300 mb-2">Your Name *</label>
-            <input type="text" name="name" class="w-full bg-brand-form border-none text-white rounded px-4 py-3 focus:ring-2 focus:ring-brand-orange transition-all outline-none" required />
-          </div>
-          <div>
-            <label class="block text-[0.85rem] text-slate-300 mb-2">Your Email *</label>
-            <input type="email" name="email" class="w-full bg-brand-form border-none text-white rounded px-4 py-3 focus:ring-2 focus:ring-brand-orange transition-all outline-none" required />
-          </div>
-          <div>
-            <label class="block text-[0.85rem] text-slate-300 mb-2">Phone *</label>
-            <div class="relative flex items-center bg-brand-form rounded overflow-hidden focus-within:ring-2 focus-within:ring-brand-orange">
-              <div class="pl-4 pr-2 flex items-center gap-1 cursor-pointer">
-                <span>🇬🇧</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-slate-400 mt-[1px]" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-              </div>
-              <input type="tel" name="phone" class="w-full bg-transparent border-none text-white px-3 py-3 outline-none" required />
+
+          <!-- Name + Company side by side on md+ -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-[0.85rem] text-slate-300 mb-2">Your Name *</label>
+              <input type="text" name="name" class="w-full bg-brand-form border-none text-white rounded px-4 py-3 focus:ring-2 focus:ring-brand-orange transition-all outline-none" required />
+            </div>
+            <div>
+              <label class="block text-[0.85rem] text-slate-300 mb-2">Company Name *</label>
+              <input type="text" name="company_name" class="w-full bg-brand-form border-none text-white rounded px-4 py-3 focus:ring-2 focus:ring-brand-orange transition-all outline-none" required />
             </div>
           </div>
-          <div>
-            <label class="block text-[0.85rem] text-slate-300 mb-2">Subject *</label>
-            <input type="text" name="subject" class="w-full bg-brand-form border-none text-white rounded px-4 py-3 focus:ring-2 focus:ring-brand-orange transition-all outline-none" required />
+
+          <!-- Email + Phone side by side -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-[0.85rem] text-slate-300 mb-2">Email Address *</label>
+              <input type="email" name="email" class="w-full bg-brand-form border-none text-white rounded px-4 py-3 focus:ring-2 focus:ring-brand-orange transition-all outline-none" required />
+            </div>
+            <div>
+              <label class="block text-[0.85rem] text-slate-300 mb-2">Phone *</label>
+              <div class="relative flex items-center bg-brand-form rounded overflow-hidden focus-within:ring-2 focus-within:ring-brand-orange">
+                <div class="pl-4 pr-2 flex items-center gap-1 cursor-pointer">
+                  <span>🇬🇧</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-slate-400 mt-[1px]" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                </div>
+                <input type="tel" name="phone" class="w-full bg-transparent border-none text-white px-3 py-3 outline-none" required />
+              </div>
+            </div>
           </div>
+
+          <!-- Postcode -->
           <div>
-            <label class="block text-[0.85rem] text-slate-300 mb-2">Your Message (Optional)</label>
-            <textarea name="message" class="w-full bg-brand-form border-none text-white rounded px-4 py-3 focus:ring-2 focus:ring-brand-orange transition-all outline-none resize-none" rows="5"></textarea>
+            <label class="block text-[0.85rem] text-slate-300 mb-2">Postcode *</label>
+            <input type="text" name="postcode" class="w-full bg-brand-form border-none text-white rounded px-4 py-3 focus:ring-2 focus:ring-brand-orange transition-all outline-none" required />
           </div>
+
+          <!-- Service required -->
+          <div>
+            <label class="block text-[0.85rem] text-slate-300 mb-2">Service Required *</label>
+            <select name="service" class="w-full bg-brand-form border-none text-white rounded px-4 py-3 focus:ring-2 focus:ring-brand-orange transition-all outline-none appearance-none" required>
+              <option value="" disabled selected class="text-slate-400">Please select…</option>
+              <option value="LOLER Thorough Examination">LOLER Thorough Examination</option>
+              <option value="Lift Maintenance Contract">Lift Maintenance Contract</option>
+              <option value="Insurance / Statutory Inspection">Insurance / Statutory Inspection</option>
+              <option value="New Installation Inspection">New Installation Inspection</option>
+              <option value="Compliance Report / Documentation">Compliance Report / Documentation</option>
+              <option value="Emergency Inspection">Emergency Inspection</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <!-- Lift type -->
+          <div>
+            <label class="block text-[0.85rem] text-slate-300 mb-2">Type of Lift</label>
+            <select name="lift_type" class="w-full bg-brand-form border-none text-white rounded px-4 py-3 focus:ring-2 focus:ring-brand-orange transition-all outline-none appearance-none">
+              <option value="" selected class="text-slate-400">Please select…</option>
+              <option value="Passenger Lift">Passenger Lift</option>
+              <option value="Goods Lift">Goods Lift</option>
+              <option value="Platform Lift">Platform Lift</option>
+              <option value="Scissor / MEWP">Scissor / MEWP</option>
+              <option value="Stairlift">Stairlift</option>
+              <option value="Dumbwaiter">Dumbwaiter</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <!-- Number of sites + lifts side by side -->
+          <div class="grid grid-cols-2 gap-5">
+            <div>
+              <label class="block text-[0.85rem] text-slate-300 mb-2">Number of Sites</label>
+              <input type="number" name="num_sites" min="1" class="w-full bg-brand-form border-none text-white rounded px-4 py-3 focus:ring-2 focus:ring-brand-orange transition-all outline-none" placeholder="e.g. 1" />
+            </div>
+            <div>
+              <label class="block text-[0.85rem] text-slate-300 mb-2">Number of Lifts</label>
+              <input type="number" name="num_lifts" min="1" class="w-full bg-brand-form border-none text-white rounded px-4 py-3 focus:ring-2 focus:ring-brand-orange transition-all outline-none" placeholder="e.g. 2" />
+            </div>
+          </div>
+
+          <!-- Current contractor -->
+          <div>
+            <label class="block text-[0.85rem] text-slate-300 mb-2">Do you have a current lift contractor?</label>
+            <select name="has_contractor" id="has-contractor" class="w-full bg-brand-form border-none text-white rounded px-4 py-3 focus:ring-2 focus:ring-brand-orange transition-all outline-none appearance-none">
+              <option value="" selected>Please select…</option>
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+            </select>
+          </div>
+          <div id="contractor-name-wrap" class="hidden">
+            <label class="block text-[0.85rem] text-slate-300 mb-2">Current Contractor Name</label>
+            <input type="text" name="contractor_name" class="w-full bg-brand-form border-none text-white rounded px-4 py-3 focus:ring-2 focus:ring-brand-orange transition-all outline-none" />
+          </div>
+
+          <!-- Message -->
+          <div>
+            <label class="block text-[0.85rem] text-slate-300 mb-2">Additional Information</label>
+            <textarea name="message" class="w-full bg-brand-form border-none text-white rounded px-4 py-3 focus:ring-2 focus:ring-brand-orange transition-all outline-none resize-none" rows="4" placeholder="Any extra details about your lift(s) or requirements…"></textarea>
+          </div>
+
+          <!-- How did you hear -->
+          <div>
+            <label class="block text-[0.85rem] text-slate-300 mb-2">How did you hear about us?</label>
+            <select name="referral_source" class="w-full bg-brand-form border-none text-white rounded px-4 py-3 focus:ring-2 focus:ring-brand-orange transition-all outline-none appearance-none">
+              <option value="" selected>Please select…</option>
+              <option value="Google or other search">Google or other search</option>
+              <option value="Recommendation / Word of mouth">Recommendation / Word of mouth</option>
+              <option value="Social media">Social media</option>
+              <option value="Trade directory">Trade directory</option>
+              <option value="Already a customer">Already a customer</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
           <div id="form-message" class="hidden text-sm font-medium py-3 px-4 rounded"></div>
           <div class="pt-2">
-            <button type="submit" id="form-submit" class="w-full bg-slate-100 hover:bg-white text-slate-900 font-semibold text-[1rem] py-3 rounded transition-all tracking-wide">Submit</button>
+            <button type="submit" id="form-submit" class="w-full bg-slate-100 hover:bg-white text-slate-900 font-semibold text-[1rem] py-3 rounded transition-all tracking-wide">Submit Enquiry</button>
           </div>
         </form>
         <script>
           const form = document.getElementById('contact-form');
           const btn = document.getElementById('form-submit');
           const msg = document.getElementById('form-message');
+
+          // Show/hide contractor name field
+          document.getElementById('has-contractor').addEventListener('change', function () {
+            const wrap = document.getElementById('contractor-name-wrap');
+            wrap.classList.toggle('hidden', this.value !== 'Yes');
+          });
 
           form.addEventListener('submit', async (e) => {
             e.preventDefault();

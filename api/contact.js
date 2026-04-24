@@ -30,14 +30,20 @@ export default async function handler(req, res) {
     body = {};
   }
 
-  const { name, email, phone, subject, message, botcheck } = body;
+  const {
+    name, email, phone, message, botcheck,
+    company_name, postcode, service,
+    lift_type, num_sites, num_lifts,
+    has_contractor, contractor_name,
+    referral_source,
+  } = body;
 
   // Honeypot: legitimate users leave this empty; bots fill it
   if (botcheck) {
     return res.status(200).json({ success: true });
   }
 
-  if (!name || !email || !subject) {
+  if (!name || !email || !company_name || !postcode || !service) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
@@ -62,17 +68,26 @@ export default async function handler(req, res) {
   }
 
   // Build Web3Forms payload
+  const contractorDetail = has_contractor === 'Yes'
+    ? `Yes — ${contractor_name || 'name not given'}`
+    : (has_contractor || 'Not specified');
+
   const payload = {
     access_key: accessKey,
-    subject: `EIS Enquiry: ${subject}`,
+    subject: `EIS Enquiry: ${service}`,
     from_name: 'EIS Website',
-    // Web3Forms maps these to the email body automatically
     name,
     email,
     phone: phone || 'Not provided',
-    enquiry_subject: subject,
-    message: message || 'No message provided',
-    // Reply-to so you can reply to the enquirer directly from your inbox
+    company_name,
+    postcode,
+    service,
+    lift_type: lift_type || 'Not specified',
+    number_of_sites: num_sites || 'Not specified',
+    number_of_lifts: num_lifts || 'Not specified',
+    current_contractor: contractorDetail,
+    message: message || 'No additional information',
+    how_did_you_hear: referral_source || 'Not specified',
     replyto: email,
   };
 
